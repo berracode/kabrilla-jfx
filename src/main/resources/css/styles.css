@@ -1,0 +1,33 @@
+.sidebar {
+    -fx-background-color: #27282b;
+    -fx-padding: 10;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.tab-pane {
+    -fx-background-color: #27282b;
+}
+
+.vbox, .hbox {
+    -fx-background-color: #27282b;
+}
+
+.button {
+    -fx-background-color: #3a3b3d;
+    -fx-text-fill: white;
+}
+
+.combo-box {
+    -fx-background-color: #3a3b3d;
+    -fx-text-fill: white;
+}
+
+.text-area {
+    -fx-control-inner-background: #1e1e1e;
+    -fx-text-fill: #dcdcdc;
+}

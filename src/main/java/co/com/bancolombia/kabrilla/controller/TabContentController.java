@@ -1,0 +1,22 @@
+package co.com.bancolombia.kabrilla.controller;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+
+public class TabContentController {
+    @FXML
+    private ComboBox<String> comboBox;
+    @FXML
+    private TextArea logsArea;
+
+    @FXML
+    public void initialize() {
+        comboBox.getItems().addAll("Combined logs", "pod-1", "pod-2", "pod-3", "pod-4");
+        comboBox.getSelectionModel().selectFirst();
+    }
+
+    public void setDeploymentName(String name) {
+        logsArea.setText("Logs para " + name + "=# _ 2W".repeat(900));
+    }
+}
