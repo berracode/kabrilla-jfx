@@ -28,13 +28,13 @@ public class KabrillaApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Scene scene = new Scene(loader.load(), 1000, 600);
 
         // Agregar CSS
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
 
-        primaryStage.setTitle("Cluster Dashboard");
+        primaryStage.setTitle("Kabrilla kubernetes Dashboard");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

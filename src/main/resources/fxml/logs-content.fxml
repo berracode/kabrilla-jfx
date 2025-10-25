@@ -1,0 +1,33 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      fx:controller="co.com.bancolombia.kabrilla.controller.LogsContentController"
+      spacing="4"
+      VBox.vgrow="ALWAYS"
+      style="-fx-background-color: #2B2B2B;"
+      stylesheets="@../css/demo.css">
+
+    <HBox prefHeight="50" prefWidth="200.0">
+        <children>
+            <ComboBox fx:id="comboBox" prefWidth="150.0"/>
+        </children>
+        <padding>
+            <Insets left="10.0" right="10.0" top="10.0"/>
+        </padding>
+    </HBox>
+    <VBox VBox.vgrow="ALWAYS">
+        <children>
+            <TextArea fx:id="logsArea" editable="false" VBox.vgrow="ALWAYS"/>
+        </children>
+        <padding>
+            <Insets left="6.0" right="6.0"/>
+        </padding>
+        <VBox.margin>
+            <Insets bottom="100.0"/>
+        </VBox.margin>
+    </VBox>
+</VBox>

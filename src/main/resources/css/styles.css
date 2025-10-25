@@ -1,5 +1,11 @@
+
+.root {
+    -fx-background-color: #2B2B2B; /* Fondo global oscuro */
+}
+
+
 .sidebar {
-    -fx-background-color: #27282b;
+    -fx-background-color: #3C3F41;
     -fx-padding: 10;
 }
 
@@ -9,25 +15,79 @@
     -fx-font-weight: bold;
 }
 
+.treeView {
+    -fx-background-color: #3C3F41;
+    -fx-control-inner-background: #3C3F41;
+}
+
 .tab-pane {
-    -fx-background-color: #27282b;
+    -fx-background-color: #3C3F41; /* Fondo oscuro */
+    -fx-tab-min-width: 120px;
+    -fx-tab-max-width: 200px;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: #3C3F41; /* Fondo del área donde se carga el contenido */
+}
+
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #3C3F41;
+    -fx-padding: 0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #3C3F41;
+    -fx-text-fill: #A9B7C6;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #3C3F41;
+    -fx-border-color: transparent transparent #4A85C5 transparent; /* Línea azul abajo */
+    -fx-border-width: 0 0 2px 0;
+}
+
+.tab-pane .tab-label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A9B7C6;
+    -fx-font-size: 14px;
+    -fx-padding: 5 10;
+}
+
+.button:hover {
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #4A85C5;
+    -fx-border-width: 0 0 2px 0; /* Línea azul al hover */
 }
 
 .vbox, .hbox {
     -fx-background-color: #27282b;
 }
 
-.button {
-    -fx-background-color: #3a3b3d;
-    -fx-text-fill: white;
-}
-
 .combo-box {
-    -fx-background-color: #3a3b3d;
-    -fx-text-fill: white;
+    -fx-background-color: #3C3F41;
+    -fx-text-fill: #A9B7C6;
 }
 
 .text-area {
-    -fx-control-inner-background: #1e1e1e;
-    -fx-text-fill: #dcdcdc;
+    -fx-control-inner-background: #4E5254;
+    -fx-text-fill: #A9B7C6;
+    -fx-font-family: Consolas, monospace;
+    -fx-font-size: 12px;
+
 }
+
+.main-split-pane {
+    -fx-background-color: #3C3F41;
+}
+
+.main-split-pane  > .split-pane-divider {
+    -fx-background-color: #000;
+    -fx-pref-width: 1px;
+}
+

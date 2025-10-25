@@ -27,9 +27,9 @@ public class ContentController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(ContentController.class.getResource("/fxml/tab-content.fxml"));
+            FXMLLoader loader = new FXMLLoader(ContentController.class.getResource("/fxml/logs-content.fxml"));
             VBox tabContent = loader.load();
-            TabContentController controller = loader.getController();
+            LogsContentController controller = loader.getController();
             controller.setDeploymentName(title);
 
             Tab tab = new Tab(title, tabContent);

@@ -1,22 +1,62 @@
 package co.com.bancolombia.kabrilla.controller;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.AnchorPane;
 
 public class TabContentController {
+
     @FXML
-    private ComboBox<String> comboBox;
+    private TabPane commandTabPane;
+
     @FXML
-    private TextArea logsArea;
+    private AnchorPane commandContent;
+
+    private String deploymentName;
+
+    public void setDeploymentName(String name) {
+        this.deploymentName = name;
+        loadCommandView("logs-content.fxml");
+
+    }
 
     @FXML
     public void initialize() {
-        comboBox.getItems().addAll("Combined logs", "pod-1", "pod-2", "pod-3", "pod-4");
-        comboBox.getSelectionModel().selectFirst();
+        commandTabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            if (newTab != null) {
+                switch (newTab.getText()) {
+                    case "Logs" -> loadCommandView("logs-content.fxml");
+                    case "Pods" -> loadCommandView("pods-content.fxml");
+                    case "ConfigMap" -> loadCommandView("configmap-content.fxml");
+                    case "RequestPolicy" -> loadCommandView("requestpolicy-content.fxml");
+                    case "Service" -> loadCommandView("service-content.fxml");
+                }
+            }
+        });
+
     }
 
-    public void setDeploymentName(String name) {
-        logsArea.setText("Logs para " + name + "=# _ 2W".repeat(900));
+    private void loadCommandView(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlPath));
+            Node view = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof DeploymentTab) {
+                ((DeploymentTab) controller).setDeploymentName(deploymentName);
+            }
+
+            commandContent.getChildren().setAll(view);
+            AnchorPane.setTopAnchor(view, 0.0);
+            AnchorPane.setBottomAnchor(view, 0.0);
+            AnchorPane.setLeftAnchor(view, 0.0);
+            AnchorPane.setRightAnchor(view, 0.0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
