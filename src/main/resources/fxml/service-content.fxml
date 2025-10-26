@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="co.com.bancolombia.kabrilla.controller.ServiceContentController"
+            stylesheets="@../css/demo.css"
+            styleClass="anchorPane">
+
+    <VBox spacing="10"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          style="-fx-background-color:#2B2B2B;">
+
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Service Details"
+               style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold;"/>
+
+        <GridPane hgap="10" vgap="6"
+                  style="-fx-background-color:#3C3F41; -fx-background-radius:10; -fx-padding:15;">
+            <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   style="-fx-text-fill:#A9B7C6;"/>
+            <Label fx:id="nameLabel" text="my-app-service" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                   style="-fx-text-fill:white;"/>
+
+            <Label text="Namespace:" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   style="-fx-text-fill:#A9B7C6;"/>
+            <Label fx:id="namespaceLabel" text="xyz-1-dev" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                   style="-fx-text-fill:white;"/>
+
+            <Label text="Type:" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   style="-fx-text-fill:#A9B7C6;"/>
+            <Label fx:id="typeLabel" text="ClusterIP" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                   style="-fx-text-fill:white;"/>
+
+            <Label text="Cluster IP:" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                   style="-fx-text-fill:#A9B7C6;"/>
+            <Label fx:id="clusterIpLabel" text="10.43.112.54" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                   style="-fx-text-fill:white;"/>
+
+            <Label text="Ports:" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                   style="-fx-text-fill:#A9B7C6;"/>
+            <Label fx:id="portsLabel" text="80/TCP → 8080" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                   style="-fx-text-fill:white;"/>
+
+            <Label text="Selector:" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                   style="-fx-text-fill:#A9B7C6;"/>
+            <Label fx:id="selectorLabel" text="app=my-app" GridPane.rowIndex="5" GridPane.columnIndex="1"
+                   style="-fx-text-fill:white;"/>
+        </GridPane>
+    </VBox>
+</AnchorPane>

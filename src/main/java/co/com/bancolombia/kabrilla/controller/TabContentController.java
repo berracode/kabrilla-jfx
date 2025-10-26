@@ -34,6 +34,8 @@ public class TabContentController {
                     case "ConfigMap" -> loadCommandView("configmap-content.fxml");
                     case "RequestPolicy" -> loadCommandView("requestpolicy-content.fxml");
                     case "Service" -> loadCommandView("service-content.fxml");
+                    case "AuthorizationPolicy" -> loadCommandView("authorizationpolicy-content.fxml");
+                    case "HPA" -> loadCommandView("hpa-content.fxml");
                 }
             }
         });

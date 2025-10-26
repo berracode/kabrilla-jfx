@@ -129,3 +129,53 @@
     -fx-background-color: #4E5254;
 
 }
+
+/* tabla*/
+
+/* === TABLEVIEW DARK THEME === */
+
+.table-view {
+    -fx-background-color: #3C3F41;
+    -fx-table-cell-border-color: #4E5254;
+    -fx-control-inner-background: #3C3F41;
+    -fx-control-inner-background-alt: #2B2B2B;
+    -fx-border-color: transparent;
+    -fx-text-background-color: white;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #3C3F41;
+    -fx-border-color: #1EBFF2;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: #3C3F41;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: #3C3F41;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #2B2B2B;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #1EBFF2;
+    -fx-text-fill: black;
+}
+
+.table-cell {
+    -fx-border-color: transparent transparent #4E5254 transparent;
+    -fx-padding: 6 10;
+}
+
