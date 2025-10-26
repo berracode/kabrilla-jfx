@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 
 public class KabrillaApplication extends Application {
 
+    // Define las dimensiones mínimas como constantes
+    private static final double MIN_WIDTH = 1280.0;
+    private static final double MIN_HEIGHT = 720.0;
 
     public static void main(String[] args) {
         launch();
@@ -29,7 +32,12 @@ public class KabrillaApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-        Scene scene = new Scene(loader.load(), 1000, 600);
+        Scene scene = new Scene(loader.load(), 1280, 720);
+        primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setMinHeight(MIN_HEIGHT);
+
+        primaryStage.setWidth(MIN_WIDTH);
+        primaryStage.setHeight(MIN_HEIGHT);
 
         // Agregar CSS
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
