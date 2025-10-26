@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
@@ -17,6 +18,9 @@ public class MainController {
 
     @FXML
     private TabPane deploymentTabPane;
+
+    @FXML
+    private SplitPane mainSplitPane;
 
     @FXML
     public void initialize() {
@@ -45,6 +49,12 @@ public class MainController {
             if (selected != null && selected.isLeaf()) {
                 addDeploymentTab(selected.getValue());
             }
+        });
+
+        mainSplitPane.setDividerPosition(0, 250.0 / mainSplitPane.getWidth());
+
+        mainSplitPane.widthProperty().addListener((obs, oldW, newW) -> {
+            mainSplitPane.setDividerPosition(0, 250.0 / newW.doubleValue());
         });
     }
 
