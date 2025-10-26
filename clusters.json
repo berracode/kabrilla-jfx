@@ -1,0 +1,24 @@
+[
+  {
+    "name": "eks-cluster-pp-qa",
+    "namespaces": [
+      {
+        "name": "ns-apps-life-qa"
+      },
+      {
+        "name": "ns-apps-devil-qa"
+      }
+    ]
+  },
+  {
+    "name": "eks-cluster-pp-dev",
+    "namespaces": [
+      {
+        "name": "ns-apps-chikamaru-bien-largo-porqueavacespasa-dev"
+      },
+      {
+        "name": "ns-apps-chon-dev"
+      }
+    ]
+  }
+]

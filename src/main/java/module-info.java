@@ -3,6 +3,7 @@ module co.com.bancolombia.kabrilla {
     requires javafx.fxml;
     requires org.yaml.snakeyaml;
     requires com.fasterxml.jackson.databind;
+    requires static lombok;
 
     // Paquete raíz (si tienes clases principales)
     exports co.com.bancolombia.kabrilla;
@@ -11,6 +12,23 @@ module co.com.bancolombia.kabrilla {
     // Controladores
     exports co.com.bancolombia.kabrilla.controller; // opcional si otros módulos lo usan
     opens co.com.bancolombia.kabrilla.controller to javafx.fxml;
+
+    // hexa
+
+    // --- Dominio ---
+    exports co.com.bancolombia.kabrilla.domain.model;
+    opens co.com.bancolombia.kabrilla.domain.model to com.fasterxml.jackson.databind;
+
+    exports co.com.bancolombia.kabrilla.domain.gateway;
+    opens co.com.bancolombia.kabrilla.domain.gateway to com.fasterxml.jackson.databind;
+
+    // --- Aplicación ---
+    exports co.com.bancolombia.kabrilla.application.service;
+    opens co.com.bancolombia.kabrilla.application.service to com.fasterxml.jackson.databind;
+
+    // --- Infraestructura ---
+    exports co.com.bancolombia.kabrilla.infrastructure.persistence;
+    opens co.com.bancolombia.kabrilla.infrastructure.persistence to com.fasterxml.jackson.databind;
 
     exports co.com.bancolombia.kabrilla.controller.sidebar; // opcional
     opens co.com.bancolombia.kabrilla.controller.sidebar to javafx.fxml;

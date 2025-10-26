@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeView?>
@@ -12,6 +15,16 @@
 
     <!-- Sidebar con TreeView -->
     <VBox prefHeight="397.0" prefWidth="200.0" styleClass="vbox">
+        <padding>
+            <Insets top="10" left="10" right="10"/>
+        </padding>
+        <spacing>10</spacing>
+
+        <Button text="➕ Crear Namespace"
+                fx:id="createNamespaceButton"
+                style="-fx-background-color:#1EBFF2; -fx-text-fill:black; -fx-font-weight: bold; -fx-font-size: 10px; -fx-background-radius:6;"/>
+
+        <Separator orientation="HORIZONTAL" style="-fx-background-color:#4E5254;"/>
         <TreeView fx:id="treeView" styleClass="treeView"/>
     </VBox>
 
@@ -23,7 +36,8 @@
         <VBox prefHeight="26.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <TabPane fx:id="deploymentTabPane" tabClosingPolicy="SELECTED_TAB" VBox.vgrow="ALWAYS"/>
+                <TabPane styleClass="scrollable-tab-pane" fx:id="deploymentTabPane" tabClosingPolicy="SELECTED_TAB"
+                         VBox.vgrow="ALWAYS"/>
             </children>
         </VBox>
 

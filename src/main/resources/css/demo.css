@@ -66,6 +66,55 @@
     -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
 }
+/*ESTO ME  DAÑO EL ESTILO DE LAS TABS*/
+
+/* ===== Scrollable TabPane (Kabrilla style) ===== */
+.scrollable-tab-pane {
+    -fx-tab-min-width: 120px;
+    -fx-tab-max-width: 200px;
+    -fx-background-color: transparent;
+}
+
+/* Contenedor de las tabs */
+.scrollable-tab-pane .tab-header-area {
+    -fx-padding: 4 8 4 8;
+    -fx-background-color: #0F0F0F; /* fondo oscuro */
+    -fx-border-color: #1EBFF2;     /* azul Kabrilla */
+    -fx-border-width: 0 0 2 0;
+}
+
+/* Tabs individuales */
+.scrollable-tab-pane .tab {
+    -fx-background-color: #2C2C2C;
+    -fx-text-base-color: #CCCCCC;
+    -fx-background-radius: 4 4 0 0;
+}
+
+.scrollable-tab-pane .tab:selected {
+    -fx-background-color: #1EBFF2;
+    -fx-text-base-color: black;
+    -fx-font-weight: bold;
+}
+
+/* Flechas de scroll */
+.scrollable-tab-pane .control-buttons-tab {
+    -fx-background-color: transparent;
+}
+
+.scrollable-tab-pane .tab-down-button,
+.scrollable-tab-pane .tab-up-button {
+    -fx-background-color: #1EBFF2;
+    -fx-shape: "M0,0 L6,4 L0,8 Z"; /* triángulo tipo flecha */
+    -fx-padding: 4;
+    -fx-background-radius: 4;
+}
+
+.scrollable-tab-pane .tab-down-button:hover,
+.scrollable-tab-pane .tab-up-button:hover {
+    -fx-background-color: #4E5254;
+}
+
+
 
 /*No se usa esto del button*/
 .button {

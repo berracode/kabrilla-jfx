@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<DialogPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="dialogPane"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="co.com.bancolombia.kabrilla.controller.CreateNamespaceController"
+            prefWidth="400"
+            stylesheets="@../css/demo.css"
+            style="-fx-background-color:#2B2B2B;">
+    <content>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Crear nuevo Namespace"
+                   style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <GridPane hgap="10" vgap="8">
+                <Label text="Cluster Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                       style="-fx-text-fill:#A9B7C6;"/>
+                <TextField fx:id="clusterNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                           promptText="Ej: cluster-dev"/>
+
+                <Label text="Namespace:" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                       style="-fx-text-fill:#A9B7C6;"/>
+                <TextField fx:id="namespaceField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                           promptText="Ej: my-app-namespace"/>
+            </GridPane>
+        </VBox>
+    </content>
+    <buttonTypes>
+        <ButtonType fx:id="okButton" text="Crear" buttonData="OK_DONE"/>
+        <ButtonType fx:id="cancelButton" text="Cancelar" buttonData="CANCEL_CLOSE"/>
+    </buttonTypes>
+</DialogPane>
