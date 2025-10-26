@@ -9,7 +9,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 
 public class MainController {
 
@@ -60,14 +59,13 @@ public class MainController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/tab-content.fxml"));
             AnchorPane content = loader.load();
-            VBox vbox = (VBox) content.getChildren().getFirst();
 
             //VBox vbox = loader.load();
 
             TabContentController controller = loader.getController();
             controller.setDeploymentName(deploymentName);
 
-            Tab tab = new Tab(deploymentName, vbox);
+            Tab tab = new Tab(deploymentName, content);
             deploymentTabPane.getTabs().add(tab);
             deploymentTabPane.getSelectionModel().select(tab);
         } catch (IOException e) {
