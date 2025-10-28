@@ -1,5 +1,7 @@
 package co.com.bancolombia.kabrilla.state.namespace;
 
+import java.util.List;
+
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.Namespace;
 import co.com.bancolombia.kabrilla.state.base.AppContextState;
@@ -9,24 +11,25 @@ import javafx.collections.ObservableList;
 
 public class ClusterNamespaceState implements AppContextState {
 
-    private final ObservableList<Cluster> clusters = FXCollections.observableArrayList();
+    private final ObservableList<ClusterViewModel> observableClusters = FXCollections.observableArrayList();
 
-    public ObservableList<Cluster> getClusters() {
-        return clusters;
+    public ObservableList<ClusterViewModel> getObservableClusters() {
+        return observableClusters;
+    }
+
+    public void syncFromDomain(List<Cluster> domainClusters) {
+        observableClusters.clear();
+        for (Cluster cluster : domainClusters) {
+            observableClusters.add(new ClusterViewModel(cluster));
+        }
     }
 
     public void addNamespaceToCluster(String clusterName, Namespace namespace) {
-        clusters.stream()
-                .filter(c -> c.getName().equals(clusterName))
-                .findFirst()
-                .ifPresentOrElse(
-                        cluster -> cluster.getNamespaces().add(namespace),
-                        () -> {
-                            Cluster newCluster = new Cluster(clusterName);
-                            newCluster.getNamespaces().add(namespace);
-                            clusters.add(newCluster);
-                        }
-                );
+        for (ClusterViewModel vm : observableClusters) {
+            if (vm.getName().equals(clusterName)) {
+                vm.addNamespace(namespace);
+                break;
+            }
+        }
     }
-
 }

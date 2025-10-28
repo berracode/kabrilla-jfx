@@ -1,15 +1,27 @@
 [ {
   "name" : "eks-ecosistemas-dev",
   "namespaces" : [ {
-    "name" : "sellercenter-dev"
+    "name" : "qqqqqqq-1-1"
   }, {
-    "name" : "otro-ns-1-dev"
-  }, {
-    "name" : "otro-ns-2-dev"
+    "name" : "iiiiiii"
   } ]
 }, {
   "name" : "eks-ecosistemas-qa",
   "namespaces" : [ {
-    "name" : "sellercenter-qa"
+    "name" : "11111"
+  }, {
+    "name" : "oooo"
+  } ]
+}, {
+  "name" : "eks-ecosistemas-pdn",
+  "namespaces" : [ {
+    "name" : "un-ns-1-pdn"
+  }, {
+    "name" : "9999999999"
+  } ]
+}, {
+  "name" : "cluster-qa-sellerbancolombia",
+  "namespaces" : [ {
+    "name" : "qqqqqqqqqqqqqqq-qa"
   } ]
 } ]

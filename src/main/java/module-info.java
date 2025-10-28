@@ -16,6 +16,10 @@ module co.com.bancolombia.kabrilla {
     exports co.com.bancolombia.kabrilla.controller; // opcional si otros módulos lo usan
     opens co.com.bancolombia.kabrilla.controller to javafx.fxml;
 
+    exports co.com.bancolombia.kabrilla.state.base;
+    exports co.com.bancolombia.kabrilla.state.namespace;
+
+
     // hexa
 
     // --- Dominio ---

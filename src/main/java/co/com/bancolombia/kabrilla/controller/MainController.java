@@ -2,19 +2,21 @@ package co.com.bancolombia.kabrilla.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
 import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.ClusterInfo;
 import co.com.bancolombia.kabrilla.domain.model.Namespace;
-import co.com.bancolombia.kabrilla.infrastructure.task.LoadNamespacesTask;
 import co.com.bancolombia.kabrilla.state.namespace.ClusterNamespaceState;
+import co.com.bancolombia.kabrilla.state.namespace.ClusterViewModel;
 
+import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -27,9 +29,13 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class MainController {
+
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     @FXML
     private TreeView<String> treeView;
@@ -47,8 +53,13 @@ public class MainController {
     public void initialize() {
         clusterService = AppBootstrap.getInstance().getClusterService();
         clusterNamespaceState = AppBootstrap.getInstance().getClusterNamespaceState();
+        log.info("Aqui 1");
+        TreeItem<String> root = new TreeItem<>();
+        loadClustersIntoTreeView3(root);
+        log.info("Aqui 2");
+        bindTreeViewToState(root); // 👈 Aquí conectas el estado con la vista
+        log.info("Aqui 3");
 
-        loadClustersIntoTreeView3();
 
         treeView.setOnMouseClicked(event -> {
             TreeItem<String> selected = treeView.getSelectionModel().getSelectedItem();
@@ -67,12 +78,82 @@ public class MainController {
 
     }
 
-    private void loadClustersIntoTreeView3() {
-        TreeItem<String> root = new TreeItem<>();
+    private void bindTreeViewToState(TreeItem<String> root) {
         root.setExpanded(true);
+        log.info("Aqui 2.1");
+
         treeView.setRoot(root);
+        log.info("Aqui 2.2");
+
         treeView.setShowRoot(false);
+        log.info("Aqui 2.3");
         root.getChildren().add(new TreeItem<>("Cargando clusters..."));
+        log.info("2.4: clusterNamespaceState {}", clusterNamespaceState.getObservableClusters().size());
+
+        for (ClusterViewModel clusterVM : clusterNamespaceState.getObservableClusters()) {
+            TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
+
+
+            for (Namespace ns : clusterVM.getNamespaces()) {
+                log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
+                clusterItem.getChildren().add(createNamespaceTreeItem(ns));
+            }
+
+            bindNamespaceListener(clusterVM, clusterItem);
+
+            root.getChildren().add(clusterItem);
+        }
+
+
+        clusterNamespaceState.getObservableClusters().addListener((ListChangeListener<ClusterViewModel>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (ClusterViewModel clusterVM : change.getAddedSubList()) {
+                        TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
+
+                        log.info("clusterVM.getNamespaces() size: {}", clusterVM.getNamespaces().size());
+                        for (Namespace ns : clusterVM.getNamespaces()) {
+                            log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
+                            clusterItem.getChildren().add(createNamespaceTreeItem(ns));
+                        }
+                        bindNamespaceListener(clusterVM, clusterItem);
+
+                        root.getChildren().add(clusterItem);
+                    }
+                }
+            }
+        });
+    }
+
+    private void bindNamespaceListener(ClusterViewModel clusterVM, TreeItem<String> clusterItem) {
+        TreeItem<String> emptyItem = new TreeItem<>("No hay namespaces registrados");
+
+        if (clusterVM.getNamespaces().isEmpty()) {
+            clusterItem.getChildren().add(emptyItem);
+        }
+
+        clusterVM.getNamespaces().addListener((ListChangeListener<Namespace>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    // Si estaba el mensaje de vacío, lo quitamos
+                    clusterItem.getChildren().remove(emptyItem);
+                    for (Namespace ns : change.getAddedSubList()) {
+                        clusterItem.getChildren().add(createNamespaceTreeItem(ns));
+                    }
+                }
+                if (change.wasRemoved()) {
+                    // Si ya no hay namespaces, mostramos el mensaje
+                    if (clusterVM.getNamespaces().isEmpty()) {
+                        clusterItem.getChildren().clear();
+                        clusterItem.getChildren().add(emptyItem);
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadClustersIntoTreeView3(TreeItem<String> root) {
+        log.info("Aqui 1.1");
 
         Task<ClusterInfo> task = new Task<>() {
             @Override
@@ -91,49 +172,43 @@ public class MainController {
             task.getException().printStackTrace();
         });
 
+        log.info("Aqui 1.2");
+
         new Thread(task).start();
+        log.info("Aqui 1.3");
+
     }
 
     private void populateTreeWithClusters(TreeItem<String> root, ClusterInfo clusterInfo) {
         var kubeConfigModel = clusterInfo.getKubeConfigModel();
-        var clusterWithNamespaces = clusterInfo.getClustersWithNamespace();
-        var clusters = kubeConfigModel.getClusters();
+        var clustersFromJson = clusterInfo.getClustersWithNamespace();
+        log.info("Aqui 1.4");
 
         var firstTreeItem = root.getChildren().getFirst();
         if (firstTreeItem.getValue().equals("Cargando clusters...")) {
             root.getChildren().clear();
+            log.info("Aqui 1.5");
+
         }
 
-        if (clusters.isEmpty()) {
-            root.getChildren().add(new TreeItem<>("⚠️ No hay clusters registrados"));
-            return;
+        List<String> clusterNames = kubeConfigModel.getClusters().stream()
+                .map(c -> c.getName().split("/")[1])
+                .toList();
+
+        for (String clusterName : clusterNames) {
+            Cluster cluster = clustersFromJson.stream()
+                    .filter(c -> c.getName().equals(clusterName))
+                    .findFirst()
+                    .orElse(new Cluster(clusterName));
+
+            clusterNamespaceState.getObservableClusters().add(new ClusterViewModel(cluster));
         }
 
-        for (var cluster : clusters) {
-            var clusterNameOnly = cluster.getName().split("/")[1];
-            var clusterNamespacesOptional = clusterWithNamespaces.stream()
-                    .filter(c -> c.getName().equals(clusterNameOnly))
-                    .findFirst();
-
-            TreeItem<String> clusterItem = createClusterTreeItem(clusterNameOnly);
-
-            if (clusterNamespacesOptional.isPresent()) {
-                var clusterNamespaces = clusterNamespacesOptional.get();
-                for (Namespace ns : clusterNamespaces.getNamespaces()) {
-                    TreeItem<String> nsItem = createNamespaceTreeItem(ns);
-                    clusterItem.getChildren().add(nsItem);
-                }
-            } else {
-                clusterItem.getChildren().add(new TreeItem<>("No hay namespaces registrados"));
-            }
-
-            clusterItem.setExpanded(true);
-            root.getChildren().add(clusterItem);
-        }
     }
 
     private TreeItem<String> createClusterTreeItem(String clusterName) {
-        ImageView icon = new ImageView(getClass().getResource("/icons/folder-ns.png").toExternalForm());
+        ImageView icon =
+                new ImageView(Objects.requireNonNull(getClass().getResource("/icons/folder-ns.png")).toExternalForm());
         icon.setFitWidth(12);
         icon.setFitHeight(12);
         icon.setPreserveRatio(true);
@@ -208,53 +283,46 @@ public class MainController {
         new Thread(task).start();
     }
 
-    private void refreshClusterNamespaces(String clusterName, List<Namespace> updatedNamespaces) {
-        TreeItem<String> root = treeView.getRoot();
-        if (root == null) {
-            return;
-        }
-
-        for (TreeItem<String> clusterItem : root.getChildren()) {
-            if (clusterItem.getValue().equals(clusterName)) {
-                clusterItem.getChildren().clear(); // limpia solo los namespaces
-
-                for (Namespace ns : updatedNamespaces) {
-                    TreeItem<String> nsItem = createNamespaceTreeItem(ns);
-                    clusterItem.getChildren().add(nsItem);
-                }
-
-                break;
-            }
-        }
-    }
-
     private void openNamespaceDialog() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/create-namespace-dialog.fxml"));
+            loader.setControllerFactory(param -> new CreateNamespaceController(clusterService, clusterNamespaceState));
             DialogPane dialogPane = loader.load();
             CreateNamespaceController controller = loader.getController();
 
             Dialog<ButtonType> dialog = new Dialog<>();
+
             dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Crear Namespace");
 
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get().getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-                controller.saveCluster();
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+                    String clusterName = controller.getClusterName();
+                    String namespace = controller.getNamespace();
+                    if (clusterName == null || clusterName.isBlank() || namespace.isBlank()) {
+                        // Mostrar alerta o mensaje de error
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Debes seleccionar un cluster y escribir un namespace.");
 
-                String clusterName = controller.getClusterName();
+                        DialogPane alertPane = alert.getDialogPane();
+                        alertPane.getStylesheets()
+                                .add(getClass().getResource("/css/demo.css").toExternalForm());
+                        alertPane.setStyle("-fx-background-color: #2B2B2B;");
+                        alertPane.lookup(".content.label").setStyle("-fx-text-fill: white;");
 
-                LoadNamespacesTask task = new LoadNamespacesTask(clusterService, clusterName);
-                task.setOnSucceeded(e -> {
-                    List<Namespace> updatedNamespaces = task.getValue();
-                    refreshClusterNamespaces(clusterName, updatedNamespaces);
-                });
+                        alert.showAndWait();
+                        return null;
+                    }
 
-                task.setOnFailed(e -> {
-                    // TODO: voy a mostrar mensaje en UI de error.
-                });
+                    controller.saveCluster();
+                    return ButtonType.OK;
+                }
+                return null;
+            });
 
-                new Thread(task).start();
-            }
+            dialog.showAndWait();
 
 
         } catch (IOException e) {
@@ -286,125 +354,5 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void loadClustersIntoTreeView2() {
-        TreeItem<String> root = new TreeItem<>();
-        root.setExpanded(true);
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-
-        Task<ClusterInfo> task = new Task<>() {
-            @Override
-            protected ClusterInfo call() throws Exception {
-                return clusterService.getClusterInfo(); // lectura de archivo
-            }
-        };
-
-        task.setOnSucceeded(event -> {
-            ClusterInfo clusterInfo = task.getValue();
-            var kubeConfigModel = clusterInfo.getKubeConfigModel();
-            var clusterWithNamespaces = clusterInfo.getClustersWithNamespace();
-            var clusters = kubeConfigModel.getClusters();
-            if (clusters.isEmpty()) {
-                root.getChildren().add(new TreeItem<>("⚠️ No hay clusters registrados"));
-            } else {
-                for (var cluster : clusters) {
-                    var clusterNameOnly = cluster.getName().split("/")[1];
-                    var clusterNamespacesOptional =
-                            clusterWithNamespaces.stream().filter(c -> c.getName().equals(clusterNameOnly)).findFirst();
-                    if (clusterNamespacesOptional.isPresent()) {
-                        var clusterNamespaces = clusterNamespacesOptional.get();
-                        ImageView icon = new ImageView(getClass().getResource("/icons/folder-ns.png").toExternalForm());
-                        icon.setFitWidth(12);
-                        icon.setFitHeight(12);
-                        icon.setPreserveRatio(true);
-                        TreeItem<String> clusterItem = new TreeItem<>(clusterNameOnly, icon);
-
-                        for (Namespace ns : clusterNamespaces.getNamespaces()) {
-                            TreeItem<String> nsItem = new TreeItem<>(ns.getName());
-                            nsItem.getChildren().add(new TreeItem<>("")); // placeholder
-
-                            nsItem.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
-                                if (isNowExpanded && nsItem.getChildren().size() == 1 &&
-                                        nsItem.getChildren().getFirst().getValue().isEmpty()) {
-                                    loadDeploymentsAsync(nsItem);
-                                }
-                            });
-
-                            clusterItem.getChildren().add(nsItem);
-                        }
-                        clusterItem.setExpanded(true);
-                        root.getChildren().add(clusterItem);
-                    } else {
-                        ImageView icon = new ImageView(getClass().getResource("/icons/folder-ns.png").toExternalForm());
-                        icon.setFitWidth(12);
-                        icon.setFitHeight(12);
-                        icon.setPreserveRatio(true);
-                        TreeItem<String> clusterItem = new TreeItem<>(clusterNameOnly, icon);
-                        TreeItem<String> nsItem = new TreeItem<>("No hay namespaces registrados");
-
-                        clusterItem.getChildren().add(nsItem);
-
-                        clusterItem.setExpanded(true);
-                        root.getChildren().add(clusterItem);
-                    }
-
-                }
-            }
-        });
-
-        task.setOnFailed(event -> {
-            root.getChildren().add(new TreeItem<>("❌ Error al cargar clusters"));
-            task.getException().printStackTrace();
-        });
-
-        new Thread(task).start(); // ejecuta en segundo plano
-    }
-
-
-    private void loadClustersIntoTreeView() {
-        TreeItem<String> root = new TreeItem<>();
-        root.setExpanded(true);
-
-        List<Cluster> clusters = clusterService.getAllClusters();
-        if (clusters.isEmpty()) {
-            root.getChildren().add(new TreeItem<>("⚠️ No hay clusters registrados"));
-        } else {
-            for (Cluster cluster : clusters) {
-                //TreeItem<String> clusterItem = new TreeItem<>(cluster.getName());
-                ImageView icon = new ImageView(getClass().getResource("/icons/folder-ns.png").toExternalForm());
-                icon.setFitWidth(12);
-                icon.setFitHeight(12);
-                icon.setPreserveRatio(true);
-                TreeItem<String> clusterItem = new TreeItem<>(cluster.getName(), icon);
-
-                for (Namespace ns : cluster.getNamespaces()) {
-                    TreeItem<String> nsItem = new TreeItem<>(ns.getName());
-
-                    // Si más adelante agregas deployments, podrías cargarlos aquí
-                    //nsItem.getChildren().add(new TreeItem<>("(sin deployments)"));
-                    // ⬇️ Listener que se activa cuando se expande el namespace
-                    nsItem.getChildren().add(new TreeItem<>("")); // placeholder
-
-                    nsItem.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
-                        if (isNowExpanded) {
-                            // Solo cargar si aún tiene el placeholder
-                            if (nsItem.getChildren().size() == 1 &&
-                                    nsItem.getChildren().getFirst().getValue().isEmpty()) {
-                                loadDeploymentsAsync(nsItem);
-                            }
-                        }
-                    });
-
-                    clusterItem.getChildren().add(nsItem);
-                }
-                clusterItem.setExpanded(true);
-                root.getChildren().add(clusterItem);
-            }
-        }
-
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
     }
 }

@@ -27,7 +27,7 @@ public class ClusterService {
     public List<Cluster> getAllClusters() {
         try {
             log.info("Tratando de obtener los cluster con sus namesapces");
-            Thread.sleep(10000);
+            Thread.sleep(5000);
             log.info("DESPERTANDO...");
 
             return repository.findAll();
