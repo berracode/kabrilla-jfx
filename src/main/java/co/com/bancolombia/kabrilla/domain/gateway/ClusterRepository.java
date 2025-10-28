@@ -6,8 +6,9 @@ import java.util.List;
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 
 public interface ClusterRepository {
-    
+
     List<Cluster> findAll() throws IOException;
 
     void saveAll(List<Cluster> clusters) throws IOException;
+
 }

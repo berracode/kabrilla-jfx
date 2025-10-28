@@ -1,8 +1,10 @@
 package co.com.bancolombia.kabrilla;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
+import io.kubernetes.client.util.KubeConfig;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,9 +28,19 @@ public class KabrillaApplication extends Application {
     private static final double MIN_WIDTH = 1280.0;
     private static final double MIN_HEIGHT = 720.0;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
+
+        FileReader reader = new FileReader(kubeConfigPath);
+        KubeConfig config = KubeConfig.loadKubeConfig(reader);
+
+
+        System.out.println("Contexto actual: " + config.getCurrentContext());
+        System.out.println("Clusters disponibles: " + config.getClusters().size());
+
         launch();
     }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {

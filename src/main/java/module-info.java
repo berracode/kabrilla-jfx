@@ -1,9 +1,12 @@
 module co.com.bancolombia.kabrilla {
     requires javafx.controls;
     requires javafx.fxml;
-    requires org.yaml.snakeyaml;
-    requires com.fasterxml.jackson.databind;
     requires static lombok;
+    requires com.fasterxml.jackson.dataformat.yaml;
+    requires com.fasterxml.jackson.databind;
+    requires org.yaml.snakeyaml;
+    requires io.kubernetes.client.java;
+    requires org.slf4j;
 
     // Paquete raíz (si tienes clases principales)
     exports co.com.bancolombia.kabrilla;

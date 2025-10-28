@@ -1,24 +1,15 @@
-[
-  {
-    "name": "eks-cluster-pp-qa",
-    "namespaces": [
-      {
-        "name": "ns-apps-life-qa"
-      },
-      {
-        "name": "ns-apps-devil-qa"
-      }
-    ]
-  },
-  {
-    "name": "eks-cluster-pp-dev",
-    "namespaces": [
-      {
-        "name": "ns-apps-chikamaru-bien-largo-porqueavacespasa-dev"
-      },
-      {
-        "name": "ns-apps-chon-dev"
-      }
-    ]
-  }
-]
+[ {
+  "name" : "eks-ecosistemas-dev",
+  "namespaces" : [ {
+    "name" : "sellercenter-dev"
+  }, {
+    "name" : "otro-ns-1-dev"
+  }, {
+    "name" : "otro-ns-2-dev"
+  } ]
+}, {
+  "name" : "eks-ecosistemas-qa",
+  "namespaces" : [ {
+    "name" : "sellercenter-qa"
+  } ]
+} ]
