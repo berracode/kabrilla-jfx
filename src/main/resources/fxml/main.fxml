@@ -24,6 +24,10 @@
                 fx:id="createNamespaceButton"
                 style="-fx-background-color:#1EBFF2; -fx-text-fill:black; -fx-font-weight: bold; -fx-font-size: 10px; -fx-background-radius:6;"/>
 
+        <Button text="Agregar Credenciales"
+                fx:id="addCredentialsButton"
+                style="-fx-background-color:#1EBFF2; -fx-text-fill:black; -fx-font-weight: bold; -fx-font-size: 10px; -fx-background-radius:6;"/>
+
         <Separator orientation="HORIZONTAL" style="-fx-background-color:#4E5254;"/>
         <TreeView fx:id="treeView" styleClass="treeView"/>
     </VBox>
