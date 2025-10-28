@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" styleClass="sidebar" xmlns="http://javafx.com/javafx/23.0.1"
-      fx:controller="co.com.bancolombia.kabrilla.controller.sidebar.Sidebar2Controller"
+      fx:controller="co.com.bancolombia.kabrilla.ui.controller.sidebar.Sidebar2Controller"
       stylesheets="@../../css/styles.css">
     <Label styleClass="sidebar-title" text="Create cluster Other"/>
     <TreeView fx:id="treeView" styleClass="treeView"/>

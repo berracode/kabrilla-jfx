@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/23.0.1"
-            fx:controller="co.com.bancolombia.kabrilla.controller.RequestPolicyContentController"
+            fx:controller="co.com.bancolombia.kabrilla.ui.controller.RequestPolicyContentController"
             stylesheets="@../css/demo.css"
             styleClass="anchorPane">
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/23.0.1"
-            fx:controller="co.com.bancolombia.kabrilla.controller.AuthorizationPolicyContentController"
+            fx:controller="co.com.bancolombia.kabrilla.ui.controller.AuthorizationPolicyContentController"
             stylesheets="@../css/demo.css"
             styleClass="anchorPane">
 

@@ -5,10 +5,10 @@ import co.com.bancolombia.kabrilla.application.service.CredentialService;
 import co.com.bancolombia.kabrilla.application.service.KubeconfigService;
 import co.com.bancolombia.kabrilla.domain.gateway.ClusterRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
-import co.com.bancolombia.kabrilla.infrastructure.kubernetes.config.KubeconfigAdapter;
-import co.com.bancolombia.kabrilla.infrastructure.persistence.FileClusterRepository;
-import co.com.bancolombia.kabrilla.infrastructure.persistence.JsonCredentialRepository;
-import co.com.bancolombia.kabrilla.state.namespace.ClusterNamespaceState;
+import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.FileClusterRepository;
+import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.JsonCredentialRepository;
+import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeconfigAdapter;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceState;
 
 import lombok.Getter;
 
