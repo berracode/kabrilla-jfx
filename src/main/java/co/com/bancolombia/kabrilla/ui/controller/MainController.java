@@ -10,6 +10,9 @@ import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.ClusterInfo;
 import co.com.bancolombia.kabrilla.domain.model.Namespace;
+import co.com.bancolombia.kabrilla.ui.controller.tabs.TabContentController;
+import co.com.bancolombia.kabrilla.ui.controller.usecases.AddCredentialsController;
+import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterViewModel;
 
@@ -296,7 +299,8 @@ public class MainController {
 
     private void openNamespaceDialog() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/create-namespace-dialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/fxml/usecase/create-namespaces/create-namespace-dialog.fxml"));
             loader.setControllerFactory(param -> new CreateNamespaceController(clusterService, clusterNamespaceState));
             DialogPane dialogPane = loader.load();
             CreateNamespaceController controller = loader.getController();
@@ -350,7 +354,7 @@ public class MainController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/tab-content.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/tabs/tab-content.fxml"));
             AnchorPane content = loader.load();
 
             //VBox vbox = loader.load();
@@ -370,7 +374,8 @@ public class MainController {
 
     private void openAddCredentialsTab() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add-credentials.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/fxml/usecase/add-credentials/add-credentials.fxml"));
             loader.setControllerFactory(
                     param -> new AddCredentialsController(clusterNamespaceState, credentialService));
             Parent content = loader.load();

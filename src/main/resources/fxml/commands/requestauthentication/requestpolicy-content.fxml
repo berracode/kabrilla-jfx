@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.RequestPolicyContentController"
+            stylesheets="@../../../css/demo.css"
+            styleClass="anchorPane">
+
+    <VBox spacing="10"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          style="-fx-background-color:#2B2B2B;">
+
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Request Policy (YAML)"
+                   style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold;"/>
+            <Button text="⟳ Reload"
+                    style="-fx-background-color:transparent; -fx-text-fill:#1EBFF2;"/>
+            <Button text="⧉ Copy"
+                    style="-fx-background-color:transparent; -fx-text-fill:#1EBFF2;"/>
+        </HBox>
+
+        <TextArea fx:id="yamlArea" editable="false" wrapText="false"
+                  VBox.vgrow="ALWAYS"
+                  style="-fx-control-inner-background:#4E5254; -fx-text-fill:#FFFFFF;
+                         -fx-font-family:Consolas; -fx-font-size:13px; -fx-background-radius:10;">
+            <text>
+                apiVersion: security.istio.io/v1beta1
+                kind: AuthorizationPolicy
+                metadata:
+                name: allow-internal
+                spec:
+                selector:
+                matchLabels:
+                app: my-app
+                action: ALLOW
+                rules:
+                - from:
+                - source:
+                namespaces: ["xyz-1-dev"]
+                - to:
+                - operation:
+                methods: ["GET", "POST"]
+                paths: ["/api/*"]
+            </text>
+        </TextArea>
+
+    </VBox>
+</AnchorPane>

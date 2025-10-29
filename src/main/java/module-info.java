@@ -39,5 +39,11 @@ module co.com.bancolombia.kabrilla {
 
     exports co.com.bancolombia.kabrilla.ui.controller.sidebar; // opcional
     opens co.com.bancolombia.kabrilla.ui.controller.sidebar to javafx.fxml;
+    exports co.com.bancolombia.kabrilla.ui.controller.commands;
+    opens co.com.bancolombia.kabrilla.ui.controller.commands to javafx.fxml;
+    exports co.com.bancolombia.kabrilla.ui.controller.usecases;
+    opens co.com.bancolombia.kabrilla.ui.controller.usecases to javafx.fxml;
+    exports co.com.bancolombia.kabrilla.ui.controller.tabs;
+    opens co.com.bancolombia.kabrilla.ui.controller.tabs to javafx.fxml;
 
 }

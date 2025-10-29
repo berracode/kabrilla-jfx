@@ -1,6 +1,6 @@
 package co.com.bancolombia.kabrilla.ui.controller.sidebar;
 
-import co.com.bancolombia.kabrilla.ui.controller.ContentController;
+import co.com.bancolombia.kabrilla.ui.controller.tabs.ContentController;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
