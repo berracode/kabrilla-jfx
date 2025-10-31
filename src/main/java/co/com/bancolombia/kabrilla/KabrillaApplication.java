@@ -48,17 +48,18 @@ public class KabrillaApplication extends Application {
 
         AppContext context = new AppContext();
         var credentialsService = AppBootstrap.getInstance().getCredentialService();
+        var clusterService = AppBootstrap.getInstance().getClusterService();
+
         var credentials = credentialsService.findAll();
         context.getAppState().loadCredentials(credentials);
 
         ClusterNamespaceStateViewModel clusterNamespaceState =
                 AppBootstrap.getInstance().getClusterNamespaceStateViewModel();
-        var clusterService = AppBootstrap.getInstance().getClusterService();
 
         DeploymentStateViewModel deploymentStateViewModel = new DeploymentStateViewModel();
-        SidebarStateViewModel sidebarStateViewModel = new SidebarStateViewModel(
-                clusterNamespaceState,
-                clusterService
+        SidebarStateViewModel sidebarStateViewModel = new SidebarStateViewModel(context.getAppState(),
+                                                                                clusterNamespaceState,
+                                                                                clusterService
         );
 
         MainTabViewModel mainTabViewModel = new MainTabViewModel(deploymentStateViewModel);

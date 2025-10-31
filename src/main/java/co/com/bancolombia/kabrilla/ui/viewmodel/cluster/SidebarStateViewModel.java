@@ -1,6 +1,7 @@
 package co.com.bancolombia.kabrilla.ui.viewmodel.cluster;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,13 +12,16 @@ import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
 import co.com.bancolombia.kabrilla.ui.enums.TabCommand;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.NamespaceStateViewModel;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -34,7 +38,7 @@ import org.slf4j.LoggerFactory;
 @RequiredArgsConstructor
 public class SidebarStateViewModel {
     private static final Logger log = LoggerFactory.getLogger(SidebarStateViewModel.class);
-
+    private final AppState appState;
     private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
     private final ClusterService clusterService;
     private final ObjectProperty<TreeItem<String>> root = new SimpleObjectProperty<>(new TreeItem<>());
@@ -62,6 +66,14 @@ public class SidebarStateViewModel {
         return root;
     }
 
+
+    public ObservableList<KubeClusterItemViewModel> getKubeConfig() {
+        return appState.getKubeConfig();
+    }
+
+    public void addKubeConfig(KubeClusterItemViewModel kubeClusterItemViewModel) {
+        appState.getKubeConfig().add(kubeClusterItemViewModel);
+    }
 
     public void loadClustersAsync(TreeItem<String> rootItem) {
         log.info("Aqui 1.1");
@@ -174,6 +186,15 @@ public class SidebarStateViewModel {
             log.info("Aqui 1.5");
 
         }
+        kubeConfigModel.getClusters().forEach(c -> {
+            KubeClusterItemViewModel item = new KubeClusterItemViewModel(
+                    c.getCluster().getServer(),
+                    c.getName(),
+                    Base64.getDecoder().decode(c.getCluster().getCertificateAuthorityData())
+            );
+            addKubeConfig(item);
+        });
+
 
         List<String> clusterNames = kubeConfigModel.getClusters().stream()
                 .map(c -> c.getName().split("/")[1])

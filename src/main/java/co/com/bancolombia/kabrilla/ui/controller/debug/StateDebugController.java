@@ -1,6 +1,9 @@
 package co.com.bancolombia.kabrilla.ui.controller.debug;
 
 
+import java.nio.charset.StandardCharsets;
+
+import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.KubeClusterItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
@@ -28,6 +31,8 @@ public class StateDebugController {
 
     @FXML
     private ListView<String> credentialsListView;
+    @FXML
+    private ListView<String> kubeConfigListView;
 
 
     public StateDebugController(ClusterNamespaceStateViewModel clusterNamespaceState,
@@ -62,7 +67,12 @@ public class StateDebugController {
             updateCredentialsList();
         });
 
+        context.getAppState().getKubeConfig().addListener((ListChangeListener<KubeClusterItemViewModel>) change -> {
+            updateKubeConfigList();
+        });
+
         updateCredentialsList();
+        updateKubeConfigList();
     }
 
     private void updateCredentialsList() {
@@ -74,9 +84,24 @@ public class StateDebugController {
         });
     }
 
+    private void updateKubeConfigList() {
+        Platform.runLater(() -> {
+            kubeConfigListView.getItems().clear();
+            for (var kube : context.getAppState().getKubeConfig()) {
+                kubeConfigListView.getItems().add(formatKubeConfig(kube));
+            }
+        });
+    }
+
     private String formatCredential(CredentialsItemViewModel cred) {
         return String.format("Cluster: %s\nAccessKey: %s\nSecretKey: %s\nSessionToken: %s",
                              cred.clusterName(), cred.accessKey(), cred.secretKey(), cred.sessionToken());
+    }
+
+    private String formatKubeConfig(KubeClusterItemViewModel kube) {
+        return String.format("ClusterName: %s\nCA: %s\nURL: %s",
+                             kube.clusterName(), new String(kube.caCertBytes(), StandardCharsets.UTF_8),
+                             kube.serverUrl());
     }
 
 }
