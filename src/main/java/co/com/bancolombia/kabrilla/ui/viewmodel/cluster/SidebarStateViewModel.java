@@ -223,6 +223,14 @@ public class SidebarStateViewModel {
         String namespaceName = nsItem.getValue();
 
         // Simular trabajo en segundo plano
+        /*
+         * para traer los deployments necesito claves de aws, clustername y ns
+         * tengo el clustername y ns
+         * ahora debo obtener desde un state de credenciales, las credenciales donde el clustername sea este
+         * y también debo obtener de state el kubeconfig (ca, serverUrl y ya)
+         * sería correcto entonces guardar o el kubeconfigmodel en state o simplemente guardar otro objeto a partir
+         * del kubeconfig (domain).
+         * */
         Task<List<Deployment>> task = new Task<>() {
             @Override
             protected List<Deployment> call() throws Exception {
