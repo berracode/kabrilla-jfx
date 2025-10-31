@@ -13,6 +13,8 @@ public class MainController {
 
     @FXML
     private SplitPane mainSplitPane;
+    @FXML
+    private SplitPane debugSplitPane;
 
 
     @FXML
@@ -21,6 +23,11 @@ public class MainController {
 
         mainSplitPane.widthProperty().addListener((obs, oldW, newW) -> {
             mainSplitPane.setDividerPosition(0, 250.0 / newW.doubleValue());
+        });
+
+        debugSplitPane.setDividerPosition(0, 1.0 - (250.0 / debugSplitPane.getHeight()));
+        debugSplitPane.heightProperty().addListener((obs, oldH, newH) -> {
+            debugSplitPane.setDividerPosition(0, 1.0 - (250.0 / newH.doubleValue()));
         });
     }
 }

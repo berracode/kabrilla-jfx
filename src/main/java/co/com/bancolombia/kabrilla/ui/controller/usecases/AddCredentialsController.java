@@ -1,8 +1,7 @@
 package co.com.bancolombia.kabrilla.ui.controller.usecases;
 
 import co.com.bancolombia.kabrilla.application.service.CredentialService;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceState;
-
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,7 +10,7 @@ import javafx.scene.control.TextArea;
 
 public class AddCredentialsController {
 
-    private final ClusterNamespaceState clusterState;
+    private final ClusterNamespaceStateViewModel clusterState;
     private final CredentialService credentialService;
     @FXML
     private ComboBox<String> clusterComboBox;
@@ -20,7 +19,7 @@ public class AddCredentialsController {
     @FXML
     private Button saveButton;
 
-    public AddCredentialsController(ClusterNamespaceState clusterState, CredentialService credentialService) {
+    public AddCredentialsController(ClusterNamespaceStateViewModel clusterState, CredentialService credentialService) {
         this.clusterState = clusterState;
         this.credentialService = credentialService;
     }

@@ -4,9 +4,8 @@ import java.util.List;
 
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
 import co.com.bancolombia.kabrilla.domain.model.Namespace;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceState;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterViewModel;
-
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterStateViewModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +18,7 @@ public class CreateNamespaceController {
 
 
     private final ClusterService clusterService;
-    private final ClusterNamespaceState clusterState;
+    private final ClusterNamespaceStateViewModel clusterState;
 
     @FXML
     private ComboBox<String> clusterComboBox;
@@ -28,7 +27,7 @@ public class CreateNamespaceController {
     @FXML
     private DialogPane dialogPane;
 
-    public CreateNamespaceController(ClusterService clusterService, ClusterNamespaceState clusterState) {
+    public CreateNamespaceController(ClusterService clusterService, ClusterNamespaceStateViewModel clusterState) {
         this.clusterService = clusterService;
         this.clusterState = clusterState;
     }
@@ -37,7 +36,7 @@ public class CreateNamespaceController {
     @FXML
     public void initialize() {
         List<String> clusterNames = clusterState.getObservableClusters().stream()
-                .map(ClusterViewModel::getName)
+                .map(ClusterStateViewModel::getName)
                 .toList();
         clusterComboBox.getItems().addAll(clusterNames);
         Platform.runLater(() -> {

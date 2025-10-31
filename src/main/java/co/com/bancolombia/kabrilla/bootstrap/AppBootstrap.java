@@ -8,8 +8,7 @@ import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.FileClusterRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.JsonCredentialRepository;
 import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeconfigAdapter;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceState;
-
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import lombok.Getter;
 
 @Getter
@@ -18,7 +17,7 @@ public class AppBootstrap {
     private static AppBootstrap instance;
 
     private final ClusterService clusterService;
-    private final ClusterNamespaceState clusterNamespaceState;
+    private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
     private final CredentialService credentialService;
 
     private AppBootstrap() {
@@ -28,7 +27,7 @@ public class AppBootstrap {
         ClusterRepository clusterRepo = new FileClusterRepository();
 
         this.clusterService = new ClusterService(kubeconfigService, clusterRepo);
-        this.clusterNamespaceState = new ClusterNamespaceState();
+        this.clusterNamespaceStateViewModel = new ClusterNamespaceStateViewModel();
 
         this.credentialService = new CredentialService(new JsonCredentialRepository());
     }

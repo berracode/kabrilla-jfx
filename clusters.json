@@ -1,46 +1,45 @@
-[
-  {
-    "name": "eks-ecosistemas-dev",
-    "namespaces": [
-      {
-        "name": "mktp-mov-dev"
-      },
-      {
-        "name": "mktp-inmo-dev"
-      },
-      {
-        "name": "sellercenter-dev"
-      }
-    ]
-  },
-  {
-    "name": "eks-ecosistemas-qa",
-    "namespaces": [
-      {
-        "name": "11111"
-      },
-      {
-        "name": "oooo"
-      }
-    ]
-  },
-  {
-    "name": "eks-ecosistemas-pdn",
-    "namespaces": [
-      {
-        "name": "un-ns-1-pdn"
-      },
-      {
-        "name": "9999999999"
-      }
-    ]
-  },
-  {
-    "name": "cluster-qa-sellerbancolombia",
-    "namespaces": [
-      {
-        "name": "qqqqqqqqqqqqqqq-qa"
-      }
-    ]
-  }
-]
+[ {
+  "name" : "eks-ecosistemas-dev",
+  "namespaces" : [ {
+    "name" : "mktp-mov-dev"
+  }, {
+    "name" : "mktp-inmo-dev"
+  }, {
+    "name" : "sellercenter-dev"
+  } ]
+}, {
+  "name" : "eks-ecosistemas-qa",
+  "namespaces" : [ {
+    "name" : "11111"
+  }, {
+    "name" : "oooo"
+  } ]
+}, {
+  "name" : "eks-ecosistemas-pdn",
+  "namespaces" : [ {
+    "name" : "un-ns-1-pdn"
+  }, {
+    "name" : "9999999999"
+  } ]
+}, {
+  "name" : "cluster-qa-sellerbancolombia",
+  "namespaces" : [ {
+    "name" : "qqqqqqqqqqqqqqq-qa"
+  } ]
+}, {
+  "name" : "dev-cluster",
+  "namespaces" : [ {
+    "name" : "inmo-dev"
+  }, {
+    "name" : "otro-ns-dev"
+  } ]
+}, {
+  "name" : "staging-cluster",
+  "namespaces" : [ {
+    "name" : "inmo-stg"
+  }, {
+    "name" : "mov-stg"
+  }, {
+    "name" : "sellercenter-stg"
+  } ]
+} ]

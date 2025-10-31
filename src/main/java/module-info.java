@@ -20,6 +20,9 @@ module co.com.bancolombia.kabrilla {
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace;
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs;
 
+    exports co.com.bancolombia.kabrilla.ui.controller.debug;
+    opens co.com.bancolombia.kabrilla.ui.controller.debug to javafx.fxml;
+
 
     // hexa
 

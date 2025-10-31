@@ -1,49 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.SplitPane?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainSplitPane" dividerPositions="0.2" prefHeight="720.0"
+<SplitPane xmlns:fx="http://javafx.com/fxml/1"
+           dividerPositions="0.2"
+           fx:id="debugSplitPane"
+           prefHeight="720.0"
            prefWidth="1280.0"
-           styleClass="main2-split-pane" stylesheets="@../css/demo.css" xmlns="http://javafx.com/javafx/23.0.1"
+           orientation="VERTICAL"
+           stylesheets="@../css/demo.css"
+           xmlns="http://javafx.com/javafx/23.0.1"
            fx:controller="co.com.bancolombia.kabrilla.ui.controller.MainController">
 
-    <!-- Sidebar con TreeView -->
-    <!--
-    <VBox prefHeight="397.0" prefWidth="200.0" styleClass="vbox">
-        <padding>
-            <Insets top="10" left="10" right="10"/>
-        </padding>
-        <spacing>10</spacing>
+    <!-- Split horizontal principal -->
+    <SplitPane dividerPositions="0.2"
+               fx:id="mainSplitPane"
+               styleClass="main2-split-pane">
+        <fx:include source="sidebar/sidebar-view.fxml"/>
+        <fx:include source="tabs/main-tab-view.fxml"/>
+    </SplitPane>
 
-        <Button text="➕ Crear Namespace"
-                fx:id="createNamespaceButton"
-                style="-fx-background-color:#1EBFF2; -fx-text-fill:black; -fx-font-weight: bold; -fx-font-size: 10px; -fx-background-radius:6;"/>
-
-        <Button text="Agregar Credenciales"
-                fx:id="addCredentialsButton"
-                style="-fx-background-color:#1EBFF2; -fx-text-fill:black; -fx-font-weight: bold; -fx-font-size: 10px; -fx-background-radius:6;"/>
-
-        <Separator orientation="HORIZONTAL" style="-fx-background-color:#4E5254;"/>
-        <TreeView fx:id="treeView" styleClass="treeView"/>
-    </VBox>
-    -->
-
-    <fx:include source="sidebar/sidebar-view.fxml"/>
-
-
-    <!-- Área principal con TabPane de deployments -->
-    <!--<AnchorPane fx:id="mainContent" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
-                styleClass="anchorPane">
-
-
-        <VBox prefHeight="26.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <TabPane styleClass="scrollable-tab-pane" fx:id="deploymentTabPane" tabClosingPolicy="SELECTED_TAB"
-                         VBox.vgrow="ALWAYS"/>
-            </children>
-        </VBox>
-
-    </AnchorPane>-->
-    <fx:include source="tabs/main-tab-view.fxml"/>
+    <!-- Panel de depuración de estados -->
+    <fx:include source="debug/state-debug-view.fxml"/>
 
 </SplitPane>

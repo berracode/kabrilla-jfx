@@ -2,8 +2,7 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 
 import java.io.IOException;
 
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabViewModel;
-
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,14 +15,14 @@ import org.slf4j.LoggerFactory;
 
 public class DeploymentTabController {
     private static final Logger log = LoggerFactory.getLogger(DeploymentTabController.class);
-    private final DeploymentTabViewModel deploymentTabViewModel;
+    private final DeploymentTabItemViewModel deploymentTabItemViewModel;
     @FXML
     private TabPane commandTabPane;
     @FXML
     private AnchorPane commandContent;
 
-    public DeploymentTabController(DeploymentTabViewModel deploymentTabViewModel) {
-        this.deploymentTabViewModel = deploymentTabViewModel;
+    public DeploymentTabController(DeploymentTabItemViewModel deploymentTabItemViewModel) {
+        this.deploymentTabItemViewModel = deploymentTabItemViewModel;
     }
 
 
@@ -54,7 +53,7 @@ public class DeploymentTabController {
 
             Object controller = loader.getController();
             if (controller instanceof DeploymentTab) {
-                ((DeploymentTab) controller).setDeploymentName(deploymentTabViewModel.getDeploymentName());
+                ((DeploymentTab) controller).setDeploymentName(deploymentTabItemViewModel.deploymentName());
             }
 
             commandContent.getChildren().setAll(view);

@@ -1,114 +1,93 @@
-package co.com.bancolombia.kabrilla.ui.controller;
+package co.com.bancolombia.kabrilla.ui.viewmodel.cluster;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
-import co.com.bancolombia.kabrilla.application.service.CredentialService;
-import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.ClusterInfo;
-import co.com.bancolombia.kabrilla.domain.model.Namespace;
-import co.com.bancolombia.kabrilla.ui.controller.tabs.DeploymentTabController;
-import co.com.bancolombia.kabrilla.ui.controller.usecases.AddCredentialsController;
+import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceState;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterViewModel;
-
+import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.NamespaceStateViewModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@RequiredArgsConstructor
+public class SidebarStateViewModel {
+    private static final Logger log = LoggerFactory.getLogger(SidebarStateViewModel.class);
 
-public class Main2Controller {
+    private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
+    private final ClusterService clusterService;
+    private final ObjectProperty<TreeItem<String>> root = new SimpleObjectProperty<>(new TreeItem<>());
 
-    private static final Logger log = LoggerFactory.getLogger(Main2Controller.class);
+    public TreeItem<String> getRoot() {
+        return root.get();
+    }
 
-    @FXML
-    private TreeView<String> treeView;
-    @FXML
-    private TabPane deploymentTabPane;
-    @FXML
-    private SplitPane mainSplitPane;
-    @FXML
-    private Button createNamespaceButton;
-    @FXML
-    private Button addCredentialsButton;
-
-    private ClusterService clusterService;
-    private ClusterNamespaceState clusterNamespaceState;
-
-    private CredentialService credentialService;
+    public ObjectProperty<TreeItem<String>> rootProperty() {
+        return root;
+    }
 
 
-    @FXML
-    public void initialize() {
-        clusterService = AppBootstrap.getInstance().getClusterService();
-        credentialService = AppBootstrap.getInstance().getCredentialService();
-        clusterNamespaceState = AppBootstrap.getInstance().getClusterNamespaceState();
-        log.info("Aqui 1");
-        TreeItem<String> root = new TreeItem<>();
-        loadClustersIntoTreeView3(root);
-        log.info("Aqui 2");
-        bindTreeViewToState(root); // 👈 Aquí conectas el estado con la vista
-        log.info("Aqui 3");
+    public void loadClustersAsync(TreeItem<String> rootItem) {
+        log.info("Aqui 1.1");
+        rootItem.setExpanded(true);
 
 
-        treeView.setOnMouseClicked(event -> {
-            TreeItem<String> selected = treeView.getSelectionModel().getSelectedItem();
-            if (selected != null && selected.isLeaf() && selected.getValue().startsWith("deploy")) {
-                addDeploymentTab(selected.getValue());
+        Task<ClusterInfo> task = new Task<>() {
+            @Override
+            protected ClusterInfo call() throws Exception {
+                return clusterService.getClusterInfo();
             }
+        };
+
+        task.setOnSucceeded(event -> {
+            ClusterInfo clusterInfo = task.getValue();
+            populateTreeWithClusters(rootItem, clusterInfo);
         });
 
-        mainSplitPane.setDividerPosition(0, 250.0 / mainSplitPane.getWidth());
-
-        mainSplitPane.widthProperty().addListener((obs, oldW, newW) -> {
-            mainSplitPane.setDividerPosition(0, 250.0 / newW.doubleValue());
+        task.setOnFailed(event -> {
+            rootItem.getChildren().add(new TreeItem<>("❌ Error al cargar clusters"));
+            task.getException().printStackTrace();
         });
 
-        createNamespaceButton.setOnAction(e -> openNamespaceDialog());
+        log.info("Aqui 1.2");
 
-        addCredentialsButton.setOnAction(e -> openAddCredentialsTab());
-
+        new Thread(task).start();
+        log.info("Aqui 1.3");
 
     }
 
-    private void bindTreeViewToState(TreeItem<String> root) {
+    public void bindTreeViewToState(TreeItem<String> root) {
         root.setExpanded(true);
         log.info("Aqui 2.1");
 
-        treeView.setRoot(root);
-        log.info("Aqui 2.2");
-
-        treeView.setShowRoot(false);
         log.info("Aqui 2.3");
         root.getChildren().add(new TreeItem<>("Cargando clusters..."));
-        log.info("2.4: clusterNamespaceState {}", clusterNamespaceState.getObservableClusters().size());
+        log.info("2.4: clusterNamespaceState {}", clusterNamespaceStateViewModel.getObservableClusters().size());
 
-        for (ClusterViewModel clusterVM : clusterNamespaceState.getObservableClusters()) {
+        for (ClusterStateViewModel clusterVM : clusterNamespaceStateViewModel.getObservableClusters()) {
             TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
 
 
-            for (Namespace ns : clusterVM.getNamespaces()) {
+            for (NamespaceStateViewModel ns : clusterVM.getNamespaces()) {
                 log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
                 clusterItem.getChildren().add(createNamespaceTreeItem(ns));
             }
@@ -119,39 +98,40 @@ public class Main2Controller {
         }
 
 
-        clusterNamespaceState.getObservableClusters().addListener((ListChangeListener<ClusterViewModel>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    for (ClusterViewModel clusterVM : change.getAddedSubList()) {
-                        TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
+        clusterNamespaceStateViewModel.getObservableClusters()
+                .addListener((ListChangeListener<ClusterStateViewModel>) change -> {
+                    while (change.next()) {
+                        if (change.wasAdded()) {
+                            for (ClusterStateViewModel clusterVM : change.getAddedSubList()) {
+                                TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
 
-                        log.info("clusterVM.getNamespaces() size: {}", clusterVM.getNamespaces().size());
-                        for (Namespace ns : clusterVM.getNamespaces()) {
-                            log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
-                            clusterItem.getChildren().add(createNamespaceTreeItem(ns));
+                                log.info("clusterVM.getNamespaces() size: {}", clusterVM.getNamespaces().size());
+                                for (NamespaceStateViewModel ns : clusterVM.getNamespaces()) {
+                                    log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
+                                    clusterItem.getChildren().add(createNamespaceTreeItem(ns));
+                                }
+                                bindNamespaceListener(clusterVM, clusterItem);
+
+                                root.getChildren().add(clusterItem);
+                            }
                         }
-                        bindNamespaceListener(clusterVM, clusterItem);
-
-                        root.getChildren().add(clusterItem);
                     }
-                }
-            }
-        });
+                });
     }
 
-    private void bindNamespaceListener(ClusterViewModel clusterVM, TreeItem<String> clusterItem) {
+    private void bindNamespaceListener(ClusterStateViewModel clusterVM, TreeItem<String> clusterItem) {
         TreeItem<String> emptyItem = new TreeItem<>("No hay namespaces registrados");
 
         if (clusterVM.getNamespaces().isEmpty()) {
             clusterItem.getChildren().add(emptyItem);
         }
 
-        clusterVM.getNamespaces().addListener((ListChangeListener<Namespace>) change -> {
+        clusterVM.getNamespaces().addListener((ListChangeListener<NamespaceStateViewModel>) change -> {
             while (change.next()) {
                 if (change.wasAdded()) {
                     // Si estaba el mensaje de vacío, lo quitamos
                     clusterItem.getChildren().remove(emptyItem);
-                    for (Namespace ns : change.getAddedSubList()) {
+                    for (NamespaceStateViewModel ns : change.getAddedSubList()) {
                         clusterItem.getChildren().add(createNamespaceTreeItem(ns));
                     }
                 }
@@ -164,33 +144,6 @@ public class Main2Controller {
                 }
             }
         });
-    }
-
-    private void loadClustersIntoTreeView3(TreeItem<String> root) {
-        log.info("Aqui 1.1");
-
-        Task<ClusterInfo> task = new Task<>() {
-            @Override
-            protected ClusterInfo call() throws Exception {
-                return clusterService.getClusterInfo();
-            }
-        };
-
-        task.setOnSucceeded(event -> {
-            ClusterInfo clusterInfo = task.getValue();
-            populateTreeWithClusters(root, clusterInfo);
-        });
-
-        task.setOnFailed(event -> {
-            root.getChildren().add(new TreeItem<>("❌ Error al cargar clusters"));
-            task.getException().printStackTrace();
-        });
-
-        log.info("Aqui 1.2");
-
-        new Thread(task).start();
-        log.info("Aqui 1.3");
-
     }
 
     private void populateTreeWithClusters(TreeItem<String> root, ClusterInfo clusterInfo) {
@@ -215,7 +168,7 @@ public class Main2Controller {
                     .findFirst()
                     .orElse(new Cluster(clusterName));
 
-            clusterNamespaceState.getObservableClusters().add(new ClusterViewModel(cluster));
+            clusterNamespaceStateViewModel.getObservableClusters().add(new ClusterStateViewModel(cluster));
         }
 
     }
@@ -229,7 +182,7 @@ public class Main2Controller {
         return new TreeItem<>(clusterName, icon);
     }
 
-    private TreeItem<String> createNamespaceTreeItem(Namespace ns) {
+    private TreeItem<String> createNamespaceTreeItem(NamespaceStateViewModel ns) {
         TreeItem<String> nsItem = new TreeItem<>(ns.getName());
         nsItem.getChildren().add(new TreeItem<>("")); // placeholder
 
@@ -248,20 +201,20 @@ public class Main2Controller {
         TreeItem<String> loadingItem = new TreeItem<>("🔄 Cargando deployments...");
         nsItem.getChildren().setAll(loadingItem);
 
-        // Simular trabajo en segundo plano
-        Task<List<String>> task = new Task<>() {
-            @Override
-            protected List<String> call() throws Exception {
-                // Simula una llamada lenta a la API (2 segundos)
-                Thread.sleep(2000);
+        TreeItem<String> clusterItem = nsItem.getParent();
+        String clusterName = clusterItem.getValue();
+        String namespaceName = nsItem.getValue();
 
-                // Aquí podrías hacer una llamada real con tu FileClusterRepository o K8s API
-                // Ejemplo: return k8sService.getDeployments(nsItem.getValue());
-                if (Math.random() > 0.5) { // Simula que a veces hay resultados
+        // Simular trabajo en segundo plano
+        Task<List<Deployment>> task = new Task<>() {
+            @Override
+            protected List<Deployment> call() throws Exception {
+                Thread.sleep(2000);
+                if (Math.random() > 0.5) {
                     return List.of(
-                            "deploy-" + nsItem.getValue() + "chikamaru-bien-largo-porqueavacespasa-backend",
-                            "deploy-" + nsItem.getValue() + "chikamaru-bien-largo-porqueavacespasa-frontend",
-                            "deploy-" + nsItem.getValue() + "-worker"
+                            new Deployment(clusterName, namespaceName, "deploy-product-backend-" + namespaceName),
+                            new Deployment(clusterName, namespaceName, "deploy-retreive-frontend-" + namespaceName),
+                            new Deployment(clusterName, namespaceName, "deploy-trasmision-worker-" + namespaceName)
                     );
                 } else {
                     return List.of(); // sin deployments
@@ -270,19 +223,22 @@ public class Main2Controller {
         };
 
         task.setOnSucceeded(e -> {
-            List<String> deployments = task.getValue();
+            List<Deployment> deployments = task.getValue();
             nsItem.getChildren().clear();
+
+            clusterNamespaceStateViewModel.addDeploymentsToNamespace(clusterName, namespaceName, deployments);
+
 
             if (deployments.isEmpty()) {
                 nsItem.getChildren().add(new TreeItem<>("⚠️ No hay deployments"));
             } else {
-                for (String dep : deployments) {
+                for (Deployment dep : deployments) {
                     ImageView depIcon = new ImageView(getClass().getResource("/icons/deployment.png").toExternalForm());
                     depIcon.setFitWidth(12);
                     depIcon.setFitHeight(12);
                     depIcon.setPreserveRatio(true);
 
-                    TreeItem<String> depItem = new TreeItem<>(dep, depIcon);
+                    TreeItem<String> depItem = new TreeItem<>(dep.getName(), depIcon);
                     nsItem.getChildren().add(depItem);
                 }
             }
@@ -297,11 +253,48 @@ public class Main2Controller {
         new Thread(task).start();
     }
 
-    private void openNamespaceDialog() {
+    public boolean isDeploymentItem(TreeItem<String> selected) {
+        return selected.getValue().startsWith("deploy");
+    }
+
+    public Deployment resolveDeployment(TreeItem<String> selected) {
+        log.info("El tree item selected: {}", selected.getValue());
+        clusterNamespaceStateViewModel.getObservableClusters().forEach(
+                clusterStateViewModel -> log.info("clustername: {} - ",
+                                                  clusterStateViewModel.getName()));
+        return new Deployment(selected.getValue(), selected.getValue(), selected.getValue());
+    }
+
+    public Deployment resolveDeployment2(TreeItem<String> selected) {
+        TreeItem<String> nsItem = selected.getParent();
+        TreeItem<String> clusterItem = nsItem != null ? nsItem.getParent() : null;
+        String clusterName = clusterItem != null ? clusterItem.getValue() : null;
+        String namespaceName = nsItem != null ? nsItem.getValue() : null;
+        String deploymentName = selected.getValue();
+
+        for (ClusterStateViewModel clusterVM : clusterNamespaceStateViewModel.getObservableClusters()) {
+            if (clusterVM.getName().equals(clusterName)) {
+                for (NamespaceStateViewModel nsVM : clusterVM.getNamespaces()) {
+                    if (nsVM.getName().equals(namespaceName)) {
+                        for (DeploymentItemViewModel depVM : nsVM.getDeployments()) {
+                            if (depVM.getName().equals(deploymentName)) {
+                                return depVM.domainDeployment();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return new Deployment(clusterName, namespaceName, deploymentName);
+    }
+
+
+    public void openNamespaceDialog() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/fxml/usecase/create-namespaces/create-namespace-dialog.fxml"));
-            loader.setControllerFactory(param -> new CreateNamespaceController(clusterService, clusterNamespaceState));
+            loader.setControllerFactory(param -> new CreateNamespaceController(clusterService,
+                                                                               clusterNamespaceStateViewModel));
             DialogPane dialogPane = loader.load();
             CreateNamespaceController controller = loader.getController();
 
@@ -345,35 +338,8 @@ public class Main2Controller {
         }
     }
 
-    private void addDeploymentTab(String deploymentName) {
-        for (Tab tab : deploymentTabPane.getTabs()) {
-            if (tab.getText().equals(deploymentName)) {
-                deploymentTabPane.getSelectionModel().select(tab);
-                return;
-            }
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/tabs/deployment-tab-content.fxml"));
-            AnchorPane content = loader.load();
-
-            //VBox vbox = loader.load();
-
-            DeploymentTabController controller = loader.getController();
-            loader.setControllerFactory(param -> new CreateNamespaceController(clusterService, clusterNamespaceState));
-            // controller.setDeploymentName(deploymentName);
-
-            Tab tab = new Tab(deploymentName, content);
-            deploymentTabPane.getTabs().add(tab);
-            deploymentTabPane.getSelectionModel().select(tab);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void openAddCredentialsTab() {
-        try {
+    public void openAddCredentialsTab() {
+      /*  try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/fxml/usecase/add-credentials/add-credentials.fxml"));
             loader.setControllerFactory(
@@ -387,6 +353,6 @@ public class Main2Controller {
             deploymentTabPane.getSelectionModel().select(tab);
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
+        }*/
     }
 }

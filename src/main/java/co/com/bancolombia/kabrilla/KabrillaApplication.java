@@ -1,18 +1,17 @@
 package co.com.bancolombia.kabrilla;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
 import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.ui.controller.MainController;
-import co.com.bancolombia.kabrilla.ui.controller.sidebar.Sidebar2Controller;
+import co.com.bancolombia.kabrilla.ui.controller.debug.StateDebugController;
+import co.com.bancolombia.kabrilla.ui.controller.sidebar.SidebarController;
 import co.com.bancolombia.kabrilla.ui.controller.tabs.MainTabController;
-import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
-
-import io.kubernetes.client.util.KubeConfig;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,15 +36,6 @@ public class KabrillaApplication extends Application {
     private static final double MIN_HEIGHT = 720.0;
 
     public static void main(String[] args) throws IOException {
-        String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-
-        FileReader reader = new FileReader(kubeConfigPath);
-        KubeConfig config = KubeConfig.loadKubeConfig(reader);
-
-
-        System.out.println("Contexto actual: " + config.getCurrentContext());
-        System.out.println("Clusters disponibles: " + config.getClusters().size());
-
         launch();
     }
 
@@ -54,10 +44,10 @@ public class KabrillaApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
 
-
+        ClusterNamespaceStateViewModel clusterNamespaceState = new ClusterNamespaceStateViewModel();
         DeploymentStateViewModel deploymentStateViewModel = new DeploymentStateViewModel();
-        SidebarViewModel sidebarViewModel = new SidebarViewModel(
-                AppBootstrap.getInstance().getClusterNamespaceState(),
+        SidebarStateViewModel sidebarStateViewModel = new SidebarStateViewModel(
+                AppBootstrap.getInstance().getClusterNamespaceStateViewModel(),
                 AppBootstrap.getInstance().getClusterService()
         );
 
@@ -66,11 +56,13 @@ public class KabrillaApplication extends Application {
         loader.setControllerFactory(type -> {
             if (type == MainController.class) {
                 return new MainController();
-            } else if (type == Sidebar2Controller.class) {
-                return new Sidebar2Controller(sidebarViewModel, deploymentStateViewModel);
+            } else if (type == SidebarController.class) {
+                return new SidebarController(sidebarStateViewModel, deploymentStateViewModel);
 
             } else if (type == MainTabController.class) {
                 return new MainTabController(mainTabViewModel);
+            } else if (type == StateDebugController.class) {
+                return new StateDebugController(clusterNamespaceState, deploymentStateViewModel);
             } else {
                 try {
                     return type.getDeclaredConstructor().newInstance();
