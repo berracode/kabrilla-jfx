@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonCredentialRepository implements CredentialRepository {
 
-    private static final String FILE_PATH = "credentials.json";
+    private static final String FILE_PATH = "credentials.2.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void save(AwsCredentials credentials) {
-        List<AwsCredentials> all = loadAll();
+        List<AwsCredentials> all = findAll();
         all.removeIf(c -> c.getClusterName().equals(credentials.getClusterName())); // Reemplaza si ya existe
         all.add(credentials);
         try {
@@ -32,12 +32,12 @@ public class JsonCredentialRepository implements CredentialRepository {
 
     @Override
     public Optional<AwsCredentials> findByClusterName(String clusterName) {
-        return loadAll().stream()
+        return findAll().stream()
                 .filter(c -> c.getClusterName().equals(clusterName))
                 .findFirst();
     }
 
-    private List<AwsCredentials> loadAll() {
+    public List<AwsCredentials> findAll() {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             return new ArrayList<>();

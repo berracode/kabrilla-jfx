@@ -1,6 +1,7 @@
 package co.com.bancolombia.kabrilla.application.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import co.com.bancolombia.kabrilla.domain.gateway.CredentialRepository;
@@ -14,13 +15,18 @@ public class CredentialService {
         this.repository = repository;
     }
 
-    public void saveCredentials(String clusterName, String rawCredentials) {
+    public AwsCredentials saveCredentials(String clusterName, String rawCredentials) {
         AwsCredentials parsed = parseCredentials(clusterName, rawCredentials);
         repository.save(parsed);
+        return parsed;
     }
 
     public Optional<AwsCredentials> getCredentials(String clusterName) {
         return repository.findByClusterName(clusterName);
+    }
+
+    public List<AwsCredentials> findAll() {
+        return repository.findAll();
     }
 
     private AwsCredentials parseCredentials(String clusterName, String raw) {

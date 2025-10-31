@@ -6,8 +6,11 @@ import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.AddCredentialsController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,14 +24,17 @@ public class MainTabController {
     private static final Logger log = LoggerFactory.getLogger(MainTabController.class);
 
     private final MainTabViewModel mainTabViewModel;
-    private final SidebarStateViewModel sidebarViewModel; // 👈 agregado
+    private final SidebarStateViewModel sidebarViewModel;
+    private final AppContext context;
 
     @FXML
     private TabPane deploymentTabPane;
 
-    public MainTabController(MainTabViewModel mainTabViewModel, SidebarStateViewModel sidebarViewModel) {
+    public MainTabController(MainTabViewModel mainTabViewModel, SidebarStateViewModel sidebarViewModel,
+                             AppContext context) {
         this.mainTabViewModel = mainTabViewModel;
         this.sidebarViewModel = sidebarViewModel;
+        this.context = context;
     }
 
     @FXML
@@ -120,9 +126,10 @@ public class MainTabController {
             loader.setControllerFactory(type -> {
                 if (type == AddCredentialsController.class) {
                     return new AddCredentialsController(
-                            AppBootstrap.getInstance().getClusterNamespaceStateViewModel(),
-                            AppBootstrap.getInstance().getCredentialService()
-                    );
+                            new CredentialsStateViewModel(
+                                    context.getAppState(), AppBootstrap.getInstance().getCredentialService(),
+                                    AppBootstrap.getInstance()
+                                            .getClusterNamespaceStateViewModel()));
                 }
                 try {
                     return type.getDeclaredConstructor().newInstance();

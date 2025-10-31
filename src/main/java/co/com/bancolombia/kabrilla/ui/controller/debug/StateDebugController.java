@@ -1,10 +1,15 @@
 package co.com.bancolombia.kabrilla.ui.controller.debug;
 
 
+import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
+
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +18,7 @@ public class StateDebugController {
     private static final Logger log = LoggerFactory.getLogger(StateDebugController.class);
     private final ClusterNamespaceStateViewModel clusterNamespaceState;
     private final DeploymentStateViewModel deploymentStateViewModel;
+    private final AppContext context;
     @FXML
     private Text clusterText;
     @FXML
@@ -20,10 +26,15 @@ public class StateDebugController {
     @FXML
     private Text deploymentText;
 
+    @FXML
+    private ListView<String> credentialsListView;
+
+
     public StateDebugController(ClusterNamespaceStateViewModel clusterNamespaceState,
-                                DeploymentStateViewModel deploymentStateViewModel) {
+                                DeploymentStateViewModel deploymentStateViewModel, AppContext context) {
         this.clusterNamespaceState = clusterNamespaceState;
         this.deploymentStateViewModel = deploymentStateViewModel;
+        this.context = context;
     }
 
     @FXML
@@ -45,5 +56,28 @@ public class StateDebugController {
                 }
             });
         });
+
+
+        context.getAppState().getCredentials().addListener((ListChangeListener<CredentialsItemViewModel>) change -> {
+            updateCredentialsList();
+        });
+
+        updateCredentialsList();
     }
+
+    private void updateCredentialsList() {
+        Platform.runLater(() -> {
+            credentialsListView.getItems().clear();
+            for (CredentialsItemViewModel cred : context.getAppState().getCredentials()) {
+                credentialsListView.getItems().add(formatCredential(cred));
+            }
+        });
+    }
+
+    private String formatCredential(CredentialsItemViewModel cred) {
+        return String.format("Cluster: %s\nAccessKey: %s\nSecretKey: %s\nSessionToken: %s",
+                             cred.clusterName(), cred.accessKey(), cred.secretKey(), cred.sessionToken());
+    }
+
 }
+

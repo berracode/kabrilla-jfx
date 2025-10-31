@@ -10,8 +10,10 @@ import co.com.bancolombia.kabrilla.ui.controller.sidebar.SidebarController;
 import co.com.bancolombia.kabrilla.ui.controller.tabs.MainTabController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -44,11 +46,19 @@ public class KabrillaApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
 
-        ClusterNamespaceStateViewModel clusterNamespaceState = new ClusterNamespaceStateViewModel();
+        AppContext context = new AppContext();
+        var credentialsService = AppBootstrap.getInstance().getCredentialService();
+        var credentials = credentialsService.findAll();
+        context.getAppState().loadCredentials(credentials);
+
+        ClusterNamespaceStateViewModel clusterNamespaceState =
+                AppBootstrap.getInstance().getClusterNamespaceStateViewModel();
+        var clusterService = AppBootstrap.getInstance().getClusterService();
+
         DeploymentStateViewModel deploymentStateViewModel = new DeploymentStateViewModel();
         SidebarStateViewModel sidebarStateViewModel = new SidebarStateViewModel(
-                AppBootstrap.getInstance().getClusterNamespaceStateViewModel(),
-                AppBootstrap.getInstance().getClusterService()
+                clusterNamespaceState,
+                clusterService
         );
 
         MainTabViewModel mainTabViewModel = new MainTabViewModel(deploymentStateViewModel);
@@ -60,9 +70,9 @@ public class KabrillaApplication extends Application {
                 return new SidebarController(sidebarStateViewModel, deploymentStateViewModel);
 
             } else if (type == MainTabController.class) {
-                return new MainTabController(mainTabViewModel, sidebarStateViewModel);
+                return new MainTabController(mainTabViewModel, sidebarStateViewModel, context);
             } else if (type == StateDebugController.class) {
-                return new StateDebugController(clusterNamespaceState, deploymentStateViewModel);
+                return new StateDebugController(clusterNamespaceState, deploymentStateViewModel, context);
             } else {
                 try {
                     return type.getDeclaredConstructor().newInstance();

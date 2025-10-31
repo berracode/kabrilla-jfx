@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="co.com.bancolombia.kabrilla.ui.controller.debug.StateDebugController"
       spacing="20"
       style="-fx-background-color: #1E1E1E; -fx-padding: 8; -fx-alignment: center-left;">
 
-    <Label text="🧠 Estado actual:" style="-fx-text-fill: #00FFFF; -fx-font-weight: bold;"/>
+    <VBox spacing="8">
+        <Label text="🧠 Estado actual:" style="-fx-text-fill: #00FFFF; -fx-font-weight: bold;"/>
+        <Text fx:id="clusterText" style="-fx-fill: #00BFFF;"/>
+        <Text fx:id="namespaceText" style="-fx-fill: #ADFF2F;"/>
+        <Text fx:id="deploymentText" style="-fx-fill: #FFA500;"/>
+    </VBox>
 
-    <Text fx:id="clusterText" style="-fx-fill: #00BFFF;"/>
-    <Text fx:id="namespaceText" style="-fx-fill: #ADFF2F;"/>
-    <Text fx:id="deploymentText" style="-fx-fill: #FFA500;"/>
+    <VBox spacing="8">
+        <Label text="🔐 Credenciales:" style="-fx-text-fill: #FF69B4; -fx-font-weight: bold;"/>
+        <ListView fx:id="credentialsListView" prefWidth="400" prefHeight="200"/>
+    </VBox>
 
 </HBox>

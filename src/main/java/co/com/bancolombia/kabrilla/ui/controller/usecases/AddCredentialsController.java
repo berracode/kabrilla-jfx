@@ -1,7 +1,7 @@
 package co.com.bancolombia.kabrilla.ui.controller.usecases;
 
-import co.com.bancolombia.kabrilla.application.service.CredentialService;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsStateViewModel;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -10,8 +10,7 @@ import javafx.scene.control.TextArea;
 
 public class AddCredentialsController {
 
-    private final ClusterNamespaceStateViewModel clusterState;
-    private final CredentialService credentialService;
+    private final CredentialsStateViewModel credentialsStateViewModel;
     @FXML
     private ComboBox<String> clusterComboBox;
     @FXML
@@ -19,31 +18,34 @@ public class AddCredentialsController {
     @FXML
     private Button saveButton;
 
-    public AddCredentialsController(ClusterNamespaceStateViewModel clusterState, CredentialService credentialService) {
-        this.clusterState = clusterState;
-        this.credentialService = credentialService;
+    public AddCredentialsController(CredentialsStateViewModel credentialsStateViewModel) {
+        this.credentialsStateViewModel = credentialsStateViewModel;
     }
 
     @FXML
     public void initialize() {
-        clusterState.getObservableClusters().forEach(vm ->
-                                                             clusterComboBox.getItems().add(vm.getName())
+        credentialsStateViewModel.getAvailableClusters().forEach(vm ->
+                                                                         clusterComboBox.getItems().add(vm.getName())
         );
+        clusterComboBox.valueProperty().bindBidirectional(credentialsStateViewModel.selectedClusterProperty());
+        credentialsArea.textProperty().bindBidirectional(credentialsStateViewModel.rawCredentialsProperty());
+
     }
 
     @FXML
     public void handleSave() {
-        String cluster = clusterComboBox.getValue();
-        String credentials = credentialsArea.getText().trim();
+        boolean success = credentialsStateViewModel.saveCredentials();
 
-        if (cluster == null || cluster.isBlank() || credentials.isBlank()) {
+        if (!success) {
             showAlert("Debes seleccionar un cluster y pegar las credenciales.");
-            return;
+        } else {
+            showAlert(
+                    "Credenciales guardadas correctamente para el cluster: " + credentialsStateViewModel.selectedClusterProperty()
+                            .get(), Alert.AlertType.INFORMATION);
+            credentialsStateViewModel.clear();
         }
-
-        credentialService.saveCredentials(cluster, credentials);
-        showAlert("Credenciales guardadas correctamente para el cluster: " + cluster, Alert.AlertType.INFORMATION);
     }
+
 
     private void showAlert(String message) {
         showAlert(message, Alert.AlertType.WARNING);
@@ -62,5 +64,6 @@ public class AddCredentialsController {
 
         alert.showAndWait();
     }
+
 }
 
