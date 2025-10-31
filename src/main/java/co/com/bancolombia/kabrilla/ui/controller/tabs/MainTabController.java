@@ -17,8 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static co.com.bancolombia.kabrilla.ui.enums.TabCommand.ADD_CREDENTIALS;
-
 public class MainTabController {
     private static final Logger log = LoggerFactory.getLogger(MainTabController.class);
 
@@ -63,7 +61,6 @@ public class MainTabController {
             switch (req) {
                 case ADD_CREDENTIALS -> openAddCredentialsTab();
             }
-            // 👇 importantísimo: limpiar para que el mismo comando pueda volver a emitirse
             sidebarViewModel.clearOpenTabRequest();
         });
 
