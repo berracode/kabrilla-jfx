@@ -9,11 +9,13 @@ import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.ClusterInfo;
 import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
+import co.com.bancolombia.kabrilla.ui.enums.TabCommand;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.NamespaceStateViewModel;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -36,6 +38,21 @@ public class SidebarStateViewModel {
     private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
     private final ClusterService clusterService;
     private final ObjectProperty<TreeItem<String>> root = new SimpleObjectProperty<>(new TreeItem<>());
+
+    private final ObjectProperty<TabCommand> openTabRequest = new SimpleObjectProperty<>();
+
+    public ReadOnlyObjectProperty<TabCommand> openTabRequestProperty() {
+        return openTabRequest;
+    }
+
+    public void openAddCredentialsTab() {
+        openTabRequest.set(TabCommand.ADD_CREDENTIALS);
+    }
+
+    public void clearOpenTabRequest() {
+        openTabRequest.set(null);
+    }
+
 
     public TreeItem<String> getRoot() {
         return root.get();
@@ -336,23 +353,5 @@ public class SidebarStateViewModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void openAddCredentialsTab() {
-      /*  try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/fxml/usecase/add-credentials/add-credentials.fxml"));
-            loader.setControllerFactory(
-                    param -> new AddCredentialsController(clusterNamespaceState, credentialService));
-            Parent content = loader.load();
-
-            Tab tab = new Tab("Credenciales AWS");
-            tab.setContent(content);
-            tab.setClosable(true);
-            deploymentTabPane.getTabs().add(tab);
-            deploymentTabPane.getSelectionModel().select(tab);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }*/
     }
 }

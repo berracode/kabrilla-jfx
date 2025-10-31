@@ -60,7 +60,7 @@ public class KabrillaApplication extends Application {
                 return new SidebarController(sidebarStateViewModel, deploymentStateViewModel);
 
             } else if (type == MainTabController.class) {
-                return new MainTabController(mainTabViewModel);
+                return new MainTabController(mainTabViewModel, sidebarStateViewModel);
             } else if (type == StateDebugController.class) {
                 return new StateDebugController(clusterNamespaceState, deploymentStateViewModel);
             } else {

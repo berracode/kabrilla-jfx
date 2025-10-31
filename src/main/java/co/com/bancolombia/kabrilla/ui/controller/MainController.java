@@ -10,7 +10,6 @@ public class MainController {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
-
     @FXML
     private SplitPane mainSplitPane;
     @FXML

@@ -32,6 +32,8 @@
     "name" : "inmo-dev"
   }, {
     "name" : "otro-ns-dev"
+  }, {
+    "name" : "sellercenter-dev"
   } ]
 }, {
   "name" : "staging-cluster",

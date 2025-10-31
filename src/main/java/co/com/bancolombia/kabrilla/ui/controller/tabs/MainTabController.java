@@ -2,26 +2,35 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 
 import java.io.IOException;
 
+import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.domain.model.Deployment;
+import co.com.bancolombia.kabrilla.ui.controller.usecases.AddCredentialsController;
+import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static co.com.bancolombia.kabrilla.ui.enums.TabCommand.ADD_CREDENTIALS;
+
 public class MainTabController {
     private static final Logger log = LoggerFactory.getLogger(MainTabController.class);
 
     private final MainTabViewModel mainTabViewModel;
+    private final SidebarStateViewModel sidebarViewModel; // 👈 agregado
+
     @FXML
     private TabPane deploymentTabPane;
 
-    public MainTabController(MainTabViewModel mainTabViewModel) {
+    public MainTabController(MainTabViewModel mainTabViewModel, SidebarStateViewModel sidebarViewModel) {
         this.mainTabViewModel = mainTabViewModel;
+        this.sidebarViewModel = sidebarViewModel;
     }
 
     @FXML
@@ -46,6 +55,18 @@ public class MainTabController {
                 }
             }
         });
+
+        sidebarViewModel.openTabRequestProperty().addListener((obs, old, req) -> {
+            if (req == null) {
+                return;
+            }
+            switch (req) {
+                case ADD_CREDENTIALS -> openAddCredentialsTab();
+            }
+            // 👇 importantísimo: limpiar para que el mismo comando pueda volver a emitirse
+            sidebarViewModel.clearOpenTabRequest();
+        });
+
 
     }
 
@@ -84,6 +105,43 @@ public class MainTabController {
 
         } catch (IOException e) {
             throw new RuntimeException("Error cargando /fxml/tabs/deployment-tab-content.fxml", e);
+        }
+    }
+
+    private void openAddCredentialsTab() {
+        // Evitar duplicados
+        for (Tab tab : deploymentTabPane.getTabs()) {
+            if ("Credenciales AWS".equals(tab.getText())) {
+                deploymentTabPane.getSelectionModel().select(tab);
+                return;
+            }
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/usecase/add-credentials/add-credentials" +
+                                                                              ".fxml"));
+            loader.setControllerFactory(type -> {
+                if (type == AddCredentialsController.class) {
+                    return new AddCredentialsController(
+                            AppBootstrap.getInstance().getClusterNamespaceStateViewModel(),
+                            AppBootstrap.getInstance().getCredentialService()
+                    );
+                }
+                try {
+                    return type.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException("No puedo instanciar " + type, e);
+                }
+            });
+
+            Parent content = loader.load();
+
+            Tab tab = new Tab("Credenciales AWS", content);
+            tab.setClosable(true);
+            deploymentTabPane.getTabs().add(tab);
+            deploymentTabPane.getSelectionModel().select(tab);
+        } catch (IOException e) {
+            throw new RuntimeException("Error cargando vista add-credentials.fxml", e);
         }
     }
 }
