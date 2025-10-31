@@ -1,58 +1,51 @@
 package co.com.bancolombia.kabrilla.ui.controller.sidebar;
 
-import co.com.bancolombia.kabrilla.ui.controller.tabs.ContentController;
+import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Sidebar2Controller {
-
+    private static final Logger log = LoggerFactory.getLogger(Sidebar2Controller.class);
+    private final SidebarViewModel sidebarViewModel;
+    private final DeploymentStateViewModel deploymentStateViewModel;
     @FXML
     private TreeView<String> treeView;
+    @FXML
+    private Button createNamespaceButton;
+    @FXML
+    private Button addCredentialsButton;
+
+
+    public Sidebar2Controller(SidebarViewModel sidebarViewModel, DeploymentStateViewModel deploymentStateViewModel) {
+        this.sidebarViewModel = sidebarViewModel;
+        this.deploymentStateViewModel = deploymentStateViewModel;
+    }
 
     @FXML
     public void initialize() {
-        // Crear raíz invisible (para permitir múltiples clusters)
-        TreeItem<String> root = new TreeItem<>();
-        root.setExpanded(true);
+        log.info("Aqui 1.1");
+        treeView.setRoot(sidebarViewModel.getRoot());
+        treeView.setShowRoot(false);
 
-        // Cluster DEV
-        TreeItem<String> clusterDev = new TreeItem<>("cluster-name-dev");
-        TreeItem<String> nsDev1 = new TreeItem<>("namespace-xyz-1-dev");
-        TreeItem<String> nsDev2 = new TreeItem<>("namespace-xyz-2-dev");
+        sidebarViewModel.loadClustersAsync(sidebarViewModel.getRoot());
 
-        nsDev1.getChildren().addAll(
-                new TreeItem<>("my-app-1-deployment"),
-                new TreeItem<>("my-app-2-deployment")
-        );
-
-        nsDev2.getChildren().addAll(
-                new TreeItem<>("my-app-3-deployment"),
-                new TreeItem<>("my-app-4-deployment")
-        );
-
-        clusterDev.getChildren().addAll(nsDev1, nsDev2);
-
-        // Cluster QA
-        TreeItem<String> clusterQA = new TreeItem<>("cluster-name-qa");
-        TreeItem<String> nsQA = new TreeItem<>("namespace-xyz-qa");
-        nsQA.getChildren().add(new TreeItem<>("my-app-qa-deployment"));
-        clusterQA.getChildren().add(nsQA);
-
-        // Agregar clusters al root
-        root.getChildren().addAll(clusterDev, clusterQA);
-
-        treeView.setRoot(root);
-        treeView.setShowRoot(false); // Oculta el root vacío
-
-        // Evento: abrir tab solo si es deployment (hoja)
-        treeView.setOnMouseClicked(event -> {
-            TreeItem<String> selected = treeView.getSelectionModel().getSelectedItem();
-            if (selected != null && selected.isLeaf()) {
-                ContentController.addTab(selected.getValue());
+        treeView.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+            if (selected != null && sidebarViewModel.isDeploymentItem(
+                    selected) && selected.isLeaf() && selected.getValue().startsWith("deploy")) {
+                deploymentStateViewModel.setSelectedDeployment(sidebarViewModel.resolveDeployment(selected));
             }
         });
+
+        createNamespaceButton.setOnAction(e -> sidebarViewModel.openNamespaceDialog());
+
+        addCredentialsButton.setOnAction(e -> sidebarViewModel.openAddCredentialsTab());
+
+        sidebarViewModel.bindTreeViewToState(sidebarViewModel.getRoot());
     }
 
 

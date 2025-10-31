@@ -18,6 +18,7 @@ module co.com.bancolombia.kabrilla {
 
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.base;
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace;
+    exports co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs;
 
 
     // hexa

@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="co.com.bancolombia.kabrilla.ui.controller.tabs.TabContentController"
+            fx:controller="co.com.bancolombia.kabrilla.ui.controller.tabs.DeploymentTabController"
             stylesheets="@../../css/demo.css"
             styleClass="anchorPane">
 

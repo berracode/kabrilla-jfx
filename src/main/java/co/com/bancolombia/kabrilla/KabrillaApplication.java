@@ -4,6 +4,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
+import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
+import co.com.bancolombia.kabrilla.ui.controller.MainController;
+import co.com.bancolombia.kabrilla.ui.controller.sidebar.Sidebar2Controller;
+import co.com.bancolombia.kabrilla.ui.controller.tabs.MainTabController;
+import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
+
 import io.kubernetes.client.util.KubeConfig;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +53,33 @@ public class KabrillaApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-        Scene scene = new Scene(loader.load(), 1280, 720);
+
+
+        DeploymentStateViewModel deploymentStateViewModel = new DeploymentStateViewModel();
+        SidebarViewModel sidebarViewModel = new SidebarViewModel(
+                AppBootstrap.getInstance().getClusterNamespaceState(),
+                AppBootstrap.getInstance().getClusterService()
+        );
+
+        MainTabViewModel mainTabViewModel = new MainTabViewModel(deploymentStateViewModel);
+
+        loader.setControllerFactory(type -> {
+            if (type == MainController.class) {
+                return new MainController();
+            } else if (type == Sidebar2Controller.class) {
+                return new Sidebar2Controller(sidebarViewModel, deploymentStateViewModel);
+
+            } else if (type == MainTabController.class) {
+                return new MainTabController(mainTabViewModel);
+            } else {
+                try {
+                    return type.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Scene scene = new Scene(loader.load(), MIN_WIDTH, MIN_HEIGHT);
         primaryStage.setMinWidth(MIN_WIDTH);
         primaryStage.setMinHeight(MIN_HEIGHT);
 
