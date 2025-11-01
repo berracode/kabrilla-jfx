@@ -7,6 +7,8 @@ module co.com.bancolombia.kabrilla {
     requires org.yaml.snakeyaml;
     requires io.kubernetes.client.java;
     requires org.slf4j;
+    requires io.kubernetes.client.java.api;
+    requires okhttp3;
 
     // Paquete raíz (si tienes clases principales)
     exports co.com.bancolombia.kabrilla;

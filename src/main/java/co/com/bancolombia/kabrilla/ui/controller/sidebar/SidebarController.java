@@ -2,6 +2,7 @@ package co.com.bancolombia.kabrilla.ui.controller.sidebar;
 
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
@@ -36,7 +37,7 @@ public class SidebarController {
 
         treeView.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
             if (selected != null && sidebarStateViewModel.isDeploymentItem(
-                    selected) && selected.isLeaf() && selected.getValue().startsWith("deploy")) {
+                    selected) && selected.isLeaf()) {
                 deploymentStateViewModel.setSelectedDeployment(sidebarStateViewModel.resolveDeployment2(selected));
             }
         });

@@ -74,11 +74,15 @@ public class MainTabController {
     }
 
     private void openDeploymentTab(Deployment deployment) {
+        var namespace = deployment.getNamespace();
+        String suffix = namespace.substring(namespace.lastIndexOf('-') + 1);
         var existing = deploymentTabPane.getTabs().stream()
-                .filter(t -> t.getText().equals(deployment.getName()))
+                .filter(t -> t.getText().contains(deployment.getName()))
+                .filter(t -> ((Deployment) t.getUserData()).getNamespace().equals(deployment.getNamespace()))
                 .findFirst();
         if (existing.isPresent()) {
             deploymentTabPane.getSelectionModel().select(existing.get());
+            log.info("La pestaña [{}] ya esta abierta no se carga nuevamente desde cero.", existing.get().getText());
             return;
         }
         DeploymentTabItemViewModel deploymentTabItemViewModel =
@@ -100,7 +104,7 @@ public class MainTabController {
             });
 
             AnchorPane content = loader.load();
-            Tab tab = new Tab(deployment.getName(), content);
+            Tab tab = new Tab(suffix + "/" + deployment.getName(), content);
             tab.setUserData(deployment); // ✅ guardar el deployment real
 
             deploymentTabPane.getTabs().add(tab);

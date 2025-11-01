@@ -2,6 +2,7 @@ package co.com.bancolombia.kabrilla.infrastructure.adapters.fs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import co.com.bancolombia.kabrilla.domain.gateway.ClusterRepository;
@@ -24,10 +25,12 @@ public class FileClusterRepository implements ClusterRepository {
 
     @Override
     public List<Cluster> findAll() throws IOException {
-        if (!CONFIG_FILE.exists()) {
-            return List.of();
+        if (!CONFIG_FILE.exists() || CONFIG_FILE.length() == 0) {
+            return List.of(); // archivo no existe o está vacío
         }
-        return List.of(mapper.readValue(CONFIG_FILE, Cluster[].class));
+
+        Cluster[] clusters = mapper.readValue(CONFIG_FILE, Cluster[].class);
+        return Arrays.asList(clusters);
     }
 
     @Override

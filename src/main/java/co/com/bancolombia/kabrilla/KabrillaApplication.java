@@ -11,7 +11,6 @@ import co.com.bancolombia.kabrilla.ui.controller.tabs.MainTabController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
-import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
 
 import javafx.application.Application;
@@ -49,18 +48,19 @@ public class KabrillaApplication extends Application {
         AppContext context = new AppContext();
         var credentialsService = AppBootstrap.getInstance().getCredentialService();
         var clusterService = AppBootstrap.getInstance().getClusterService();
+        var deploymentService = AppBootstrap.getInstance().getDeploymentService();
 
         var credentials = credentialsService.findAll();
         context.getAppState().loadCredentials(credentials);
 
-        ClusterNamespaceStateViewModel clusterNamespaceState =
-                AppBootstrap.getInstance().getClusterNamespaceStateViewModel();
+        var clusterNamespaceState = AppBootstrap.getInstance().getClusterNamespaceStateViewModel();
 
         DeploymentStateViewModel deploymentStateViewModel = new DeploymentStateViewModel();
-        SidebarStateViewModel sidebarStateViewModel = new SidebarStateViewModel(context.getAppState(),
-                                                                                clusterNamespaceState,
-                                                                                clusterService
-        );
+        SidebarStateViewModel sidebarStateViewModel =
+                new SidebarStateViewModel(context.getAppState(),
+                                          clusterNamespaceState,
+                                          clusterService, deploymentService
+                );
 
         MainTabViewModel mainTabViewModel = new MainTabViewModel(deploymentStateViewModel);
 

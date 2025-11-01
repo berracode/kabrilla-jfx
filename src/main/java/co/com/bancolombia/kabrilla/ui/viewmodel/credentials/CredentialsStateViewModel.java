@@ -67,7 +67,20 @@ public class CredentialsStateViewModel {
     }
 
     public void addCredential(CredentialsItemViewModel credentialsItemViewModel) {
-        appState.getCredentials().add(credentialsItemViewModel);
+        replaceCredential(credentialsItemViewModel);
+    }
+
+    private void replaceCredential(CredentialsItemViewModel newCredential) {
+        ObservableList<CredentialsItemViewModel> credentials = appState.getCredentials();
+
+        for (int i = 0; i < credentials.size(); i++) {
+            if (credentials.get(i).clusterName().equals(newCredential.clusterName())) {
+                credentials.set(i, newCredential);
+                return;
+            }
+        }
+
+        credentials.add(newCredential);
     }
 
 

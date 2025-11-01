@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
+import co.com.bancolombia.kabrilla.application.service.DeploymentService;
+import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.ClusterInfo;
 import co.com.bancolombia.kabrilla.domain.model.Deployment;
+import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
 import co.com.bancolombia.kabrilla.ui.enums.TabCommand;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
@@ -41,6 +44,7 @@ public class SidebarStateViewModel {
     private final AppState appState;
     private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
     private final ClusterService clusterService;
+    private final DeploymentService deploymentService;
     private final ObjectProperty<TreeItem<String>> root = new SimpleObjectProperty<>(new TreeItem<>());
 
     private final ObjectProperty<TabCommand> openTabRequest = new SimpleObjectProperty<>();
@@ -252,19 +256,27 @@ public class SidebarStateViewModel {
          * sería correcto entonces guardar o el kubeconfigmodel en state o simplemente guardar otro objeto a partir
          * del kubeconfig (domain).
          * */
+        KubeConfig kubeConfig = appState.getKubeConfig().stream()
+                .filter(c -> c.clusterName().contains(clusterName))
+                .map(c -> KubeConfig.builder()
+                        .clusterName(c.clusterName())
+                        .serverUrl(c.serverUrl())
+                        .caCertBytes(c.caCertBytes())
+                        .build())
+                .findFirst()
+                .orElse(null);
+
+
+        var credentials = appState.getCredentials().stream()
+                .filter(c -> c.clusterName().equals(clusterName))
+                .map(c -> AwsCredentials.builder().accessKey(c.accessKey()).secretKey(c.secretKey())
+                        .sessionToken(c.sessionToken()).clusterName(clusterName).build()).findFirst().orElse(null);
+
+
         Task<List<Deployment>> task = new Task<>() {
             @Override
             protected List<Deployment> call() throws Exception {
-                Thread.sleep(2000);
-                if (Math.random() > 0.5) {
-                    return List.of(
-                            new Deployment(clusterName, namespaceName, "deploy-product-backend-" + namespaceName),
-                            new Deployment(clusterName, namespaceName, "deploy-retreive-frontend-" + namespaceName),
-                            new Deployment(clusterName, namespaceName, "deploy-trasmision-worker-" + namespaceName)
-                    );
-                } else {
-                    return List.of(); // sin deployments
-                }
+                return deploymentService.getDeployments(kubeConfig, credentials, namespaceName);
             }
         };
 
@@ -300,7 +312,7 @@ public class SidebarStateViewModel {
     }
 
     public boolean isDeploymentItem(TreeItem<String> selected) {
-        return selected.getValue().startsWith("deploy");
+        return selected.getValue().contains("deploy") && !selected.getValue().contains(" ");
     }
 
     public Deployment resolveDeployment(TreeItem<String> selected) {
