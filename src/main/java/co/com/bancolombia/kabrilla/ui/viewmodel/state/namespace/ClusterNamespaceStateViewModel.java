@@ -3,9 +3,10 @@ package co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace;
 import java.util.List;
 
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
-import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.domain.model.Namespace;
+import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContextState;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -1,4 +1,4 @@
-package co.com.bancolombia.kabrilla.domain.model;
+package co.com.bancolombia.kabrilla.domain.model.k8s;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Deployment {
-    private String clusterName;
-    private String namespace;
+public class Pod {
     private String name;
+    private String status;
+    private int restarts;
+    private String age;
+    private String node;
 }

@@ -12,7 +12,9 @@ import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class JsonCredentialRepository implements CredentialRepository {
 
     private static final String FILE_PATH = "credentials.2.json";
@@ -20,7 +22,9 @@ public class JsonCredentialRepository implements CredentialRepository {
 
     @Override
     public void save(AwsCredentials credentials) {
+        log.info("Credenciales a guardar: {}", credentials);
         List<AwsCredentials> all = findAll();
+        log.info("Credenciales actuales: {}", all.size());
         all.removeIf(c -> c.getClusterName().equals(credentials.getClusterName())); // Reemplaza si ya existe
         all.add(credentials);
         try {
@@ -42,6 +46,7 @@ public class JsonCredentialRepository implements CredentialRepository {
         if (!file.exists()) {
             return new ArrayList<>();
         }
+        log.info("Exitse el archivo de credenciales..");
         try {
             return objectMapper.readValue(file, new TypeReference<>() {
             });

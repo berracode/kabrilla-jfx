@@ -3,7 +3,7 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 import java.io.IOException;
 
 import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
-import co.com.bancolombia.kabrilla.domain.model.Deployment;
+import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.AddCredentialsController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsStateViewModel;
@@ -77,7 +77,7 @@ public class MainTabController {
         var namespace = deployment.getNamespace();
         String suffix = namespace.substring(namespace.lastIndexOf('-') + 1);
         var existing = deploymentTabPane.getTabs().stream()
-                .filter(t -> t.getText().contains(deployment.getName()))
+                .filter(t -> t.getText().startsWith(suffix + "/" + deployment.getName()))
                 .filter(t -> ((Deployment) t.getUserData()).getNamespace().equals(deployment.getNamespace()))
                 .findFirst();
         if (existing.isPresent()) {
@@ -85,6 +85,9 @@ public class MainTabController {
             log.info("La pestaña [{}] ya esta abierta no se carga nuevamente desde cero.", existing.get().getText());
             return;
         }
+
+        log.info("Instanciando DeploymentTabItemViewModel");
+
         DeploymentTabItemViewModel deploymentTabItemViewModel =
                 new DeploymentTabItemViewModel(deployment.getClusterName(),
                                                deployment.getNamespace(),
@@ -94,10 +97,11 @@ public class MainTabController {
 
             loader.setControllerFactory(type -> {
                 if (type == DeploymentTabController.class) {
-                    return new DeploymentTabController(deploymentTabItemViewModel); // inyección del VM
+                    log.info("Instanciando deploymentTabController");
+                    return new DeploymentTabController(deploymentTabItemViewModel, context);
                 }
                 try {
-                    return type.getDeclaredConstructor().newInstance(); // otros controladores con no-args
+                    return type.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
                     throw new RuntimeException("No puedo instanciar " + type, e);
                 }

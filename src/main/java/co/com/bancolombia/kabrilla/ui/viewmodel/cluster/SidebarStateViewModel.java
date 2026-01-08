@@ -10,8 +10,8 @@ import co.com.bancolombia.kabrilla.application.service.DeploymentService;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.Cluster;
 import co.com.bancolombia.kabrilla.domain.model.ClusterInfo;
-import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
+import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
 import co.com.bancolombia.kabrilla.ui.enums.TabCommand;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
@@ -239,7 +239,6 @@ public class SidebarStateViewModel {
     }
 
     private void loadDeploymentsAsync(TreeItem<String> nsItem) {
-        // Mostrar mensaje temporal mientras "carga"
         TreeItem<String> loadingItem = new TreeItem<>("🔄 Cargando deployments...");
         nsItem.getChildren().setAll(loadingItem);
 
@@ -247,15 +246,6 @@ public class SidebarStateViewModel {
         String clusterName = clusterItem.getValue();
         String namespaceName = nsItem.getValue();
 
-        // Simular trabajo en segundo plano
-        /*
-         * para traer los deployments necesito claves de aws, clustername y ns
-         * tengo el clustername y ns
-         * ahora debo obtener desde un state de credenciales, las credenciales donde el clustername sea este
-         * y también debo obtener de state el kubeconfig (ca, serverUrl y ya)
-         * sería correcto entonces guardar o el kubeconfigmodel en state o simplemente guardar otro objeto a partir
-         * del kubeconfig (domain).
-         * */
         KubeConfig kubeConfig = appState.getKubeConfig().stream()
                 .filter(c -> c.clusterName().contains(clusterName))
                 .map(c -> KubeConfig.builder()
@@ -310,6 +300,8 @@ public class SidebarStateViewModel {
         // Ejecutar la tarea en un hilo separado
         new Thread(task).start();
     }
+
+    //private void loadPodsByNamespace
 
     public boolean isDeploymentItem(TreeItem<String> selected) {
         return selected.getValue().contains("deploy") && !selected.getValue().contains(" ");

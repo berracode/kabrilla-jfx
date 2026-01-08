@@ -51,5 +51,7 @@ module co.com.bancolombia.kabrilla {
     opens co.com.bancolombia.kabrilla.ui.controller.usecases to javafx.fxml;
     exports co.com.bancolombia.kabrilla.ui.controller.tabs;
     opens co.com.bancolombia.kabrilla.ui.controller.tabs to javafx.fxml;
+    exports co.com.bancolombia.kabrilla.domain.model.k8s;
+    opens co.com.bancolombia.kabrilla.domain.model.k8s to com.fasterxml.jackson.databind;
 
 }

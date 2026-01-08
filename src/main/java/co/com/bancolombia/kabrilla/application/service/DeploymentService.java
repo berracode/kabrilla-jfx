@@ -4,8 +4,8 @@ import java.util.List;
 
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.DeploymentRepository;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
-import co.com.bancolombia.kabrilla.domain.model.Deployment;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
+import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 
 public class DeploymentService {
     private final DeploymentRepository deploymentRepository;
