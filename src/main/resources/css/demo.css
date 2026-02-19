@@ -17,6 +17,11 @@
 
 }
 
+.anchorPaneDebug {
+    -fx-background-color: red;
+
+}
+
 .main2-split-pane {
     -fx-background-color: #fff;
 }

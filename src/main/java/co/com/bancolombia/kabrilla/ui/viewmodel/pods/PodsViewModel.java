@@ -73,32 +73,6 @@ public class PodsViewModel {
         });
 
         new Thread(task).start();
-
-
-//        CompletableFuture
-//                .supplyAsync(() -> {
-//                    try {
-//                        System.out.println("LLEGA AQUI 4444");
-//                        var credentials = AwsCredentials.builder().accessKey(ctx.credentials().accessKey())
-//                                .secretKey(ctx.credentials().secretKey())
-//                                .clusterName(ctx.credentials().clusterName())
-//                                .sessionToken(ctx.credentials().sessionToken()).build();
-//                        return podService.getPods(ctx.kubeConfig(), credentials, ctx.namespace());
-//                    } catch (Exception e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                })
-//                .whenComplete((result, throwable) -> {
-//                    Platform.runLater(() -> {
-//                        loading.set(false);
-//                        pods.clear();
-//                        if (throwable != null) {
-//                            error.set("No se pudieron cargar pods: " + throwable.getMessage());
-//                        } else {
-//                            pods.addAll(result);
-//                        }
-//                    });
-//                });
     }
 }
 

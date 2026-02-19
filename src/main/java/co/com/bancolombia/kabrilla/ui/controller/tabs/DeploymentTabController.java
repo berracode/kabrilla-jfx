@@ -5,6 +5,7 @@ import java.io.IOException;
 import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
+import co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController;
 import co.com.bancolombia.kabrilla.ui.controller.commands.PodsContentController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.pods.PodsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
@@ -24,7 +25,7 @@ public class DeploymentTabController {
     private static final Logger log = LoggerFactory.getLogger(DeploymentTabController.class);
     private final DeploymentTabItemViewModel deploymentTabItemViewModel;
     private final AppContext context;
-
+    private PodsViewModel podsViewModel;
     @FXML
     private TabPane commandTabPane;
     @FXML
@@ -48,12 +49,12 @@ public class DeploymentTabController {
         });
 
 
-        Platform.runLater(() -> selectTabByText("Logs"));
+        Platform.runLater(() -> selectTabByText("Pods"));
 
 
     }
 
-    private void loadCommandView(String fxmlPath) {
+    private void loadCommandView(String fxmlPath, String tabTitle) {
         try {
             log.info("path: {}", fxmlPath);
             var fullPath = getClass().getResource("/fxml/commands/" + fxmlPath);
@@ -62,10 +63,15 @@ public class DeploymentTabController {
 
             // Ejemplo de controller factory manual:
             loader.setControllerFactory(type -> {
-                if (type == PodsContentController.class) {
-                    PodsViewModel podsVM = new PodsViewModel(AppBootstrap.getInstance().getPodService());
-                    return new PodsContentController(podsVM);
+                if (podsViewModel == null) {
+                    podsViewModel = new PodsViewModel(AppBootstrap.getInstance().getPodService());
                 }
+                if (type == PodsContentController.class) {
+                    return new PodsContentController(podsViewModel);
+                } else if (type == LogsContentController.class) {
+                    return new LogsContentController(podsViewModel);
+                }
+
                 try {
                     return type.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
@@ -86,12 +92,21 @@ public class DeploymentTabController {
                 podsCtrl.setDeploymentContext(ctx);
             }
 
+            var tabOptional =
+                    commandTabPane.getTabs().stream().filter(tab -> tab.getText().equals(tabTitle))
+                            .findFirst();//esto no estaba
+            if (tabOptional.isEmpty()) {//esto no estaba
+                throw new RuntimeException("No tab");
+            }
+            tabOptional.get().setContent(view);//esto no estaba
+            commandTabPane.getSelectionModel().select(tabOptional.get()); //esto no estaba
 
-            commandContent.getChildren().setAll(view);
-            AnchorPane.setTopAnchor(view, 0.0);
-            AnchorPane.setBottomAnchor(view, 0.0);
-            AnchorPane.setLeftAnchor(view, 0.0);
-            AnchorPane.setRightAnchor(view, 0.0);
+
+//            commandContent.getChildren().setAll(view);
+//            AnchorPane.setTopAnchor(view, 0.0);
+//            AnchorPane.setBottomAnchor(view, 0.0);
+//            AnchorPane.setLeftAnchor(view, 0.0);
+//            AnchorPane.setRightAnchor(view, 0.0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,13 +152,15 @@ public class DeploymentTabController {
 
     private void handleTabSelection(Tab newTab) {
         switch (newTab.getText()) {
-            case "Logs" -> loadCommandView("logs/logs-content.fxml");
-            case "Pods" -> loadCommandView("pods/pods-content.fxml");
-            case "ConfigMap" -> loadCommandView("configmap/configmap-content.fxml");
-            case "RequestPolicy" -> loadCommandView("requestauthentication/requestpolicy-content.fxml");
-            case "Service" -> loadCommandView("services/service-content.fxml");
-            case "AuthorizationPolicy" -> loadCommandView("authorizationpolicy/authorizationpolicy-content.fxml");
-            case "HPA" -> loadCommandView("hpa/hpa-content.fxml");
+            case "Logs" -> loadCommandView("logs/logs-content.fxml", newTab.getText());
+            case "Pods" -> loadCommandView("pods/pods-content.fxml", newTab.getText());
+            case "ConfigMap" -> loadCommandView("configmap/configmap-content.fxml", newTab.getText());
+            case "RequestPolicy" ->
+                    loadCommandView("requestauthentication/requestpolicy-content.fxml", newTab.getText());
+            case "Service" -> loadCommandView("services/service-content.fxml", newTab.getText());
+            case "AuthorizationPolicy" ->
+                    loadCommandView("authorizationpolicy/authorizationpolicy-content.fxml", newTab.getText());
+            case "HPA" -> loadCommandView("hpa/hpa-content.fxml", newTab.getText());
         }
     }
 

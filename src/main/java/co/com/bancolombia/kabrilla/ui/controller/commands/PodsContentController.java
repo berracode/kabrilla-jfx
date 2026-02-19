@@ -70,8 +70,14 @@ public class PodsContentController implements DeploymentTab {
             Platform.runLater(() -> autoResizeNameColumn(nameCol));
         });
 
+        viewModel.pods().addListener((ListChangeListener<Pod>) change -> {
+            Platform.runLater(() -> autoResizeNameColumn(nodeCol));
+        });
+
         // También recalcular al final del initialize, por si ya hay ítems
         Platform.runLater(() -> autoResizeNameColumn(nameCol));
+        Platform.runLater(() -> autoResizeNameColumn(nodeCol));
+
     }
 
     private void autoResizeNameColumn(TableColumn<Pod, String> nameCol) {
