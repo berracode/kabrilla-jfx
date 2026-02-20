@@ -7,6 +7,7 @@ import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController;
 import co.com.bancolombia.kabrilla.ui.controller.commands.PodsContentController;
+import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.pods.PodsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
@@ -69,7 +70,8 @@ public class DeploymentTabController {
                 if (type == PodsContentController.class) {
                     return new PodsContentController(podsViewModel);
                 } else if (type == LogsContentController.class) {
-                    return new LogsContentController(podsViewModel);
+                    var logViewModel = new LogsViewModel(AppBootstrap.getInstance().getLogsService());
+                    return new LogsContentController(podsViewModel, logViewModel);
                 }
 
                 try {
@@ -87,9 +89,14 @@ public class DeploymentTabController {
             }
 
 
+            DeploymentContext ctx =
+                    buildContextFromAppState(deploymentTabItemViewModel);
+
             if (controller instanceof PodsContentController podsCtrl) {
-                DeploymentContext ctx = buildContextFromAppState(deploymentTabItemViewModel);
                 podsCtrl.setDeploymentContext(ctx);
+            } else if (controller instanceof LogsContentController logsContentController) {
+                logsContentController.setDeploymentContext(ctx);
+
             }
 
             var tabOptional =

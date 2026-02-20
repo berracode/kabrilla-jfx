@@ -4,6 +4,7 @@ import co.com.bancolombia.kabrilla.application.service.ClusterService;
 import co.com.bancolombia.kabrilla.application.service.CredentialService;
 import co.com.bancolombia.kabrilla.application.service.DeploymentService;
 import co.com.bancolombia.kabrilla.application.service.KubeconfigService;
+import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.application.service.PodService;
 import co.com.bancolombia.kabrilla.domain.gateway.ClusterRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
@@ -11,6 +12,7 @@ import co.com.bancolombia.kabrilla.infrastructure.adapters.EksTokenProvider;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.FileClusterRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.JsonCredentialRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.DeploymentAdapter;
+import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.LogsAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.PodAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeClientFactory;
 import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeconfigAdapter;
@@ -28,6 +30,7 @@ public class AppBootstrap {
     private final CredentialService credentialService;
     private final DeploymentService deploymentService;
     private final PodService podService;
+    private final LogsService logsService;
 
 
     private AppBootstrap() {
@@ -43,6 +46,7 @@ public class AppBootstrap {
         this.credentialService = new CredentialService(new JsonCredentialRepository());
         this.deploymentService = new DeploymentService(new DeploymentAdapter(factory));
         this.podService = new PodService(new PodAdapter(factory));
+        this.logsService = new LogsService(new LogsAdapter(factory));
     }
 
     public static AppBootstrap getInstance() {

@@ -12,7 +12,7 @@
             xmlns="http://javafx.com/javafx/23.0.1"
             fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.PodsContentController"
             stylesheets="@../../../css/demo.css"
-            styleClass="anchorPane">
+            styleClass="anchorPaneDebug">
 
     <VBox spacing="8" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
