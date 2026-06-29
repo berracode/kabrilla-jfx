@@ -189,6 +189,7 @@
 /* === TABLEVIEW DARK THEME === */
 
 .table-view {
+    -fx-font-size: 14px;
     -fx-background-color: #3C3F41;
     -fx-table-cell-border-color: #4E5254;
     -fx-control-inner-background: #3C3F41;
@@ -217,6 +218,17 @@
 .table-row-cell {
     -fx-background-color: #3C3F41;
     -fx-text-fill: white;
+    /* Cambia 18px por un valor mayor (ej. 30px o 35px) */
+    -fx-cell-size: 24px;
+}
+
+.table-cell {
+    -fx-text-overrun: clip;
+    -fx-border-color: transparent transparent #4E5254 transparent;
+    /* Asegúrate de que el padding vertical (primero y tercero) sea pequeño o cero */
+    -fx-padding: 5 6 5 6;
+    /* Centra el texto verticalmente para que se vea mejor */
+    -fx-alignment: CENTER-LEFT;
 }
 
 .table-row-cell:odd {
@@ -226,10 +238,5 @@
 .table-row-cell:selected {
     -fx-background-color: #1EBFF2;
     -fx-text-fill: black;
-}
-
-.table-cell {
-    -fx-border-color: transparent transparent #4E5254 transparent;
-    -fx-padding: 6 10;
 }
 

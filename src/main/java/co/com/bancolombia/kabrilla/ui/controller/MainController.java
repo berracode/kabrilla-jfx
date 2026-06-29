@@ -23,6 +23,8 @@ public class MainController {
             mainSplitPane.setDividerPosition(0, 250.0 / newW.doubleValue());
         });
 
+        debugSplitPane.setDividerPositions(0.9); // más alto para el contenido
+
         debugSplitPane.setDividerPosition(0, 1.0 - (250.0 / debugSplitPane.getHeight()));
         debugSplitPane.heightProperty().addListener((obs, oldH, newH) -> {
             debugSplitPane.setDividerPosition(0, 1.0 - (250.0 / newH.doubleValue()));

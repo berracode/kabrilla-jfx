@@ -18,6 +18,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.Region;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -75,7 +76,9 @@ public class LogsContentController implements DeploymentTab {
         // Tabla: una sola columna con el texto del log
         colLinea.setCellValueFactory(cd -> new ReadOnlyStringWrapper(cd.getValue().text()));
         logsTable.setItems(logsVM.getLines());
-        logsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        //logsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        logsTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
 
         // Auto-scroll (cuando llegan nuevas líneas)
         logsVM.getLines().addListener((ListChangeListener<LogLine>) c -> {
@@ -84,6 +87,10 @@ public class LogsContentController implements DeploymentTab {
                     logsTable.scrollTo(logsVM.getLines().size() - 1);
                 }
             }
+
+            // TRUCO: Forzar a la columna a calcular su ancho basado en el contenido
+            // Solo si quieres que crezca sola. Si no, usa colLinea.setMinWidth(2000);
+            colLinea.setPrefWidth(Region.USE_COMPUTED_SIZE);
         });
 
         // Estado/errores e indicador de seguimiento

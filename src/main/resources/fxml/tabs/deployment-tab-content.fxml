@@ -22,10 +22,5 @@
             <Tab style="-fx-pref-height: 37px;" text="AuthorizationPolicy"/>
             <Tab style="-fx-pref-height: 37px;" text="Service"/>
         </TabPane>
-
-        <!-- Área donde se carga el contenido dinámico del comando (pod, logs, etc) -->
-        <AnchorPane fx:id="commandContent"
-                    VBox.vgrow="ALWAYS"
-                    style="-fx-background-color: #2B2B2B;"/>
     </VBox>
 </AnchorPane>

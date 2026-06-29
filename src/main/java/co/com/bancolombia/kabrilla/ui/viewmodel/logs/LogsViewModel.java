@@ -22,7 +22,7 @@ import lombok.Getter;
 
 public class LogsViewModel {
 
-    private static final int MAX_LINES = 5000;
+    private static final int MAX_LINES = 1_000_000;
 
     private final LogsService service;
 
