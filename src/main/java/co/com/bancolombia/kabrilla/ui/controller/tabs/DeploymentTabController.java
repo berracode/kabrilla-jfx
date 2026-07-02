@@ -40,16 +40,16 @@ public class DeploymentTabController {
 
     @FXML
     public void initialize() {
-        log.info("aqui");
+        log.info("INITIALIZE DEPLOYMENT TAB CONTROLLER");
         commandTabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
             log.info("tab: {}", newTab.getText());
             if (newTab != null) {
                 log.info("tab {}", newTab.getText());
-                handleTabSelection(newTab);
+                //handleTabSelection(newTab);
             }
         });
 
-
+        initializeCommandsTabsView();
         Platform.runLater(() -> selectTabByText("Pods"));
 
 
@@ -60,6 +60,7 @@ public class DeploymentTabController {
             log.info("path: {}", fxmlPath);
             var fullPath = getClass().getResource("/fxml/commands/" + fxmlPath);
             log.info("full path {}", fullPath);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/commands/" + fxmlPath));
 
             // Ejemplo de controller factory manual:
@@ -155,6 +156,15 @@ public class DeploymentTabController {
             }
         }
         log.warn("No encontré una Tab con título '{}'", title);
+    }
+
+
+    private void initializeCommandsTabsView() {
+        log.info("Iniciando todas las vistas tab");
+        for (Tab tab : commandTabPane.getTabs()) {
+            log.info("La tab '{}' inicia carga manualmente", tab.getText());
+            handleTabSelection(tab); // <-- fuerza la carga
+        }
     }
 
     private void handleTabSelection(Tab newTab) {
