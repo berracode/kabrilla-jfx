@@ -9,6 +9,8 @@ module co.com.bancolombia.kabrilla {
     requires org.slf4j;
     requires io.kubernetes.client.java.api;
     requires okhttp3;
+    requires org.fxmisc.richtext;
+    requires reactfx;
 
     // Paquete raíz (si tienes clases principales)
     exports co.com.bancolombia.kabrilla;

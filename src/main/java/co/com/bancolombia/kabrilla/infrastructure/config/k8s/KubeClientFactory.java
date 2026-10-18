@@ -2,7 +2,7 @@ package co.com.bancolombia.kabrilla.infrastructure.config.k8s;
 
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -43,7 +43,7 @@ public class KubeClientFactory {
                     String newToken = tokenProvider.getToken(credentials);
                     System.out.println("TOKEN: " + newToken);
                     current.client.setApiKey(newToken);
-                    current.expiresAt = Instant.now().plus(TOKEN_TTL);
+                    current.expiresAt = LocalDateTime.now().plus(TOKEN_TTL);
                 }
                 if (!Objects.equals(current.serverUrl, kubeConfig.getServerUrl()) ||
                         !bytesEquals(current.caCertBytes, kubeConfig.getCaCertBytes())) {
@@ -106,12 +106,12 @@ public class KubeClientFactory {
         holder.client = client;
         holder.serverUrl = kubeConfig.getServerUrl();
         holder.caCertBytes = kubeConfig.getCaCertBytes();
-        holder.expiresAt = Instant.now().plus(TOKEN_TTL);
+        holder.expiresAt = LocalDateTime.now().plus(TOKEN_TTL);
         return holder;
     }
 
     private boolean tokenExpired(ClientHolder holder) {
-        return holder.expiresAt == null || Instant.now().isAfter(holder.expiresAt);
+        return holder.expiresAt == null || LocalDateTime.now().isAfter(holder.expiresAt);
     }
 
     private boolean bytesEquals(byte[] a, byte[] b) {
@@ -136,7 +136,7 @@ public class KubeClientFactory {
         ApiClient client;
         String serverUrl;
         byte[] caCertBytes;
-        Instant expiresAt;
+        LocalDateTime expiresAt;
     }
 }
 

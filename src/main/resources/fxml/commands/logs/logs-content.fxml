@@ -1,68 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx/23.0.1"
-      fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController"
-      spacing="6"
-      VBox.vgrow="ALWAYS"
-      style="-fx-background-color: #2B2B2B;"
-      stylesheets="@../../../css/demo.css">
-
-    <!-- Toolbar superior -->
-    <HBox spacing="8" prefHeight="44">
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.InlineCssTextArea?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="6" style="-fx-background-color: #2B2B2B;"
+      stylesheets="@../../../css/demo.css"
+      prefHeight="650.0" prefWidth="1000.0"
+      VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1"
+      fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController">
+    <HBox prefHeight="44" spacing="10.0" alignment="CENTER_LEFT">
         <children>
-            <Label text="Pod:" style="-fx-text-fill: #DDDDDD;"/>
-            <ComboBox fx:id="podCombo" prefWidth="280.0"/>
+            <Button fx:id="btnStart" text="Start StreamingW" prefWidth="120.0"/>
+            <Button fx:id="btnStop" text="Stop Streaming" prefWidth="120.0"/>
+            <Button onAction="#onStopClicked" text="Detener"/>
+            <Button onAction="#onClearClicked" text="Limpiar"/>
 
             <Separator orientation="VERTICAL"/>
 
-            <CheckBox fx:id="autoScrollCheck" text="Auto-scroll" selected="true" style="-fx-text-fill: #DDDDDD;"/>
+            <Label text="Filter by Content / Msg ID: " style="-fx-text-fill: white;"/>
+            <TextField fx:id="txtSearch" promptText="Type to search &amp; pause stream..." HBox.hgrow="ALWAYS"
+                       style="-fx-background-color: white; -fx-text-fill: white; -fx-prompt-text-fill: white;"/>
+        </children>
+        <VBox.margin>
+            <Insets/>
+        </VBox.margin>
+    </HBox>
+
+    <!-- Toolbar superior -->
+    <HBox prefHeight="44" spacing="8">
+        <children>
+            <Label style="-fx-text-fill: #DDDDDD;" text="Pod:"/>
+            <ComboBox fx:id="podCombo" prefWidth="400.0"/>
+
+            <Separator orientation="VERTICAL"/>
+
+            <CheckBox fx:id="autoScrollCheck" selected="true" style="-fx-text-fill: #DDDDDD;" text="Auto-scroll"/>
 
             <Pane HBox.hgrow="ALWAYS"/>
 
-            <Button text="Refrescar" onAction="#onRefreshPodsClicked"/>
-            <Button text="Limpiar" onAction="#onClearClicked"/>
-            <Button text="Detener" onAction="#onStopClicked"/>
+            <Button onAction="#onRefreshPodsClicked" text="Refrescar"/>
+            <Button onAction="#onClearClicked" text="Limpiar"/>
+            <Button onAction="#onStopClicked" text="Detener"/>
 
-            <ProgressIndicator fx:id="progressFollowing"
-                               prefWidth="18" prefHeight="18"
-                               visible="false"/>
+            <ProgressIndicator fx:id="progressFollowing" prefHeight="18" prefWidth="18" visible="false"/>
         </children>
         <padding>
-            <Insets top="8" bottom="4" left="10" right="10"/>
+            <Insets bottom="4" left="10" right="10" top="8"/>
         </padding>
     </HBox>
 
-    <!-- Tabla de logs (una columna) -->
+    <!-- Tabla de logs (una columna)
     <TableView fx:id="logsTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colLinea" text="Log" minWidth="800"/>
+            <TableColumn fx:id="colLinea" minWidth="800" text="Log"/>
         </columns>
         <padding>
-            <Insets left="6" right="6" bottom="6"/>
+            <Insets bottom="6" left="6" right="6"/>
         </padding>
-    </TableView>
+    </TableView> -->
+
+    <VirtualizedScrollPane VBox.vgrow="ALWAYS" minWidth="800">
+        <content>
+            <InlineCssTextArea prefHeight="650.0" prefWidth="1000.0" fx:id="txtLogArea"
+                               style="-fx-font-family: 'Consolas'; -fx-font-size: 12px; -fx-background-color: #DED9D9;"/>
+        </content>
+    </VirtualizedScrollPane>
 
     <!-- Barra de estado / errores -->
     <HBox spacing="8">
         <children>
-            <Label text="Estado:" style="-fx-text-fill: #BBBBBB;"/>
+            <Label style="-fx-text-fill: #BBBBBB;" text="Estado:"/>
             <Label fx:id="errorLabel" text="" textFill="#FF6B6B"/>
         </children>
         <padding>
-            <Insets left="10" right="10" bottom="8"/>
+            <Insets bottom="8" left="10" right="10"/>
         </padding>
     </HBox>
 </VBox>

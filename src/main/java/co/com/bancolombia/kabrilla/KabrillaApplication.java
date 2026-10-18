@@ -1,6 +1,10 @@
 package co.com.bancolombia.kabrilla;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
@@ -29,7 +33,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class KabrillaApplication extends Application {
 
     // Define las dimensiones mínimas como constantes
@@ -44,6 +50,11 @@ public class KabrillaApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+
+        log.info("System Instant: {}", Instant.now());
+        log.info("System ZoneId : {}", ZoneId.systemDefault());
+        log.info("Local time    : {}", LocalDateTime.now());
+        log.info("Zoned time    : {}", ZonedDateTime.now());
 
         AppContext context = new AppContext();
         var credentialsService = AppBootstrap.getInstance().getCredentialService();

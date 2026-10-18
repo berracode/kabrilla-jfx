@@ -2,45 +2,57 @@ package co.com.bancolombia.kabrilla.ui.controller.commands;
 
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Pod;
-import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLine;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.tabs.DeploymentTab;
 import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.pods.PodsViewModel;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.Region;
+import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
+import org.fxmisc.richtext.InlineCssTextArea;
+import org.fxmisc.richtext.model.Paragraph;
+import org.reactfx.collection.LiveList;
 
 
 @Slf4j
 public class LogsContentController implements DeploymentTab {
 
+    private static final int MAX_VISIBLE_PARAGRAPHS = 5000;
 
     private final PodsViewModel podsVM;   // ViewModel compartido de Pods
     private final LogsViewModel logsVM;   // ViewModel dedicado a Logs
 
     @FXML
     private ComboBox<Pod> podCombo;
-    @FXML
-    private TableView<LogLine> logsTable;
-    @FXML
-    private TableColumn<LogLine, String> colLinea;
+    //@FXML
+    //private TableView<LogLine> logsTable;
+    //@FXML
+    //private TableColumn<LogLine, String> colLinea;
     @FXML
     private CheckBox autoScrollCheck;
     @FXML
     private Label errorLabel;
     @FXML
     private ProgressIndicator progressFollowing;
+
+    @FXML
+    private Button btnStart;
+    @FXML
+    private Button btnStop;
+    @FXML
+    private InlineCssTextArea txtLogArea;
+    @FXML
+    private TextField txtSearch;
+
 
     private DeploymentContext ctx;
 
@@ -56,6 +68,53 @@ public class LogsContentController implements DeploymentTab {
 
     @FXML
     public void initialize() {
+
+        //iniciando text area
+        // 2. Hacer el área de texto de RichTextFX de solo lectura
+        txtLogArea.setEditable(false);
+
+
+        // 3. Registrar el Consumer (callback) en el ViewModel
+        logsVM.setOnLinesAppended(textBatch -> {
+            // 1. Insertar el nuevo lote de logs al final
+            txtLogArea.appendText(textBatch);
+
+            // 2. Verificar si excedimos el límite máximo de párrafos permitidos
+            LiveList<Paragraph<String, String, String>> currentParagraphsLiveList = txtLogArea.getParagraphs();
+            var currentParagraphs = (long) currentParagraphsLiveList.size();
+            log.info("Cantidad de lineas {}", currentParagraphs);
+
+            if (currentParagraphs > MAX_VISIBLE_PARAGRAPHS) {
+                int linesToRemove = Math.toIntExact(currentParagraphs - MAX_VISIBLE_PARAGRAPHS);
+                log.info("Se procede a limpiar lineas de UI {}", linesToRemove);
+
+                int endPosition = 0;
+                for (int i = 0; i < linesToRemove; i++) {
+                    endPosition += txtLogArea.getParagraph(i).length() + 1;
+                }
+
+                if (endPosition > 0 && endPosition <= txtLogArea.getLength()) {
+                    // 1. Borramos el bloque excedido arriba
+                    txtLogArea.deleteText(0, endPosition);
+
+                    // 2. Ejecutamos el ajuste en el siguiente pulso del hilo de JavaFX
+                    Platform.runLater(() -> {
+                        // Forzamos al caret a ir al final absoluto del documento actual
+                        txtLogArea.moveTo(txtLogArea.getLength());
+                        // Le pedimos al visor virtualizado que baje hasta la posición del caret
+                        txtLogArea.requestFollowCaret();
+                    });
+                }
+            } else {
+                // Si no está limpiando (bajada normal de logs), mantenemos el comportamiento base
+                txtLogArea.requestFollowCaret();
+            }
+
+            // 3. Mantener el scroll al fondo
+            txtLogArea.requestFollowCaret();
+        });
+
+
         // Combo de pods
         podCombo.setItems(podsVM.pods());
         podCombo.setCellFactory(cb -> new ListCell<>() {
@@ -74,24 +133,10 @@ public class LogsContentController implements DeploymentTab {
         });
 
         // Tabla: una sola columna con el texto del log
-        colLinea.setCellValueFactory(cd -> new ReadOnlyStringWrapper(cd.getValue().text()));
-        logsTable.setItems(logsVM.getLines());
+        // colLinea.setCellValueFactory(cd -> new ReadOnlyStringWrapper(cd.getValue().text()));
+        //logsTable.setItems(logsVM.getLines());
         //logsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
-        logsTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
-
-        // Auto-scroll (cuando llegan nuevas líneas)
-        logsVM.getLines().addListener((ListChangeListener<LogLine>) c -> {
-            if (autoScrollCheck != null && autoScrollCheck.isSelected()) {
-                if (!logsVM.getLines().isEmpty()) {
-                    logsTable.scrollTo(logsVM.getLines().size() - 1);
-                }
-            }
-
-            // TRUCO: Forzar a la columna a calcular su ancho basado en el contenido
-            // Solo si quieres que crezca sola. Si no, usa colLinea.setMinWidth(2000);
-            colLinea.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        });
+        //logsTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         // Estado/errores e indicador de seguimiento
         if (errorLabel != null) {

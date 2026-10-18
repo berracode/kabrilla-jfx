@@ -6,11 +6,10 @@ import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewMo
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SidebarController {
-    private static final Logger log = LoggerFactory.getLogger(SidebarController.class);
     private final SidebarStateViewModel sidebarStateViewModel;
     private final DeploymentStateViewModel deploymentStateViewModel;
     @FXML

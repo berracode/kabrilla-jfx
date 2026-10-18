@@ -8,7 +8,9 @@ import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterStateView
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CredentialsStateViewModel {
 
     private final AppState appState; //estado global

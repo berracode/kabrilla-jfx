@@ -35,9 +35,11 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 @RequiredArgsConstructor
 public class SidebarStateViewModel {
     private static final Logger log = LoggerFactory.getLogger(SidebarStateViewModel.class);
@@ -229,8 +231,12 @@ public class SidebarStateViewModel {
         nsItem.getChildren().add(new TreeItem<>("")); // placeholder
 
         nsItem.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
+            log.info("Lo expandieron ns: {}", ns.getName());
             if (isNowExpanded && nsItem.getChildren().size() == 1 &&
-                    nsItem.getChildren().getFirst().getValue().isEmpty()) {
+                    nsItem.getChildren().getFirst().getValue().isEmpty() || (nsItem.getChildren().getFirst().getValue()
+                    .contains("Error"))) {
+                log.info("Lo expandieron ns y este es el if para cargar deployments: {}",
+                         nsItem.getChildren().getFirst().getValue());
                 loadDeploymentsAsync(nsItem);
             }
         });
@@ -293,7 +299,7 @@ public class SidebarStateViewModel {
         });
 
         task.setOnFailed(e -> {
-            nsItem.getChildren().setAll(new TreeItem<>("❌ Error al cargar deployments"));
+            nsItem.getChildren().setAll(new TreeItem<>("Error al cargar deployments"));
             task.getException().printStackTrace();
         });
 

@@ -3,11 +3,15 @@ package co.com.bancolombia.kabrilla.ui.viewmodel.logs;
 
 import java.io.Closeable;
 import java.util.Objects;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
 
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLine;
+import co.com.bancolombia.kabrilla.ui.services.UiLogFeederService;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -19,18 +23,22 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class LogsViewModel {
 
     private static final int MAX_LINES = 1_000_000;
 
     private final LogsService service;
-
     @Getter
     private final ObservableList<LogLine> lines = FXCollections.observableArrayList();
+
+    @Getter
+    private final BlockingQueue<LogLine> logBuffer = new LinkedBlockingQueue<>(5000);
     private final BooleanProperty following = new SimpleBooleanProperty(false);
     private final StringProperty error = new SimpleStringProperty();
-
+    private UiLogFeederService uiLogFeederService;
     private Closeable subscription;
 
     // Cache para evitar reabrir el mismo stream
@@ -93,10 +101,12 @@ public class LogsViewModel {
                     timestamps, tailLines, sinceSeconds,
                     // onLine
                     line -> Platform.runLater(() -> {
-                        lines.add(line);
+                        //lines.add(line);
+                        logBuffer.add(line);
                         if (lines.size() > MAX_LINES) {
                             lines.remove(0, lines.size() - MAX_LINES);
                         }
+
                     }),
                     // onError
                     t -> Platform.runLater(() -> {
@@ -108,6 +118,12 @@ public class LogsViewModel {
         } catch (Exception e) {
             error.set("No se pudo abrir el stream: " + e.getMessage());
             following.set(false);
+        }
+
+        // 2. Arranca el hilo consumidor (JavaFX Service en Background Pool)
+        if (uiLogFeederService != null && !uiLogFeederService.isRunning()) {
+            log.info("Arrancando hilo consumidor");
+            uiLogFeederService.restart(); // Usamos restart() por si ya se había cancelado antes
         }
     }
 
@@ -123,6 +139,19 @@ public class LogsViewModel {
             subscription = null;
         }
         following.set(false);
+    }
+
+
+    //NUEVA
+
+    // Aquí es donde realmente se engancha la UI al flujo
+    public void setOnLinesAppended(Consumer<String> onLinesAppended) {
+        // Instanciamos TU UiLogFeederService pasándole el buffer real del backend
+        // y el callback que actualizará el RichTextFX en la Vista
+        this.uiLogFeederService = new UiLogFeederService(
+                this.logBuffer,
+                onLinesAppended
+        );
     }
 }
 
