@@ -11,10 +11,16 @@ module co.com.bancolombia.kabrilla {
     requires okhttp3;
     requires org.fxmisc.richtext;
     requires reactfx;
+    requires spring.context;
+    requires javafx.graphics;
+    requires spring.boot;
+    requires spring.boot.autoconfigure;
+    requires spring.core;
 
     // Paquete raíz (si tienes clases principales)
-    exports co.com.bancolombia.kabrilla;
-    opens co.com.bancolombia.kabrilla to javafx.fxml, com.fasterxml.jackson.databind;
+    exports co.com.bancolombia.kabrilla.startup;
+    opens co.com.bancolombia.kabrilla.startup to javafx.fxml, com.fasterxml.jackson.databind;
+
 
     // Controladores
     exports co.com.bancolombia.kabrilla.ui.controller; // opcional si otros módulos lo usan

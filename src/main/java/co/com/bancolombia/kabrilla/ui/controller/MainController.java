@@ -2,12 +2,12 @@ package co.com.bancolombia.kabrilla.ui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.SplitPane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+@Slf4j
+@Component
 public class MainController {
-
-    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     @FXML
     private SplitPane mainSplitPane;

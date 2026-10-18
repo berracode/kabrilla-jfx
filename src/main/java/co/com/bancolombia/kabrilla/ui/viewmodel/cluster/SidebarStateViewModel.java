@@ -19,7 +19,6 @@ import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.NamespaceStateViewModel;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -36,13 +35,12 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class SidebarStateViewModel {
-    private static final Logger log = LoggerFactory.getLogger(SidebarStateViewModel.class);
     private final AppState appState;
     private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
     private final ClusterService clusterService;

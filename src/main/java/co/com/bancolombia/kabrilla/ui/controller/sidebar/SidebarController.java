@@ -2,13 +2,14 @@ package co.com.bancolombia.kabrilla.ui.controller.sidebar;
 
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class SidebarController {
     private final SidebarStateViewModel sidebarStateViewModel;
     private final DeploymentStateViewModel deploymentStateViewModel;

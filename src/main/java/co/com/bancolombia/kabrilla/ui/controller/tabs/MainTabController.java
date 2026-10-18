@@ -10,19 +10,18 @@ import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsStateView
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+@Slf4j
+@Component
 public class MainTabController {
-    private static final Logger log = LoggerFactory.getLogger(MainTabController.class);
-
     private final MainTabViewModel mainTabViewModel;
     private final SidebarStateViewModel sidebarViewModel;
     private final AppContext context;
