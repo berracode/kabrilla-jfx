@@ -3,6 +3,7 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 import java.io.IOException;
 
 import co.com.bancolombia.kabrilla.application.service.CredentialService;
+import co.com.bancolombia.kabrilla.application.service.KubeResourceService;
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.application.service.PodService;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
@@ -32,13 +33,15 @@ public class MainTabController {
     private final CredentialService credentialService;
     private final PodService podService;
     private final LogsService logsService;
+    private final KubeResourceService kubeResourceService;
 
     @FXML
     private TabPane deploymentTabPane;
 
     public MainTabController(MainTabViewModel mainTabViewModel, SidebarStateViewModel sidebarViewModel,
                              AppContext context, ClusterNamespaceStateViewModel clusterNamespaceStateViewModel,
-                             CredentialService credentialService, PodService podService, LogsService logsService) {
+                             CredentialService credentialService, PodService podService, LogsService logsService,
+                             KubeResourceService kubeResourceService) {
         this.mainTabViewModel = mainTabViewModel;
         this.sidebarViewModel = sidebarViewModel;
         this.context = context;
@@ -46,6 +49,7 @@ public class MainTabController {
         this.credentialService = credentialService;
         this.podService = podService;
         this.logsService = logsService;
+        this.kubeResourceService = kubeResourceService;
     }
 
     @FXML
@@ -109,7 +113,7 @@ public class MainTabController {
                 if (type == DeploymentTabController.class) {
                     log.info("Instanciando deploymentTabController");
                     return new DeploymentTabController(deploymentTabItemViewModel, context, podService,
-                                                       logsService);
+                                                       logsService, kubeResourceService);
                 }
                 try {
                     return type.getDeclaredConstructor().newInstance();

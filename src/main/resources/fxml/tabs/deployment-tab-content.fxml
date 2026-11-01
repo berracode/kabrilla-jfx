@@ -18,7 +18,7 @@
             <Tab style="-fx-pref-height: 37px;" text="Pods"/>
             <Tab style="-fx-pref-height: 37px;" text="HPA"/>
             <Tab style="-fx-pref-height: 37px;" text="ConfigMap"/>
-            <Tab style="-fx-pref-height: 37px;" text="RequestPolicy"/>
+            <Tab style="-fx-pref-height: 37px;" text="RequestAuthentication"/>
             <Tab style="-fx-pref-height: 37px;" text="AuthorizationPolicy"/>
             <Tab style="-fx-pref-height: 37px;" text="Service"/>
         </TabPane>

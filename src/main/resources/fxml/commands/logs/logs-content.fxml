@@ -12,61 +12,52 @@
       prefHeight="650.0" prefWidth="1000.0"
       VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1"
       fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController">
-    <HBox prefHeight="44" spacing="10.0" alignment="CENTER_LEFT">
-        <children>
-            <Button fx:id="btnStart" text="Start StreamingW" prefWidth="120.0"/>
-            <Button fx:id="btnStop" text="Stop Streaming" prefWidth="120.0"/>
-            <Button onAction="#onStopClicked" text="Detener"/>
-            <Button onAction="#onClearClicked" text="Limpiar"/>
 
-            <Separator orientation="VERTICAL"/>
-
-            <Label text="Filter by Content / Msg ID: " style="-fx-text-fill: white;"/>
-            <TextField fx:id="txtSearch" promptText="Type to search &amp; pause stream..." HBox.hgrow="ALWAYS"
-                       style="-fx-background-color: white; -fx-text-fill: white; -fx-prompt-text-fill: white;"/>
-        </children>
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
-    </HBox>
-
-    <!-- Toolbar superior -->
-    <HBox prefHeight="44" spacing="8">
+    <!-- Stream: pod y controles -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
         <children>
             <Label style="-fx-text-fill: #DDDDDD;" text="Pod:"/>
             <ComboBox fx:id="podCombo" prefWidth="400.0"/>
+            <Button onAction="#onRefreshPodsClicked" text="Refrescar pods"/>
 
             <Separator orientation="VERTICAL"/>
 
+            <Button fx:id="btnToggleStream" onAction="#onToggleStreamClicked" prefWidth="90.0"/>
+            <Button onAction="#onClearClicked" text="Limpiar"/>
             <CheckBox fx:id="autoScrollCheck" selected="true" style="-fx-text-fill: #DDDDDD;" text="Auto-scroll"/>
 
             <Pane HBox.hgrow="ALWAYS"/>
-
-            <Button onAction="#onRefreshPodsClicked" text="Refrescar"/>
-            <Button onAction="#onClearClicked" text="Limpiar"/>
-            <Button onAction="#onStopClicked" text="Detener"/>
-
             <ProgressIndicator fx:id="progressFollowing" prefHeight="18" prefWidth="18" visible="false"/>
         </children>
         <padding>
-            <Insets bottom="4" left="10" right="10" top="8"/>
+            <Insets left="10" right="10" top="8"/>
         </padding>
     </HBox>
 
-    <!-- Tabla de logs (una columna)
-    <TableView fx:id="logsTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="colLinea" minWidth="800" text="Log"/>
-        </columns>
+    <!-- Filtro -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <children>
+            <Label style="-fx-text-fill: #DDDDDD;" text="Buscar:"/>
+            <TextField fx:id="txtSearch" promptText="Texto a buscar (filtra y resalta)" HBox.hgrow="ALWAYS"
+                       style="-fx-background-color: white; -fx-text-fill: #2B2B2B; -fx-prompt-text-fill: #888888;"/>
+            <CheckBox fx:id="regexCheck" style="-fx-text-fill: #DDDDDD;" text="Regex"/>
+            <CheckBox fx:id="caseSensitiveCheck" style="-fx-text-fill: #DDDDDD;" text="Mayús/minús"/>
+
+            <Separator orientation="VERTICAL"/>
+
+            <Label style="-fx-text-fill: #DDDDDD;" text="Nivel mínimo:"/>
+            <ComboBox fx:id="levelCombo" prefWidth="100.0"/>
+            <Label fx:id="matchCountLabel" minWidth="170" style="-fx-text-fill: #BBBBBB;"/>
+        </children>
         <padding>
-            <Insets bottom="6" left="6" right="6"/>
+            <Insets bottom="4" left="10" right="10"/>
         </padding>
-    </TableView> -->
+    </HBox>
 
     <VirtualizedScrollPane VBox.vgrow="ALWAYS" minWidth="800">
         <content>
             <InlineCssTextArea prefHeight="650.0" prefWidth="1000.0" fx:id="txtLogArea"
-                               style="-fx-font-family: 'Consolas'; -fx-font-size: 12px; -fx-background-color: #DED9D9;"/>
+                               style="-fx-font-family: 'Consolas', 'monospace'; -fx-font-size: 12px; -fx-background-color: #DED9D9;"/>
         </content>
     </VirtualizedScrollPane>
 

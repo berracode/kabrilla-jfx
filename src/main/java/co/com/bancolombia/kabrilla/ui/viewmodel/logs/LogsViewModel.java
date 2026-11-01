@@ -1,11 +1,12 @@
 package co.com.bancolombia.kabrilla.ui.viewmodel.logs;
 
 import java.io.Closeable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
@@ -15,9 +16,12 @@ import co.com.bancolombia.kabrilla.ui.services.UiLogFeederService;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
@@ -31,8 +35,16 @@ import lombok.extern.slf4j.Slf4j;
 public class LogsViewModel {
 
     private static final int BUFFER_CAPACITY = 5000;
+    // Lo que se puede volver a filtrar. La vista muestra como máximo MAX_RENDERED_LINES.
+    private static final int MAX_HISTORY_LINES = 50_000;
+    public static final int MAX_RENDERED_LINES = 5000;
 
     private final LogsService service;
+    private final LogHistory history = new LogHistory(MAX_HISTORY_LINES);
+    private final IntegerProperty totalLines = new SimpleIntegerProperty();
+    private final IntegerProperty visibleLines = new SimpleIntegerProperty();
+    private LogFilter filter = LogFilter.none();
+    private LogView view;
 
     // Si la UI no alcanza a consumir, el hilo lector se bloquea (contrapresión) en vez de perder líneas
     @Getter
@@ -43,8 +55,7 @@ public class LogsViewModel {
     // Identifica el stream vigente: líneas y errores de streams ya cancelados se ignoran
     private final AtomicLong currentSession = new AtomicLong();
 
-    private UiLogFeederService uiLogFeederService;
-    private Runnable onCleared;
+    private final UiLogFeederService uiLogFeederService;
     private Closeable subscription;
 
     // Cache para evitar reabrir el mismo stream
@@ -52,6 +63,72 @@ public class LogsViewModel {
 
     public LogsViewModel(LogsService service) {
         this.service = service;
+        // El feeder toma lotes del buffer y los entrega en el hilo de JavaFX
+        this.uiLogFeederService = new UiLogFeederService(logBuffer, this::onBatch);
+    }
+
+    public void setView(LogView view) {
+        this.view = view;
+    }
+
+    public ReadOnlyIntegerProperty totalLinesProperty() {
+        return totalLines;
+    }
+
+    public ReadOnlyIntegerProperty visibleLinesProperty() {
+        return visibleLines;
+    }
+
+    public LogFilter getFilter() {
+        return filter;
+    }
+
+    /**
+     * Aplica un filtro nuevo sobre todo el historial y redibuja la vista.
+     */
+    public void setFilter(LogFilter newFilter) {
+        this.filter = newFilter;
+        List<String> rendered = new ArrayList<>();
+        for (LogEntry entry : history.entries()) {
+            boolean visible = filter.matches(entry);
+            entry.setVisible(visible);
+            if (visible) {
+                rendered.addAll(entry.lines());
+            }
+        }
+        // Solo las últimas MAX_RENDERED_LINES; el resto sigue en el historial
+        int from = Math.max(0, rendered.size() - MAX_RENDERED_LINES);
+        if (view != null) {
+            view.reset(rendered.subList(from, rendered.size()));
+        }
+        updateCounts();
+    }
+
+    /**
+     * Lote nuevo del stream (hilo de JavaFX): se agrega al historial y se pinta lo que pase el filtro.
+     */
+    private void onBatch(List<LogLine> batch) {
+        List<String> toAppend = new ArrayList<>();
+        for (LogLine line : batch) {
+            String display = line.timestamp() + " - " + line.text();
+            LogEntry entry = history.add(line.text(), display);
+            if (entry.isVisible()) {
+                toAppend.add(display); // continuación de una entrada ya visible
+            } else if (filter.matches(entry)) {
+                // Entrada nueva, o continuación que hizo coincidir la entrada: se pinta completa
+                entry.setVisible(true);
+                toAppend.addAll(entry.lines());
+            }
+        }
+        if (view != null && !toAppend.isEmpty()) {
+            view.append(toAppend);
+        }
+        updateCounts();
+    }
+
+    private void updateCounts() {
+        totalLines.set(history.lineCount());
+        visibleLines.set(history.visibleLineCount());
     }
 
     public ReadOnlyBooleanProperty followingProperty() {
@@ -63,13 +140,15 @@ public class LogsViewModel {
     }
 
     /**
-     * Descarta las líneas pendientes y pide a la vista limpiar lo mostrado.
+     * Descarta las líneas pendientes y el historial, y limpia la vista.
      */
     public void clear() {
         logBuffer.clear();
-        if (onCleared != null) {
-            onCleared.run();
+        history.clear();
+        if (view != null) {
+            view.reset(List.of());
         }
+        updateCounts();
     }
 
     /**
@@ -140,10 +219,8 @@ public class LogsViewModel {
             return;
         }
 
-        if (uiLogFeederService != null) {
-            log.info("Arrancando hilo consumidor");
-            uiLogFeederService.restart(); // restart() funciona aunque se haya cancelado antes
-        }
+        log.info("Arrancando hilo consumidor");
+        uiLogFeederService.restart(); // restart() funciona aunque se haya cancelado antes
     }
 
     /**
@@ -158,22 +235,9 @@ public class LogsViewModel {
             }
             subscription = null;
         }
-        if (uiLogFeederService != null && uiLogFeederService.isRunning()) {
+        if (uiLogFeederService.isRunning()) {
             uiLogFeederService.cancel();
         }
         following.set(false);
-    }
-
-    // Aquí es donde realmente se engancha la UI al flujo
-    public void setOnLinesAppended(Consumer<String> onLinesAppended) {
-        // El feeder toma lotes del buffer y llama al callback que actualiza el RichTextFX en la Vista
-        this.uiLogFeederService = new UiLogFeederService(
-                this.logBuffer,
-                onLinesAppended
-        );
-    }
-
-    public void setOnCleared(Runnable onCleared) {
-        this.onCleared = onCleared;
     }
 }

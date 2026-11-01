@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1"
+      spacing="8" style="-fx-background-color: #2B2B2B;"
+      stylesheets="@../../../css/demo.css"
+      fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.ResourcesContentController">
+    <padding>
+        <Insets top="8" right="10" bottom="8" left="10"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="titleLabel" style="-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;"/>
+        <Label fx:id="countLabel" style="-fx-text-fill: #BBBBBB;"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <ProgressIndicator fx:id="loadingIndicator" prefHeight="18" prefWidth="18" visible="false"/>
+        <Button onAction="#onReloadClicked" text="Recargar"/>
+    </HBox>
+
+    <Label fx:id="messageLabel" wrapText="true" style="-fx-text-fill: #DDDDDD;"/>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <VBox fx:id="resourcesBox" spacing="8"/>
+    </ScrollPane>
+</VBox>

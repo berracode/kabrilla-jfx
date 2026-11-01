@@ -19,8 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 public final class StyleToggle {
 
     private static final String PROCESSED = "kabrilla.styles.stripped";
+    private static final String PRESERVED = "kabrilla.styles.preserved";
 
     private StyleToggle() {
+    }
+
+    /**
+     * Marca un nodo cuyo estilo es funcional (fuente monoespaciada, resaltado de búsqueda): él y sus hijos
+     * conservan sus estilos aunque los personalizados estén desactivados. Llamar antes de agregarlo a la escena.
+     */
+    public static void preserve(Node node) {
+        node.getProperties().put(PRESERVED, Boolean.TRUE);
     }
 
     /**
@@ -66,7 +75,8 @@ public final class StyleToggle {
     }
 
     private static void strip(Node node) {
-        if (node.getProperties().putIfAbsent(PROCESSED, Boolean.TRUE) != null) {
+        if (node.getProperties().containsKey(PRESERVED)
+                || node.getProperties().putIfAbsent(PROCESSED, Boolean.TRUE) != null) {
             return;
         }
         node.setStyle("");

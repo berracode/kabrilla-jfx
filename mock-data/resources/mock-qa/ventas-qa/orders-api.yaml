@@ -1,0 +1,166 @@
+# Manifiestos FALSOS del deployment orders-api (formato de `kubectl get -o yaml`).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-api
+  namespace: ventas-qa
+  labels:
+    app: orders-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: orders-api
+  template:
+    metadata:
+      labels:
+        app: orders-api
+        version: v1
+    spec:
+      containers:
+        - name: orders-api
+          image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/orders-api:1.4.2
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: orders-api-env
+          env:
+            - name: FEATURE_FLAGS
+              valueFrom:
+                configMapKeyRef:
+                  name: feature-flags
+                  key: orders
+          volumeMounts:
+            - name: app-config
+              mountPath: /config
+      volumes:
+        - name: app-config
+          configMap:
+            name: orders-api-files
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-api
+  namespace: ventas-qa
+spec:
+  type: ClusterIP
+  clusterIP: 172.20.14.88
+  selector:
+    app: orders-api
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: orders-api
+  namespace: ventas-qa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: orders-api
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 512Mi
+status:
+  currentReplicas: 2
+  desiredReplicas: 2
+  currentMetrics:
+    - type: Resource
+      resource:
+        name: cpu
+        current:
+          averageUtilization: 43
+          averageValue: 215m
+    - type: Resource
+      resource:
+        name: memory
+        current:
+          averageValue: 388Mi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orders-api-env
+  namespace: ventas-qa
+data:
+  SPRING_PROFILES_ACTIVE: qa
+  INVENTORY_URL: http://inventory-svc.ventas-qa.svc.cluster.local
+  KAFKA_BOOTSTRAP: b-1.mock-msk.kafka.us-east-1.amazonaws.com:9092
+  LOG_LEVEL: INFO
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orders-api-files
+  namespace: ventas-qa
+data:
+  application-qa.yaml: |
+    server:
+      port: 8080
+    orders:
+      max-items: 50
+      timeout-ms: 3000
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: orders-api-allow
+  namespace: ventas-qa
+spec:
+  selector:
+    matchLabels:
+      app: orders-api
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/ventas-qa/sa/frontend
+              - cluster.local/ns/istio-system/sa/istio-ingressgateway
+      to:
+        - operation:
+            methods: [GET, POST]
+            paths: [/api/v1/orders*]
+    - to:
+        - operation:
+            methods: [GET]
+            paths: [/actuator/health]
+---
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: orders-api-jwt
+  namespace: ventas-qa
+spec:
+  selector:
+    matchLabels:
+      app: orders-api
+  jwtRules:
+    - issuer: https://login.mock-idp.example.com/
+      jwksUri: https://login.mock-idp.example.com/.well-known/jwks.json
+      audiences: [orders-api]
+      forwardOriginalToken: true

@@ -4,12 +4,14 @@ import co.com.bancolombia.kabrilla.domain.gateway.ClusterRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.CredentialRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.DeploymentRepository;
+import co.com.bancolombia.kabrilla.domain.gateway.k8s.KubeResourceRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.LogsRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.PodsRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.EksTokenProvider;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.FileClusterRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.JsonCredentialRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.DeploymentAdapter;
+import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.KubeResourceAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.LogsAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.PodAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeClientFactory;
@@ -59,5 +61,10 @@ public class K8sAdaptersConfiguration {
     @Bean
     public LogsRepository logsRepository(KubeClientFactory factory) {
         return new LogsAdapter(factory);
+    }
+
+    @Bean
+    public KubeResourceRepository kubeResourceRepository(KubeClientFactory factory) {
+        return new KubeResourceAdapter(factory);
     }
 }

@@ -1,15 +1,21 @@
 package co.com.bancolombia.kabrilla.ui.controller.tabs;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import co.com.bancolombia.kabrilla.application.service.KubeResourceService;
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.application.service.PodService;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
+import co.com.bancolombia.kabrilla.domain.model.k8s.resources.ResourceKind;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController;
 import co.com.bancolombia.kabrilla.ui.controller.commands.PodsContentController;
+import co.com.bancolombia.kabrilla.ui.controller.commands.ResourcesContentController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.pods.PodsViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.resources.ResourcesViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 
@@ -29,6 +35,8 @@ public class DeploymentTabController {
     private final AppContext context;
     private final PodService podService;
     private final LogsService logsService;
+    private final KubeResourceService kubeResourceService;
+    private final Map<Tab, ResourcesContentController> resourceControllers = new HashMap<>();
     private PodsViewModel podsViewModel;
     private LogsContentController logsController;
     @FXML
@@ -37,11 +45,13 @@ public class DeploymentTabController {
     private AnchorPane commandContent;
 
     public DeploymentTabController(DeploymentTabItemViewModel deploymentTabItemViewModel, AppContext context,
-                                   PodService podService, LogsService logsService) {
+                                   PodService podService, LogsService logsService,
+                                   KubeResourceService kubeResourceService) {
         this.deploymentTabItemViewModel = deploymentTabItemViewModel;
         this.context = context;
         this.podService = podService;
         this.logsService = logsService;
+        this.kubeResourceService = kubeResourceService;
     }
 
 
@@ -49,9 +59,8 @@ public class DeploymentTabController {
     public void initialize() {
         log.info("INITIALIZE DEPLOYMENT TAB CONTROLLER");
         commandTabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
-            if (newTab != null) {
-                log.info("tab {}", newTab.getText());
-                //handleTabSelection(newTab);
+            if (newTab != null && resourceControllers.containsKey(newTab)) {
+                resourceControllers.get(newTab).ensureLoaded();
             }
         });
 
@@ -193,13 +202,33 @@ public class DeploymentTabController {
         switch (newTab.getText()) {
             case "Logs" -> loadCommandView("logs/logs-content.fxml", newTab.getText());
             case "Pods" -> loadCommandView("pods/pods-content.fxml", newTab.getText());
-            case "ConfigMap" -> loadCommandView("configmap/configmap-content.fxml", newTab.getText());
-            case "RequestPolicy" ->
-                    loadCommandView("requestauthentication/requestpolicy-content.fxml", newTab.getText());
-            case "Service" -> loadCommandView("services/service-content.fxml", newTab.getText());
-            case "AuthorizationPolicy" ->
-                    loadCommandView("authorizationpolicy/authorizationpolicy-content.fxml", newTab.getText());
-            case "HPA" -> loadCommandView("hpa/hpa-content.fxml", newTab.getText());
+            case "HPA" -> loadResourceView(newTab, ResourceKind.HPA);
+            case "ConfigMap" -> loadResourceView(newTab, ResourceKind.CONFIG_MAP);
+            case "Service" -> loadResourceView(newTab, ResourceKind.SERVICE);
+            case "AuthorizationPolicy" -> loadResourceView(newTab, ResourceKind.AUTHORIZATION_POLICY);
+            case "RequestAuthentication" -> loadResourceView(newTab, ResourceKind.REQUEST_AUTHENTICATION);
+            default -> log.warn("Pestaña sin vista: {}", newTab.getText());
+        }
+    }
+
+    /**
+     * Las pestañas de recursos comparten vista; se crea una vez y consulta el cluster al seleccionarse.
+     */
+    private void loadResourceView(Tab tab, ResourceKind kind) {
+        if (resourceControllers.containsKey(tab)) {
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/fxml/commands/resources/resources-content.fxml"));
+            ResourcesContentController controller =
+                    new ResourcesContentController(new ResourcesViewModel(kubeResourceService, kind));
+            loader.setControllerFactory(type -> controller);
+            tab.setContent(loader.load());
+            controller.setDeploymentContext(buildContextFromAppState(deploymentTabItemViewModel));
+            resourceControllers.put(tab, controller);
+        } catch (IOException e) {
+            throw new IllegalStateException("Error cargando la vista de " + kind.k8sKind(), e);
         }
     }
 

@@ -25,7 +25,8 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
 `co.com.bancolombia.kabrilla`:
 - `domain/model`, `domain/gateway` — modelos y puertos (interfaces). **Sin Spring ni JavaFX.**
 - `application/service` — casos de uso. **Sin anotaciones de Spring**; se registran como `@Bean` en `bootstrap/`.
-- `infrastructure/adapters` — `k8s/` (API de Kubernetes), `fs/` (archivos JSON), `mock/` (perfil mock).
+- `infrastructure/adapters` — `k8s/` (API de Kubernetes), `fs/` (archivos JSON), `mock/` (perfil mock),
+  `manifest/` (lógica compartida real/mock para recursos: ver abajo).
 - `bootstrap/` — cableado Spring: `BeanConfiguration` (servicios y estado de UI),
   `K8sAdaptersConfiguration` (`@Profile("!mock")`), `MockAdaptersConfiguration` (`@Profile("mock")`).
   Un adaptador nuevo va en **ambos** perfiles (real y mock).
@@ -52,10 +53,23 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
 - Estilos: `kabrilla.ui.styles-enabled=false` (default en `application.properties`) activa `ui/theme/StyleToggle`,
   que vacía en runtime hojas CSS y `style=` de todas las ventanas. Los CSS/FXML siguen intactos; no borrar estilos
   "porque no se ven". Para verificar la UI con estilos, correr con `-Pstyles`.
+- Filtro de logs: `LogsViewModel` guarda un `LogHistory` (50k líneas agrupadas en `LogEntry`: línea + su stack
+  trace) y aplica un `LogFilter` inmutable (texto/regex + `LogLevel` mínimo). Habla con la vista por `LogView`
+  (`append`/`reset`); `LogsContentController` la implementa sobre RichTextFX y resalta con `setStyle(par, from, to)`.
+  El área de logs usa `StyleToggle.preserve(...)` para conservar fuente y resaltado sin estilos.
+- Recursos (pestañas HPA/ConfigMap/Service/AuthorizationPolicy/RequestAuthentication): una sola vista genérica
+  (`ResourcesContentController` + `resources-content.fxml`), carga perezosa al seleccionar la pestaña.
+  `ManifestResourceRepository` (abstracta) decide qué recursos pertenecen al deployment y `ManifestMapper` arma el
+  resumen + YAML, ambos sobre manifiestos como `Map`. `KubeResourceAdapter` (real, vía `JSON.serialize` del cliente
+  → Map; Istio por `CustomObjectsApi` v1 → v1beta1) y `MockKubeResourceAdapter` (YAML de `mock-data/resources`)
+  solo obtienen manifiestos. Un recurso nuevo: agregar a `ResourceKind`, a ambos `listManifests` y al mapper.
 - Tests de UI: `FxTestSupport` (src/test) arranca el toolkit JavaFX; usar `onFx(...)` para código en el hilo FX.
+  Tests solo para lógica crítica (filtro, asociación de recursos, streaming), no uno por clase.
 
 ## Convenciones
-- Código, comentarios, logs y mensajes de UI en español.
+- Código en inglés (clases, métodos, variables, nombres de tests); comentarios, logs y textos de UI en español.
+- Toda forma nueva de ejecutar algo (comando, perfil, propiedad, script) se documenta en README.md.
+- En la UI no dejar botones o controles que no hagan nada; nada de datos inventados en vistas (usar mock-data).
 - Lombok (`@Slf4j`, `@Getter`, `@Builder`...) como en el resto del código. Inyección por constructor.
 - Nunca versionar credenciales ni loguear tokens/headers de autorización. Los archivos locales
   (`credentials*.json`, `clusters.json`) están en `.gitignore`; los datos de prueba van en `mock-data/`.

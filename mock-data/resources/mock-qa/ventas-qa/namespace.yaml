@@ -1,0 +1,45 @@
+# Recursos FALSOS del namespace que NO son de un deployment concreto.
+# Sirven para verificar la asociación: la política sin selector aplica a todos; el resto no debe aparecer.
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-other-namespaces
+  namespace: ventas-qa
+spec:
+  action: DENY
+  rules:
+    - from:
+        - source:
+            notNamespaces: [ventas-qa, istio-system]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-svc
+  namespace: ventas-qa
+spec:
+  selector:
+    app: inventory
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feature-flags
+  namespace: ventas-qa
+data:
+  orders: new-checkout=true,split-payments=false
+  catalog: search-v2=true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-root-ca.crt
+  namespace: ventas-qa
+data:
+  ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    MOCK-NO-ES-UN-CERTIFICADO
+    -----END CERTIFICATE-----

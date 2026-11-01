@@ -28,7 +28,7 @@ class MockAdaptersTest {
     Path root;
 
     @Test
-    void listaDeploymentsYPodsDesdeCarpetas() throws Exception {
+    void listsDeploymentsAndPodsFromFolders() throws Exception {
         Files.createDirectories(root.resolve("mock-qa/ventas-qa/orders-api"));
         Files.writeString(root.resolve("mock-qa/ventas-qa/orders-api/orders-api-abc.log"), "hola\n");
         Files.writeString(root.resolve("mock-qa/ventas-qa/orders-api/notas.md"), "no es un pod");
@@ -42,12 +42,12 @@ class MockAdaptersTest {
     }
 
     @Test
-    void namespaceSinCarpetaNoTieneDeployments() {
+    void namespaceWithoutFolderHasNoDeployments() {
         assertTrue(new MockDeploymentAdapter(root).findAll(KUBE_CONFIG, null, "no-existe").isEmpty());
     }
 
     @Test
-    void reproduceElArchivoYSigueLasLineasAgregadas() throws Exception {
+    void replaysFileAndFollowsAppendedLines() throws Exception {
         Path log = root.resolve("mock-qa/ventas-qa/orders-api/orders-api-abc.log");
         Files.createDirectories(log.getParent());
         Files.writeString(log, "linea 1\nlinea 2\n");
@@ -68,7 +68,7 @@ class MockAdaptersTest {
     }
 
     @Test
-    void losDatosDeMockDataSonConsistentes() throws Exception {
+    void mockDataIsConsistent() throws Exception {
         Path logs = Path.of("mock-data", "logs");
         var pods = new MockPodAdapter(logs).listPods(KUBE_CONFIG, null, "ventas-qa", "orders-api");
         assertEquals(2, pods.size());

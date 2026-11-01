@@ -1,0 +1,31 @@
+# Manifiestos FALSOS de orders-api en dev (mínimos).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-api
+  namespace: ventas-dev
+spec:
+  selector:
+    matchLabels:
+      app: orders-api
+  template:
+    metadata:
+      labels:
+        app: orders-api
+    spec:
+      containers:
+        - name: orders-api
+          image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/orders-api:1.5.0-SNAPSHOT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-api
+  namespace: ventas-dev
+spec:
+  clusterIP: 172.20.5.40
+  selector:
+    app: orders-api
+  ports:
+    - port: 80
+      targetPort: 8080

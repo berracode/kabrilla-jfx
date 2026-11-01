@@ -6,6 +6,8 @@
     "name" : "pagos-qa"
   }, {
     "name" : "vacio-qa"
+  }, {
+    "name" : "deployment-product-qa"
   } ]
 }, {
   "name" : "mock-dev",

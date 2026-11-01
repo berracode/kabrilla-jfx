@@ -18,8 +18,12 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
   - [x] Sesiones: líneas/errores de un stream viejo se ignoran; `LogsAdapter` no reporta error al cancelar
   - [x] "Limpiar" ahora limpia el área de texto; hilos del stream real son daemon (la app cierra con streams abiertos)
   - [ ] Probar en EKS real (PC del trabajo): cambio de pod, cerrar pestaña, stream largo
-- [ ] Búsqueda/filtro de logs (`txtSearch` existe en la vista pero no hace nada): texto, regex, nivel, resaltado
-- [ ] Pausar autoscroll, limpiar, copiar selección
+- [x] Búsqueda/filtro de logs: texto o regex, mayús/minús, nivel mínimo, resaltado, stack traces agrupados
+- [x] Auto-scroll on/off, limpiar, detener/reanudar; botones sin función eliminados
+- [x] Pestañas HPA, ConfigMap, Service, AuthorizationPolicy, RequestAuthentication con datos reales (adaptador
+      K8s + mock YAML), vista legible y copiable (antes datos inventados en código)
+  - [ ] Probar en EKS real: permisos RBAC, Istio v1 vs v1beta1, clusters sin Istio
+- [ ] Navegar entre coincidencias (anterior/siguiente) y copiar selección del área de logs con atajo
 - [ ] Timestamps reales del pod (`timestamps=true` y parsear) en vez de `LogLine.now`
 - [ ] Selector de container (quitar el default `movilidad-integration-product-container` de `LogsAdapter`)
 - [ ] Pods por label selector del deployment (hoy `PodAdapter` filtra por prefijo del nombre)

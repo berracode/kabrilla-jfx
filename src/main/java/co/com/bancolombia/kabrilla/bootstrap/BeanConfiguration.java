@@ -3,6 +3,7 @@ package co.com.bancolombia.kabrilla.bootstrap;
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
 import co.com.bancolombia.kabrilla.application.service.CredentialService;
 import co.com.bancolombia.kabrilla.application.service.DeploymentService;
+import co.com.bancolombia.kabrilla.application.service.KubeResourceService;
 import co.com.bancolombia.kabrilla.application.service.KubeconfigService;
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.application.service.PodService;
@@ -10,6 +11,7 @@ import co.com.bancolombia.kabrilla.domain.gateway.ClusterRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.CredentialRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.DeploymentRepository;
+import co.com.bancolombia.kabrilla.domain.gateway.k8s.KubeResourceRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.LogsRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.PodsRepository;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
@@ -59,6 +61,11 @@ public class BeanConfiguration {
     @Bean
     public LogsService logsService(LogsRepository repository) {
         return new LogsService(repository);
+    }
+
+    @Bean
+    public KubeResourceService kubeResourceService(KubeResourceRepository repository) {
+        return new KubeResourceService(repository);
     }
 
     // --- Estado compartido de UI ---

@@ -1,0 +1,90 @@
+# Manifiestos FALSOS de pagos-qa. payments-worker escala por una métrica externa (cola SQS).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-api
+  namespace: pagos-qa
+spec:
+  selector:
+    matchLabels:
+      app: payments-api
+  template:
+    metadata:
+      labels:
+        app: payments-api
+    spec:
+      containers:
+        - name: payments-api
+          image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/payments-api:3.1.0
+          envFrom:
+            - configMapRef:
+                name: payments-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-worker
+  namespace: pagos-qa
+spec:
+  selector:
+    matchLabels:
+      app: payments-worker
+  template:
+    metadata:
+      labels:
+        app: payments-worker
+    spec:
+      containers:
+        - name: payments-worker
+          image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/payments-worker:3.1.0
+          envFrom:
+            - configMapRef:
+                name: payments-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-api
+  namespace: pagos-qa
+spec:
+  clusterIP: 172.20.33.7
+  selector:
+    app: payments-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: payments-worker
+  namespace: pagos-qa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: payments-worker
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: External
+      external:
+        metric:
+          name: sqs_messages_visible
+        target:
+          type: AverageValue
+          averageValue: "30"
+status:
+  currentReplicas: 3
+  desiredReplicas: 4
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payments-config
+  namespace: pagos-qa
+data:
+  PSP_URL: https://sandbox.mock-psp.example.com
+  RETRY_MAX: "3"
+  QUEUE_NAME: payments-qa

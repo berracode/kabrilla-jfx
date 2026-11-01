@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class StyleToggleTest {
 
     @Test
-    void quitaHojasYEstilosEnLineaIncluidoLoAgregadoDespues() throws Exception {
+    void stripsStylesheetsAndInlineStylesIncludingLaterNodes() throws Exception {
         FxTestSupport.startToolkit();
 
         boolean ok = onFx(() -> {

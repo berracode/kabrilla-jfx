@@ -15,14 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UiLogFeederService extends Service<Void> {
     private final BlockingQueue<LogLine> buffer;
-    private final Consumer<String> onLinesBatchProcessed;
+    private final Consumer<List<LogLine>> onLinesBatchProcessed;
 
     // ~150 ms se percibe como tiempo real; 1000 líneas por lote da ~6.000 líneas/s de capacidad
     private static final long BATCH_INTERVAL_MS = 150;
     private static final int MAX_BATCH_LINES = 1000;
 
     // Pasamos el buffer y el callback explícitamente en el constructor
-    public UiLogFeederService(BlockingQueue<LogLine> buffer, Consumer<String> onLinesBatchProcessed) {
+    public UiLogFeederService(BlockingQueue<LogLine> buffer, Consumer<List<LogLine>> onLinesBatchProcessed) {
         this.buffer = buffer;
         this.onLinesBatchProcessed = onLinesBatchProcessed;
     }
@@ -43,18 +43,13 @@ public class UiLogFeederService extends Service<Void> {
                     // Extrae ráfagas acumuladas para armar el lote (batch)
                     buffer.drainTo(drainList, MAX_BATCH_LINES - 1);
 
-                    // Construcción del bloque de texto plano
-                    StringBuilder sb = new StringBuilder();
-                    for (LogLine logLine : drainList) {
-                        sb.append(logLine.timestamp()).append(" - ").append(logLine.text()).append(" \n");
-                    }
-                    String textBatch = sb.toString();
+                    List<LogLine> batch = List.copyOf(drainList);
 
-                    // Despachamos el bloque al hilo de JavaFX de forma segura
+                    // Despachamos el lote al hilo de JavaFX de forma segura
                     Platform.runLater(() -> {
                         // Si se detuvo mientras el lote esperaba, no se pinta
                         if (onLinesBatchProcessed != null && !isCancelled()) {
-                            onLinesBatchProcessed.accept(textBatch);
+                            onLinesBatchProcessed.accept(batch);
                         }
                     });
 

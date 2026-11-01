@@ -42,8 +42,18 @@ class LogsViewModelTest {
             };
         };
         vm = new LogsViewModel(new LogsService(repo));
-        vm.setOnLinesAppended(batch -> batch.lines().forEach(shown::add));
-        vm.setOnCleared(shown::clear);
+        vm.setView(new LogView() {
+            @Override
+            public void append(List<String> lines) {
+                shown.addAll(lines);
+            }
+
+            @Override
+            public void reset(List<String> lines) {
+                shown.clear();
+                shown.addAll(lines);
+            }
+        });
     }
 
     private void follow(String pod) throws Exception {
@@ -51,16 +61,16 @@ class LogsViewModelTest {
     }
 
     @Test
-    void lasLineasLleganALaVista() throws Exception {
+    void linesReachTheView() throws Exception {
         follow("pod-a");
         onLineByPod.get("pod-a").accept(LogLine.now("hola"));
 
         waitUntil(() -> shown.size() == 1);
-        assertTrue(shown.getFirst().endsWith("hola "));
+        assertTrue(shown.getFirst().endsWith("hola"));
     }
 
     @Test
-    void elStreamAnteriorNoContaminaAlNuevo() throws Exception {
+    void previousStreamDoesNotLeakIntoNewOne() throws Exception {
         follow("pod-a");
         follow("pod-b");
 
@@ -72,13 +82,13 @@ class LogsViewModelTest {
         waitUntil(() -> shown.size() == 1);
         Thread.sleep(300); // margen para que llegara cualquier lote o error indebido
         assertEquals(1, shown.size());
-        assertTrue(shown.getFirst().endsWith("linea nueva "));
+        assertTrue(shown.getFirst().endsWith("linea nueva"));
         assertNull(onFx(() -> vm.errorProperty().get()));
         assertTrue(onFx(() -> vm.followingProperty().get()));
     }
 
     @Test
-    void stopIgnoraLineasPosterioresYClearLimpiaLaVista() throws Exception {
+    void stopIgnoresLaterLinesAndClearEmptiesView() throws Exception {
         follow("pod-a");
         onLineByPod.get("pod-a").accept(LogLine.now("antes"));
         waitUntil(() -> shown.size() == 1);

@@ -137,6 +137,13 @@ public class PodsContentController implements DeploymentTab {
         }
     }
 
+    @FXML
+    private void onRefreshClicked() {
+        if (currentCtx != null) {
+            viewModel.loadPods(currentCtx);
+        }
+    }
+
 
     /**
      * En desuso, eliminar cuanto antes

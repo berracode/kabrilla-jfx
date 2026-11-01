@@ -7,11 +7,13 @@ import co.com.bancolombia.kabrilla.domain.gateway.ClusterRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.CredentialRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.DeploymentRepository;
+import co.com.bancolombia.kabrilla.domain.gateway.k8s.KubeResourceRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.LogsRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.PodsRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.FileClusterRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.JsonCredentialRepository;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.mock.MockDeploymentAdapter;
+import co.com.bancolombia.kabrilla.infrastructure.adapters.mock.MockKubeResourceAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.mock.MockLogsAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.adapters.mock.MockPodAdapter;
 import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeconfigAdapter;
@@ -62,6 +64,11 @@ public class MockAdaptersConfiguration {
     @Bean
     public PodsRepository podsRepository() {
         return new MockPodAdapter(mockDir.resolve("logs"));
+    }
+
+    @Bean
+    public KubeResourceRepository kubeResourceRepository() {
+        return new MockKubeResourceAdapter(mockDir.resolve("resources"));
     }
 
     @Bean
