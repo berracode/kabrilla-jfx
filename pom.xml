@@ -6,13 +6,18 @@
 
     <groupId>co.com.bancolombia</groupId>
     <artifactId>kabrilla</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <!-- La versión la define el tag de git (vX.Y.Z) en el workflow de release: mvn -Drevision=X.Y.Z -->
+    <version>${revision}</version>
     <name>kabrilla</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.boot.version>4.1.0</spring.boot.version>
         <lombok.version>1.18.42</lombok.version>
+        <!-- Versión para builds locales; en release se sobrescribe con -Drevision (ver .github/workflows/release.yml) -->
+        <revision>0.0.0-SNAPSHOT</revision>
+        <!-- Nombre de la app empaquetada (carpeta, ejecutable y ventana de jpackage) -->
+        <app.name>Kabrilla</app.name>
 
         <!-- Argumentos para javafx:run, combinables por perfil: -Pmock, -Pno-styles, -Pstyles (p. ej. -Pmock,no-styles) -->
         <kabrilla.args.profile></kabrilla.args.profile>
@@ -80,6 +85,8 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <!-- Solo en compilación: no debe ir dentro de la app empaquetada -->
+            <scope>provided</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.kubernetes/client-java -->
@@ -103,6 +110,7 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -175,6 +183,106 @@
             <properties>
                 <kabrilla.args.styles>--kabrilla.ui.styles-enabled=true</kabrilla.args.styles>
             </properties>
+        </profile>
+
+        <!--
+          ./mvnw clean package -Pportable -Drevision=X.Y.Z
+          Genera target/dist/Kabrilla/ (app-image de jpackage con su propio JRE: no requiere Java instalado).
+          Se ejecuta en modo classpath (main-jar + MainApplication): module-info no aplica y el runtime incluye
+          todos los módulos del JDK. Solo Windows (las dependencias de JavaFX se resuelven para el SO del build).
+        -->
+        <profile>
+            <id>portable</id>
+            <build>
+                <plugins>
+                    <!-- jpackage exige versión numérica (1.2.3): se extrae de ${revision} aunque traiga -beta.1 -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>parse-version</id>
+                                <goals>
+                                    <goal>parse-version</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Jar de la app + dependencias de runtime juntos en target/libs (entrada de jpackage) -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.4.2</version>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.8.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <includeScope>runtime</includeScope>
+                                    <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>jpackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${java.home}/bin/jpackage</executable>
+                                    <arguments>
+                                        <argument>--type</argument>
+                                        <argument>app-image</argument>
+                                        <argument>--name</argument>
+                                        <argument>${app.name}</argument>
+                                        <argument>--app-version</argument>
+                                        <argument>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</argument>
+                                        <argument>--vendor</argument>
+                                        <argument>${app.name}</argument>
+                                        <argument>--description</argument>
+                                        <argument>Cliente de escritorio de Kubernetes para logs</argument>
+                                        <argument>--icon</argument>
+                                        <argument>${project.basedir}/src/main/resources/images/kabrilla-icon.ico</argument>
+
+                                        <argument>--input</argument>
+                                        <argument>${project.build.directory}/libs</argument>
+                                        <argument>--main-jar</argument>
+                                        <argument>${project.build.finalName}.jar</argument>
+                                        <argument>--main-class</argument>
+                                        <argument>co.com.bancolombia.kabrilla.startup.MainApplication</argument>
+                                        <argument>--dest</argument>
+                                        <argument>${project.build.directory}/dist</argument>
+
+                                        <!-- Beta: consola visible para ver logs y errores (aún no hay log a archivo) -->
+                                        <argument>--win-console</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>-Xms64m -Xmx768m -XX:+UseSerialGC -Dfile.encoding=UTF-8</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

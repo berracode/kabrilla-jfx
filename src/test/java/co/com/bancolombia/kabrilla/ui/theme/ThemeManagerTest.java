@@ -12,6 +12,7 @@ import co.com.bancolombia.kabrilla.ui.FxTestSupport;
 import javafx.css.CssParser;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 class ThemeManagerTest {
@@ -29,6 +30,7 @@ class ThemeManagerTest {
     }
 
     @Test
+    @Tag("ui")
     void applyIsIdempotent() throws Exception {
         FxTestSupport.startToolkit();
         List<String> sheets = ThemeManager.stylesheets(true);

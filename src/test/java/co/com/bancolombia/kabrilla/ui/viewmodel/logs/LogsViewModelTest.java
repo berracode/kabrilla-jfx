@@ -27,8 +27,11 @@ import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRange;
 import co.com.bancolombia.kabrilla.ui.FxTestSupport;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+// "ui": arranca el toolkit de JavaFX; se puede excluir con -DexcludedGroups=ui (ver README)
+@Tag("ui")
 class LogsViewModelTest {
 
     /**

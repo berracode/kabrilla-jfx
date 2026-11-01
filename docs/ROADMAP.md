@@ -32,7 +32,8 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [ ] Seguridad: no imprimir token ni headers (`LoggingInterceptor`, `KubeClientFactory`, `JsonCredentialRepository` loguea credenciales con `@ToString`)
 - [ ] Errores visibles en UI en vez de `printStackTrace` (NPE de listeners en `MainTabController`/`DeploymentTabController` ya corregidos)
 - [ ] `KubeconfigAdapter` tolerante (users sin `exec`, CA inválida o por ruta)
-- [ ] Estado local en `~/.kabrilla/` en vez de `user.dir`
+- [ ] **Estado local en `~/.kabrilla/`** en vez de `user.dir` (prioritario ahora que hay versión portable: hoy
+      `clusters.json`/`credentials.2.json` quedan junto al `.exe` y hay que copiarlos al actualizar)
 
 ## Beta (equipo completo)
 - [x] Historial por fecha desde la API de Kubernetes: rangos rápidos, personalizado desde/hasta, todo lo
@@ -50,8 +51,12 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [ ] (Evaluado, en pausa) Grabar logs en SQLite local: solo como copia paralela opcional, no en el camino en vivo;
       validar antes política de seguridad sobre logs de QA en disco y si 50.000 líneas se quedan cortas
 - [ ] Exportar logs a archivo
-- [ ] Instalador con `jpackage` (.msi con JRE embebido) + README de instalación para el equipo
-- [ ] CI (GitHub Actions) con build + tests
+- [x] Versión portable con `jpackage` (app-image + JRE, ZIP) y README de instalación
+- [x] Release por tag semver `vX.Y.Z` (GitHub Actions: tests + jpackage + Release con ZIP; `-beta`/`-rc` = pre-release)
+- [ ] Instalador `.msi` (jpackage `--type msi`, requiere WiX en el runner) con accesos directos y actualización
+- [ ] Logs de la app a archivo (`~/.kabrilla/logs`) y quitar `--win-console`
+- [ ] Reducir tamaño del runtime con `--add-modules` explícitos (hoy ~105 MB el ZIP)
+- [ ] CI en cada push/PR (build + tests) además del release; probar si los tests `@Tag("ui")` corren en `windows-latest`
 - [x] Rediseño visual: tema oscuro negro + morados con paleta centralizada (`kabrilla-dark.css`), sin estilos en línea
 - [x] Fondo negro mate (variante A) en vez de negro violáceo
 - [ ] Colorear líneas de log por nivel (ERROR/WARN) con clases del tema

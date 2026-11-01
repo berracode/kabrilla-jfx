@@ -3,8 +3,18 @@
 Cliente de escritorio para Kubernetes, multi-cluster, pensado para **ver y filtrar logs de pods rápido**,
 sin depender de Grafana. Se conecta directo a los clusters (AWS EKS) con la API de Kubernetes.
 
-> **Estado: pre-alfa.** Funciona la navegación, los logs en vivo con filtros y la consulta de recursos del
-> deployment. El instalador y la autenticación SSO están en camino: ver [docs/ROADMAP.md](docs/ROADMAP.md).
+> **Estado: beta.** Probada contra EKS: navegación, logs en vivo con filtros, historial por rango y recursos del
+> deployment. Próximos pasos en [docs/ROADMAP.md](docs/ROADMAP.md).
+
+## Instalación (Windows, versión portable)
+
+1. Descarga `kabrilla-X.Y.Z-win-portable.zip` de la página **Releases** del repositorio.
+2. Descomprímelo donde quieras (p. ej. `C:\Tools\Kabrilla`). No necesita instalar Java: trae su propio runtime.
+3. Abre `Kabrilla\Kabrilla.exe`. Se abre también una consola con los logs de la app (útil si algo falla).
+4. Requisitos para conectarte a EKS: ver [Requisitos](#requisitos) (AWS CLI y `~/.kube/config`).
+
+Tus namespaces registrados y credenciales (`clusters.json`, `credentials.2.json`) se guardan en la carpeta
+`Kabrilla` junto al `.exe`. **Al actualizar a una versión nueva, copia esos dos archivos** a la carpeta nueva.
 
 ## Qué hace hoy
 
@@ -20,7 +30,8 @@ sin depender de Grafana. Se conecta directo a los clusters (AWS EKS) con la API 
 
 ## Requisitos
 
-- Java 21 o superior. No hace falta instalar Maven: el proyecto trae `mvnw` / `mvnw.cmd`.
+- Para desarrollar: Java 21 o superior (JDK, incluye `jpackage`). No hace falta instalar Maven: el proyecto trae
+  `mvnw` / `mvnw.cmd`. La versión portable no requiere Java.
 - Para clusters reales:
   - AWS CLI v2 en el `PATH` (la app ejecuta `aws eks get-token` para autenticarse).
   - `~/.kube/config` con los clusters EKS: `aws eks update-kubeconfig --name <cluster> --region <region>`.
@@ -135,6 +146,8 @@ En modo real la app guarda su estado en la carpeta desde donde se ejecuta. **No 
 | `./mvnw test` | Correr los tests (algunos abren JavaFX: necesitan sesión gráfica, no corren en un servidor sin pantalla) |
 | `./mvnw test -Dtest=LogFilterTest` | Correr un solo test |
 | `./mvnw clean` | Borrar `target/` |
+| `./mvnw test -DexcludedGroups=ui` | Tests sin los de UI (`@Tag("ui")`, abren JavaFX); así corren en CI |
+| `./mvnw clean package -Pportable -Drevision=0.9.0` | Genera la app portable en `target/dist/Kabrilla/` (jpackage, con JRE incluido). Probarla: `target/dist/Kabrilla/Kabrilla.exe` (agrega `--spring.profiles.active=mock` para datos simulados, desde la raíz del proyecto) |
 | `cd mock-data && ./generar-logs.sh <archivo> <líneas>` | Generar logs sintéticos para el modo mock (Git Bash). Ver [mock-data/README.md](mock-data/README.md) |
 
 ### Tema y estilos
@@ -174,3 +187,23 @@ Más detalle técnico (decisiones y trampas conocidas, como `module-info.java` c
 - Código (clases, métodos, variables, tests) en inglés; comentarios, logs y textos de UI en español.
 - Nunca subas credenciales, kubeconfigs reales ni logs o manifiestos de clusters reales.
 - Si agregas un comando o una forma de ejecutar algo, documéntalo en este README.
+
+### Publicar una versión
+
+Versionado semántico con tags `vMAJOR.MINOR.PATCH` (opcionalmente pre-release: `v1.0.0-beta.1`, `v1.0.0-rc.1`).
+La versión **solo** se define en el tag: el pom usa `${revision}` (`0.0.0-SNAPSHOT` en local).
+
+```bash
+git tag v0.9.0-beta.1
+git push origin v0.9.0-beta.1
+```
+
+El workflow [.github/workflows/release.yml](.github/workflows/release.yml) (Windows):
+1. valida que el tag sea semver,
+2. compila, corre los tests (sin los de UI) y genera la app con jpackage (`-Pportable -Drevision=<versión>`),
+3. la comprime en `kabrilla-<versión>-win-portable.zip` (~105 MB),
+4. crea el Release en GitHub con el ZIP y notas generadas desde los commits/PRs. Los tags con `-` (beta, rc)
+   se publican como **pre-release**.
+
+Si el workflow falla, se puede borrar el tag (`git push --delete origin vX.Y.Z` y `git tag -d vX.Y.Z`), corregir
+y volver a crearlo.

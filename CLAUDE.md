@@ -89,3 +89,13 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
 - Nunca versionar credenciales ni loguear tokens/headers de autorización. Los archivos locales
   (`credentials*.json`, `clusters.json`) están en `.gitignore`; los datos de prueba van en `mock-data/`.
 - **Los commits los hace el usuario**: no ejecutar `git commit`/`push`; dejar los cambios listos y resumirlos.
+
+## Empaquetado y releases
+- Versión solo en el tag git `vX.Y.Z` (semver, pre-release con `-beta.N`/`-rc.N`); el pom usa `${revision}`
+  (`0.0.0-SNAPSHOT` local). `.github/workflows/release.yml` (windows-latest) corre
+  `mvnw clean package -Pportable -Drevision=<versión> -DexcludedGroups=ui` y publica `kabrilla-<versión>-win-portable.zip`.
+- Perfil `portable`: jpackage app-image en modo **classpath** (`--main-jar` + `MainApplication`, que lanza JavaFX sin
+  extender `Application`); ahí `module-info` no aplica. `--app-version` numérico vía `build-helper:parse-version`.
+  Probar localmente: `target/dist/Kabrilla/Kabrilla.exe --spring.profiles.active=mock` desde la raíz.
+- Lombok es `provided` (no entra al paquete). Tests que arrancan JavaFX llevan `@Tag("ui")` (excluidos en CI).
+- La app portable escribe `clusters.json`/`credentials.2.json` en su directorio de trabajo (carpeta del .exe).
