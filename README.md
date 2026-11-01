@@ -79,6 +79,9 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 4. Expande el namespace y selecciona un deployment: se abre una pestaña con sus pods, logs y recursos.
 5. En **Logs**:
    - Elige el pod. El stream arranca solo con las últimas 200 líneas.
+   - **Container**: con Istio cada pod tiene al menos dos (la app e `istio-proxy`). Se preselecciona el de la
+     app: el de la anotación `kubectl.kubernetes.io/default-container` si el pod la tiene, si no el primero que
+     no sea un sidecar conocido (`istio-proxy`, `linkerd-proxy`, `aws-xray-daemon`, ...). Cámbialo para ver otro.
    - **Buscar** filtra mientras escribes. Activa **Regex** para expresiones regulares y **Mayús/minús** para
      distinguir mayúsculas. Al lado se ve cuántas líneas coinciden.
    - **Nivel mínimo** WARN muestra WARN y ERROR. Las líneas sin nivel reconocible solo se ven con "Todos".
@@ -94,6 +97,7 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | Síntoma | Causa / solución |
 |---|---|
 | `NoClassDefFoundError: java/sql/...` u otra clase `java/...` al expandir un namespace | Falta un módulo del JDK en `module-info.java` (`requires java.sql;`). Ver la sección "Trampas conocidas" de [CLAUDE.md](CLAUDE.md). |
+| Logs vacíos o `a container name must be specified` | Elige el container correcto en el combo **Container** de la pestaña Logs. |
 | `Error K8s (401)` | Credenciales AWS vencidas: vuelve a pegarlas con **Agregar credenciales**. |
 | `Error K8s (403)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
 | `Illegal base64 character` al arrancar | El `certificate-authority-data` de `~/.kube/config` no es válido; regenera con `aws eks update-kubeconfig`. |

@@ -2,7 +2,6 @@ package co.com.bancolombia.kabrilla.ui.controller.commands;
 
 import java.util.List;
 
-import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Pod;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLevel;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
@@ -43,6 +42,8 @@ public class LogsContentController implements DeploymentTab, LogView {
     @FXML
     private ComboBox<Pod> podCombo;
     @FXML
+    private ComboBox<String> containerCombo;
+    @FXML
     private CheckBox autoScrollCheck;
     @FXML
     private Label errorLabel;
@@ -64,8 +65,9 @@ public class LogsContentController implements DeploymentTab, LogView {
     private Label matchCountLabel;
 
     private DeploymentContext ctx;
-    private Pod pendingPodSelection;
     private String filterError;
+    // Evita reabrir el stream mientras se reemplazan los containers al cambiar de pod
+    private boolean updatingContainers;
 
 
     public LogsContentController(PodsViewModel podsVM, LogsViewModel logsVM) {
@@ -103,20 +105,28 @@ public class LogsContentController implements DeploymentTab, LogView {
             }
         });
 
-        // (Re)abrir stream al cambiar pod seleccionado
+        // Al cambiar de pod: cargar sus containers con el de la app preseleccionado y (re)abrir el stream
         podCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldPod, newPod) -> {
             log.info("Cambio selección ComboBox: {}", newPod != null ? newPod.getName() : "null");
+            updatingContainers = true;
             if (newPod == null) {
+                containerCombo.getItems().clear();
+                updatingContainers = false;
                 logsVM.stop();
                 return;
             }
-            if (ctx == null) {
-                // Aún no han llamado setDeploymentContext: memoriza selección
-                pendingPodSelection = newPod;
-                log.info("Contexto aún no está listo; guardo selección pendiente: {}", newPod.getName());
-                return;
+            containerCombo.getItems().setAll(newPod.getContainers());
+            containerCombo.setValue(newPod.getDefaultContainer());
+            containerCombo.setDisable(newPod.getContainers().size() <= 1);
+            updatingContainers = false;
+            restartStream();
+        });
+
+        // Al cambiar de container (p. ej. ver istio-proxy) se reabre el stream del mismo pod
+        containerCombo.valueProperty().addListener((obs, old, container) -> {
+            if (!updatingContainers && container != null) {
+                restartStream();
             }
-            startStreamFor(newPod);
         });
     }
 
@@ -214,39 +224,30 @@ public class LogsContentController implements DeploymentTab, LogView {
         this.ctx = ctx;
         log.info("setDeploymentContext recibido: cluster={} ns={} deploy={}",
                  ctx.clusterName(), ctx.namespace(), ctx.deploymentName());
-
-        // Si ya hay selección pendiente, arranca con esa
-        if (pendingPodSelection != null) {
-            Pod sel = pendingPodSelection;
-            pendingPodSelection = null;
-            startStreamFor(sel);
-            return;
-        }
-
-        // Si no hay pendiente pero ya hay algo seleccionado, arranca
-        Pod selected = podCombo.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            startStreamFor(selected);
-        }
+        // Si el pod se seleccionó antes de tener contexto, el stream arranca ahora
+        restartStream();
     }
 
-
-    private void startStreamFor(Pod pod) {
+    /**
+     * Abre el stream del pod y container seleccionados (si ya hay contexto y pod).
+     */
+    private void restartStream() {
+        Pod pod = podCombo.getSelectionModel().getSelectedItem();
+        if (pod == null || ctx == null) {
+            return;
+        }
+        String container = containerCombo.getValue();
         logsVM.clear();
-        var credentials = AwsCredentials.builder().accessKey(ctx.credentials().accessKey())
-                .secretKey(ctx.credentials().secretKey())
-                .clusterName(ctx.credentials().clusterName())
-                .sessionToken(ctx.credentials().sessionToken()).build();
         logsVM.startFollowing(
-                ctx.kubeConfig(), credentials,
+                ctx.kubeConfig(), ctx.awsCredentials(),
                 ctx.clusterName(), ctx.namespace(), ctx.deploymentName(),
                 pod.getName(),
-                null,   // container: si tienes multi-container, pásalo desde la UI
-                false,  // timestamps: si tu cluster los agrega en el payload y quieres mostrarlos
-                200,    // tail inicial para contexto
-                null    // sinceSeconds
+                container, // null solo si el pod no reporta containers: la API usa el único que haya
+                false,     // timestamps: si tu cluster los agrega en el payload y quieres mostrarlos
+                200,       // tail inicial para contexto
+                null       // sinceSeconds
         );
-        log.info("Siguiendo logs de pod {}", pod.getName());
+        log.info("Siguiendo logs de pod {} container {}", pod.getName(), container);
     }
 
 
@@ -275,10 +276,7 @@ public class LogsContentController implements DeploymentTab, LogView {
             return;
         }
         // Reanudar: vuelve a abrir el stream del pod seleccionado (trae de nuevo las últimas 200 líneas)
-        Pod selected = podCombo.getSelectionModel().getSelectedItem();
-        if (selected != null && ctx != null) {
-            startStreamFor(selected);
-        }
+        restartStream();
     }
 
     @FXML

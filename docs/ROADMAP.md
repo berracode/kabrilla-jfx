@@ -25,7 +25,9 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
   - [ ] Probar en EKS real: permisos RBAC, Istio v1 vs v1beta1, clusters sin Istio
 - [ ] Navegar entre coincidencias (anterior/siguiente) y copiar selección del área de logs con atajo
 - [ ] Timestamps reales del pod (`timestamps=true` y parsear) en vez de `LogLine.now`
-- [ ] Selector de container (quitar el default `movilidad-integration-product-container` de `LogsAdapter`)
+- [x] Selector de container: default por anotación `default-container` o primer no-sidecar (antes había un
+      container escrito a mano y solo funcionaban los logs de un deployment)
+  - [ ] Confirmar en EKS con varios deployments e Istio
 - [ ] Pods por label selector del deployment (hoy `PodAdapter` filtra por prefijo del nombre)
 - [ ] Seguridad: no imprimir token ni headers (`LoggingInterceptor`, `KubeClientFactory`, `JsonCredentialRepository` loguea credenciales con `@ToString`)
 - [ ] Errores visibles en UI en vez de `printStackTrace` (NPE de listeners en `MainTabController`/`DeploymentTabController` ya corregidos)

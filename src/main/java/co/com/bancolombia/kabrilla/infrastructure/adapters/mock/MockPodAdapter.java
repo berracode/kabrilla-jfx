@@ -9,6 +9,7 @@ import java.util.List;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.PodsRepository;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
+import co.com.bancolombia.kabrilla.domain.model.k8s.ContainerSelector;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Pod;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,18 @@ public class MockPodAdapter implements PodsRepository {
                 .resolve(deploymentName);
         log.info("[MOCK] Leyendo pods de {}", deploymentDir.toAbsolutePath());
 
+        // Como en un cluster con Istio: container de la app + sidecar istio-proxy
+        List<String> containers = List.of(deploymentName, "istio-proxy");
         List<Path> files = MockFiles.list(deploymentDir).stream().filter(MockFiles::isLogFile).toList();
         return files.stream()
-                .map(file -> new Pod(MockFiles.podName(file), "Running", 0, ageOf(file), "mock-node-1"))
+                .map(file -> Pod.builder()
+                        .name(MockFiles.podName(file))
+                        .status("Running")
+                        .age(ageOf(file))
+                        .node("mock-node-1")
+                        .containers(containers)
+                        .defaultContainer(ContainerSelector.pickDefault(containers, null))
+                        .build())
                 .toList();
     }
 

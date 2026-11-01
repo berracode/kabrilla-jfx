@@ -21,7 +21,9 @@ mock-data/
 ```
 
 - **Deployment** = cada carpeta dentro de `logs/<cluster>/<namespace>/`.
-- **Pod** = cada archivo `.log` o `.txt` dentro de la carpeta del deployment (nombre sin extensión).
+- **Pod** = cada archivo `.log` o `.txt` dentro de la carpeta del deployment (nombre sin extensión). Cada pod
+  simula Istio con dos containers: `<deployment>` (preseleccionado) e `istio-proxy`. El mock muestra el mismo
+  archivo para ambos containers; sirve para probar el selector, no el contenido.
 - **Logs** = el contenido del archivo. Se reproduce línea a línea (`kabrilla.mock.line-delay-ms`, 100 ms por defecto)
   y después queda "siguiendo" el archivo: lo que agregues aparece en la app, como `kubectl logs -f`.
 

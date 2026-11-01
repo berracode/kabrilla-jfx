@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -60,8 +59,11 @@ public class LogsAdapter implements LogsRepository {
         // Usamos el builder del endpoint de logs con follow(true)
         var reqBuilder = api.readNamespacedPodLog(podName, namespace)
                 .follow(true)
-                .timestamps(timestamps)
-                .container(Objects.requireNonNullElse(container, "movilidad-integration-product-container"));
+                .timestamps(timestamps);
+        // Obligatorio si el pod tiene varios containers (p. ej. app + istio-proxy); con uno solo se puede omitir
+        if (container != null) {
+            reqBuilder.container(container);
+        }
 
         if (tailLines != null) {
             reqBuilder.tailLines(tailLines);

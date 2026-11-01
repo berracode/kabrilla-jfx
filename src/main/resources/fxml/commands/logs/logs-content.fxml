@@ -18,6 +18,8 @@
         <children>
             <Label style="-fx-text-fill: #DDDDDD;" text="Pod:"/>
             <ComboBox fx:id="podCombo" prefWidth="400.0"/>
+            <Label style="-fx-text-fill: #DDDDDD;" text="Container:"/>
+            <ComboBox fx:id="containerCombo" prefWidth="220.0"/>
             <Button onAction="#onRefreshPodsClicked" text="Refrescar pods"/>
 
             <Separator orientation="VERTICAL"/>
