@@ -111,6 +111,24 @@
     </dependencyManagement>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <!-- Sin filtrar: application.properties usa ${...} de Spring (p. ej. ${user.home}) que Maven no debe tocar -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>kabrilla-version.properties</exclude>
+                </excludes>
+            </resource>
+            <!-- Filtrado: escribe ${project.version} (la del tag en releases) -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>kabrilla-version.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -80,7 +80,6 @@ public class SidebarStateViewModel {
     }
 
     public void loadClustersAsync(TreeItem<String> rootItem) {
-        log.info("Aqui 1.1");
         rootItem.setExpanded(true);
 
 
@@ -97,22 +96,20 @@ public class SidebarStateViewModel {
         });
 
         task.setOnFailed(event -> {
-            rootItem.getChildren().add(new TreeItem<>("❌ Error al cargar clusters"));
-            task.getException().printStackTrace();
+            removeLoadingPlaceholder(rootItem);
+            Throwable cause = task.getException();
+            log.error("No se pudieron cargar los clusters", cause);
+            rootItem.getChildren().add(new TreeItem<>("No se pudo leer ~/.kube/config: " + cause.getMessage()));
         });
 
-        log.info("Aqui 1.2");
 
         new Thread(task).start();
-        log.info("Aqui 1.3");
 
     }
 
     public void bindTreeViewToState(TreeItem<String> root) {
         root.setExpanded(true);
-        log.info("Aqui 2.1");
 
-        log.info("Aqui 2.3");
         root.getChildren().add(new TreeItem<>("Cargando clusters..."));
         log.info("2.4: clusterNamespaceState {}", clusterNamespaceStateViewModel.getObservableClusters().size());
 
@@ -182,37 +179,41 @@ public class SidebarStateViewModel {
     private void populateTreeWithClusters(TreeItem<String> root, ClusterInfo clusterInfo) {
         var kubeConfigModel = clusterInfo.getKubeConfigModel();
         var clustersFromJson = clusterInfo.getClustersWithNamespace();
-        log.info("Aqui 1.4");
 
-        var firstTreeItem = root.getChildren().getFirst();
-        if (firstTreeItem.getValue().equals("Cargando clusters...")) {
-            root.getChildren().clear();
-            log.info("Aqui 1.5");
+        removeLoadingPlaceholder(root);
 
-        }
-        kubeConfigModel.getClusters().forEach(c -> {
-            KubeClusterItemViewModel item = new KubeClusterItemViewModel(
-                    c.getCluster().getServer(),
-                    c.getName(),
-                    Base64.getDecoder().decode(c.getCluster().getCertificateAuthorityData())
-            );
-            addKubeConfig(item);
-        });
+        // Solo clusters EKS (la app se autentica con "aws eks get-token"). Un cluster local (docker-desktop, minikube)
+        // o una entrada inválida se omite con un aviso, sin impedir que se carguen los demás.
+        for (var c : kubeConfigModel.getClusters()) {
+            String arn = c.getName();
+            if (arn == null || !arn.contains(":cluster/")) {
+                log.info("Se omite el cluster '{}' del kubeconfig: no es un cluster EKS", arn);
+                continue;
+            }
+            byte[] caCert;
+            try {
+                caCert = Base64.getDecoder().decode(c.getCluster().getCertificateAuthorityData());
+            } catch (RuntimeException e) {
+                log.warn("Se omite el cluster '{}': certificate-authority-data ausente o inválido", arn);
+                continue;
+            }
+            addKubeConfig(new KubeClusterItemViewModel(c.getCluster().getServer(), arn, caCert));
 
-
-        List<String> clusterNames = kubeConfigModel.getClusters().stream()
-                .map(c -> c.getName().split("/")[1])
-                .toList();
-
-        for (String clusterName : clusterNames) {
+            String clusterName = arn.substring(arn.lastIndexOf('/') + 1);
             Cluster cluster = clustersFromJson.stream()
-                    .filter(c -> c.getName().equals(clusterName))
+                    .filter(existing -> existing.getName().equals(clusterName))
                     .findFirst()
                     .orElse(new Cluster(clusterName));
-
             clusterNamespaceStateViewModel.getObservableClusters().add(new ClusterStateViewModel(cluster));
         }
 
+        if (clusterNamespaceStateViewModel.getObservableClusters().isEmpty()) {
+            root.getChildren().add(new TreeItem<>("No hay clusters EKS en ~/.kube/config"));
+        }
+    }
+
+    private static void removeLoadingPlaceholder(TreeItem<String> root) {
+        root.getChildren().removeIf(item -> "Cargando clusters...".equals(item.getValue()));
     }
 
     private TreeItem<String> createClusterTreeItem(String clusterName) {

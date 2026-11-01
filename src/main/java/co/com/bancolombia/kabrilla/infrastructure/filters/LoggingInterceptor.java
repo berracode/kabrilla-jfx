@@ -2,30 +2,27 @@ package co.com.bancolombia.kabrilla.infrastructure.filters;
 
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Traza de llamadas a la API de Kubernetes en nivel DEBUG.
+ * Nunca registra headers: llevan el token Bearer de EKS.
+ */
+@Slf4j
 public class LoggingInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-
-        // Log detalles de la petición
-        System.out.println("➡️ REQUEST");
-        System.out.println("URL: " + request.url());
-        System.out.println("Method: " + request.method());
-        System.out.println("Headers:\n" + request.headers());
-
-        // Ejecutar la petición
+        long start = System.nanoTime();
         Response response = chain.proceed(request);
-
-        // Log detalles de la respuesta
-        System.out.println("⬅️ RESPONSE");
-        System.out.println("Code: " + response.code());
-        System.out.println("Message: " + response.message());
-        System.out.println("Headers:\n" + response.headers());
-
+        if (log.isDebugEnabled()) {
+            // Solo ruta (sin query): puede incluir parámetros que no aportan al diagnóstico
+            log.debug("K8s {} {} -> {} ({} ms)", request.method(), request.url().encodedPath(), response.code(),
+                      (System.nanoTime() - start) / 1_000_000);
+        }
         return response;
     }
 }

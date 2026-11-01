@@ -41,7 +41,6 @@ public class KubeClientFactory {
                 if (tokenExpired(current)) {
                     // Refrescamos token en caliente
                     String newToken = tokenProvider.getToken(credentials);
-                    System.out.println("TOKEN: " + newToken);
                     current.client.setApiKey(newToken);
                     current.expiresAt = LocalDateTime.now().plus(TOKEN_TTL);
                 }

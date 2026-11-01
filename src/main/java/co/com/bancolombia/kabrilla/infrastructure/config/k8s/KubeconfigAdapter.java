@@ -71,6 +71,9 @@ public class KubeconfigAdapter implements KubeconfigRepository {
             var userMap = (LinkedHashMap<String, Object>) userObj;
             var userData = (LinkedHashMap<String, Object>) userMap.get("user");
             var exec = (LinkedHashMap<String, Object>) userData.get("exec");
+            if (exec == null) {
+                continue; // usuario con token/certificado en vez de exec: no aplica a EKS
+            }
             var apiVersion = (String) exec.get("apiVersion");
             var command = (String) exec.get("command");
             var args = (ArrayList<String>) exec.get("args");

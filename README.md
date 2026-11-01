@@ -10,11 +10,14 @@ sin depender de Grafana. Se conecta directo a los clusters (AWS EKS) con la API 
 
 1. Descarga `kabrilla-X.Y.Z-win-portable.zip` de la página **Releases** del repositorio.
 2. Descomprímelo donde quieras (p. ej. `C:\Tools\Kabrilla`). No necesita instalar Java: trae su propio runtime.
-3. Abre `Kabrilla\Kabrilla.exe`. Se abre también una consola con los logs de la app (útil si algo falla).
+3. Abre `Kabrilla\Kabrilla.exe`. Se abre también una consola con los logs de la app (útil si algo falla; nunca
+   muestra tokens ni credenciales). La versión aparece en el título de la ventana.
+   - Si Windows muestra "Windows protegió su PC" (el ejecutable aún no está firmado): *Más información* →
+     *Ejecutar de todas formas*.
 4. Requisitos para conectarte a EKS: ver [Requisitos](#requisitos) (AWS CLI y `~/.kube/config`).
 
-Tus namespaces registrados y credenciales (`clusters.json`, `credentials.2.json`) se guardan en la carpeta
-`Kabrilla` junto al `.exe`. **Al actualizar a una versión nueva, copia esos dos archivos** a la carpeta nueva.
+Tus namespaces registrados y credenciales se guardan en `%USERPROFILE%\.kabrilla\` (ver [Archivos locales](#archivos-locales)):
+para actualizar basta con descomprimir la versión nueva y borrar la carpeta anterior.
 
 ## Qué hace hoy
 
@@ -78,6 +81,8 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | Propiedad | Default | Archivo | Descripción |
 |---|---|---|---|
 | `kabrilla.ui.styles-enabled` | `true` | `src/main/resources/application.properties` | Tema oscuro on/off (off = tema base de JavaFX) |
+| `kabrilla.data-dir` | `${user.home}/.kabrilla` | `src/main/resources/application.properties` | Carpeta de datos local (namespaces y credenciales) |
+| `kabrilla.kubeconfig` | (vacío) | — | Kubeconfig a usar. Si está vacío: variable `KUBECONFIG` (primer archivo) y si no `~/.kube/config` |
 | `kabrilla.mock.dir` | `mock-data` | `src/main/resources/application-mock.properties` | Carpeta de datos del modo mock |
 | `kabrilla.mock.line-delay-ms` | `100` | `src/main/resources/application-mock.properties` | Pausa entre líneas al reproducir logs mock. No bajar de ~20 |
 | `kabrilla.mock.history-step-ms` | `2000` | `src/main/resources/application-mock.properties` | Separación en el tiempo entre líneas de un archivo mock para las consultas por **Rango** |
@@ -123,20 +128,27 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | Logs vacíos o `a container name must be specified` | Elige el container correcto en el combo **Container** de la pestaña Logs. |
 | `Error K8s (401)` | Credenciales AWS vencidas: vuelve a pegarlas con **Agregar credenciales**. |
 | `Error K8s (403)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
-| `Illegal base64 character` al arrancar | El `certificate-authority-data` de `~/.kube/config` no es válido; regenera con `aws eks update-kubeconfig`. |
+| Falta un cluster en el panel | Solo se muestran clusters **EKS** (nombre `arn:aws:eks:...:cluster/<nombre>`) con `certificate-authority-data` válido; los demás se omiten y la consola dice por qué. Regenera con `aws eks update-kubeconfig`. |
+| "No se pudo leer ~/.kube/config" | No existe el kubeconfig: `aws eks update-kubeconfig --name <cluster> --region <region>`, o usa `KUBECONFIG` / `--kabrilla.kubeconfig=<ruta>`. |
+| "No se pudo ejecutar AWS CLI" / "AWS CLI no devolvió token" | Instala AWS CLI v2 y verifica que `aws` esté en el PATH; si dice `ExpiredToken`, vuelve a pegar las credenciales. |
 | Rango con "Kubernetes conserva logs de este container solo desde ..." | Normal: Kubernetes ya rotó o perdió lo anterior. Para más historia hará falta Loki (ver roadmap). |
 | `HTTP 400: previous terminated container ... not found` | El container no ha reiniciado: no hay "container anterior". |
 | Pestañas de Istio vacías | El cluster no tiene Istio instalado o no hay políticas para ese deployment. |
 
 ## Archivos locales
 
-En modo real la app guarda su estado en la carpeta desde donde se ejecuta. **No los subas a git**
-(ya están en `.gitignore`):
+En modo real la app guarda su estado en la carpeta de datos del usuario, `~/.kabrilla/`
+(`%USERPROFILE%\.kabrilla\` en Windows; configurable con `kabrilla.data-dir`). Está en tu perfil, así que solo tu
+usuario puede leerla y sobrevive a las actualizaciones de la app.
 
 | Archivo | Contenido |
 |---|---|
 | `clusters.json` | namespaces registrados por cluster |
-| `credentials.2.json` | credenciales AWS por cluster (**secretos**) |
+| `credentials.json` | credenciales AWS temporales por cluster (**secretos**, en texto plano como `~/.aws/credentials`) |
+
+Versiones anteriores guardaban `clusters.json` y `credentials.2.json` en la carpeta desde donde se ejecutaba la app:
+en el primer arranque se **copian** a `~/.kabrilla/` (sin sobrescribir nada) y el log lo indica. Después puedes
+borrar los archivos viejos. Nunca los subas a git (están en `.gitignore`).
 
 ## Desarrollo
 
@@ -194,15 +206,16 @@ Versionado semántico con tags `vMAJOR.MINOR.PATCH` (opcionalmente pre-release: 
 La versión **solo** se define en el tag: el pom usa `${revision}` (`0.0.0-SNAPSHOT` en local).
 
 ```bash
-git tag v0.9.0-beta.1
-git push origin v0.9.0-beta.1
+git tag v1.0.0-rc.1
+git push origin v1.0.0-rc.1
 ```
 
 El workflow [.github/workflows/release.yml](.github/workflows/release.yml) (Windows):
 1. valida que el tag sea semver,
 2. compila, corre los tests (sin los de UI) y genera la app con jpackage (`-Pportable -Drevision=<versión>`),
 3. la comprime en `kabrilla-<versión>-win-portable.zip` (~105 MB),
-4. crea el Release en GitHub con el ZIP y notas generadas desde los commits/PRs. Los tags con `-` (beta, rc)
+4. crea el Release en GitHub con el ZIP. Notas: el contenido de `docs/releases/<tag>.md` si existe (escríbelo antes
+   de crear el tag) más las generadas desde commits/PRs. Los tags con `-` (beta, rc)
    se publican como **pre-release**.
 
 Si el workflow falla, se puede borrar el tag (`git push --delete origin vX.Y.Z` y `git tag -d vX.Y.Z`), corregir

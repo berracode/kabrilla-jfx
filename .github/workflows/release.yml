@@ -60,10 +60,24 @@ jobs:
           Write-Host "[SUCCESS] ZIP creado: target/$zipName"
           "zip=target/$zipName" >> $env:GITHUB_OUTPUT
 
+      # Notas escritas a mano (docs/releases/<tag>.md) si existen; GitHub agrega debajo los cambios generados
+      - name: Find release notes
+        id: notes
+        shell: pwsh
+        run: |
+          $notes = "docs/releases/${{ github.ref_name }}.md"
+          if (Test-Path $notes) {
+              Write-Host "[INFO] Usando notas de $notes"
+              "path=$notes" >> $env:GITHUB_OUTPUT
+          } else {
+              Write-Host "[INFO] Sin notas manuales: solo notas generadas"
+          }
+
       - name: Create GitHub Release and Upload Asset
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.zip.outputs.zip }}
+          body_path: ${{ steps.notes.outputs.path }}
           generate_release_notes: true
           prerelease: ${{ steps.version.outputs.prerelease }}
         env:

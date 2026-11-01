@@ -13,7 +13,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CreateNamespaceController {
 
 
@@ -66,7 +68,7 @@ public class CreateNamespaceController {
         if (!clusterName.isEmpty() && !namespace.isEmpty()) {
             clusterService.createNamespace(clusterName, namespace);
             clusterState.addNamespaceToCluster(clusterName, new Namespace(namespace));
-            System.out.println("Namespace guardado en clusters.json");
+            log.info("Namespace {} registrado en el cluster {}", namespace, clusterName);
         }
     }
 }

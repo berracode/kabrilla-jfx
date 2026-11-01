@@ -20,17 +20,13 @@ public class JsonCredentialRepository implements CredentialRepository {
     private final String filePath;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public JsonCredentialRepository() {
-        this("credentials.2.json");
-    }
-
     public JsonCredentialRepository(String filePath) {
         this.filePath = filePath;
     }
 
     @Override
     public void save(AwsCredentials credentials) {
-        log.info("Credenciales a guardar: {}", credentials);
+        log.info("Guardando credenciales del cluster {}", credentials.getClusterName());
         List<AwsCredentials> all = findAll();
         log.info("Credenciales actuales: {}", all.size());
         all.removeIf(c -> c.getClusterName().equals(credentials.getClusterName())); // Reemplaza si ya existe
@@ -54,7 +50,7 @@ public class JsonCredentialRepository implements CredentialRepository {
         if (!file.exists()) {
             return new ArrayList<>();
         }
-        log.info("Exitse el archivo de credenciales..");
+        log.debug("Leyendo credenciales de {}", file.getAbsolutePath());
         try {
             return objectMapper.readValue(file, new TypeReference<>() {
             });

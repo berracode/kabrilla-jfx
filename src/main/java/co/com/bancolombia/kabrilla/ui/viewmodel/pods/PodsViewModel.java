@@ -50,7 +50,6 @@ public class PodsViewModel {
         Task<List<Pod>> task = new Task<>() {
             @Override
             protected List<Pod> call() throws Exception {
-                System.out.println("LLEGA AQUI 4444");
                 var credentials = AwsCredentials.builder().accessKey(ctx.credentials().accessKey())
                         .secretKey(ctx.credentials().secretKey())
                         .clusterName(ctx.credentials().clusterName())

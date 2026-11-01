@@ -11,11 +11,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class PrimaryStageInitializer implements ApplicationListener<StageReadyEvent> {
 
@@ -24,12 +26,15 @@ public class PrimaryStageInitializer implements ApplicationListener<StageReadyEv
 
     private final ApplicationContext context;
     private final boolean stylesEnabled;
+    private final String version;
 
     // Inyectamos el contexto de Spring
     public PrimaryStageInitializer(ApplicationContext context,
-                                   @Value("${kabrilla.ui.styles-enabled:true}") boolean stylesEnabled) {
+                                   @Value("${kabrilla.ui.styles-enabled:true}") boolean stylesEnabled,
+                                   @Value("${kabrilla.version:dev}") String version) {
         this.context = context;
         this.stylesEnabled = stylesEnabled;
+        this.version = version;
     }
 
     @Override
@@ -47,7 +52,9 @@ public class PrimaryStageInitializer implements ApplicationListener<StageReadyEv
 
             stage.setMinWidth(MIN_WIDTH);
             stage.setMinHeight(MIN_HEIGHT);
-            stage.setTitle("Kabrilla kubernetes Dashboard");
+            // La versión en el título ayuda en soporte ("¿qué versión tienes?")
+            stage.setTitle("Kabrilla " + version);
+            log.info("Kabrilla {}", version);
             stage.setScene(scene);
             stage.getIcons().addAll(
                     new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/kabrilla-icon-16.png"))),

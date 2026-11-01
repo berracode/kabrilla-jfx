@@ -29,11 +29,19 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
       container escrito a mano y solo funcionaban los logs de un deployment)
   - [ ] Confirmar en EKS con varios deployments e Istio
 - [ ] Pods por label selector del deployment (hoy `PodAdapter` filtra por prefijo del nombre)
-- [ ] Seguridad: no imprimir token ni headers (`LoggingInterceptor`, `KubeClientFactory`, `JsonCredentialRepository` loguea credenciales con `@ToString`)
+- [x] Seguridad: no imprimir token ni headers ni credenciales (interceptor solo método/ruta/código, `toString` sin secretos)
 - [ ] Errores visibles en UI en vez de `printStackTrace` (NPE de listeners en `MainTabController`/`DeploymentTabController` ya corregidos)
-- [ ] `KubeconfigAdapter` tolerante (users sin `exec`, CA inválida o por ruta)
-- [ ] **Estado local en `~/.kabrilla/`** en vez de `user.dir` (prioritario ahora que hay versión portable: hoy
-      `clusters.json`/`credentials.2.json` quedan junto al `.exe` y hay que copiarlos al actualizar)
+- [x] Kubeconfig tolerante: solo clusters EKS, omite entradas inválidas o locales; soporta `KUBECONFIG`
+- [x] **Estado local en `~/.kabrilla/`** con migración automática de los archivos del directorio de trabajo
+
+## 1.0.0 (de `v1.0.0-rc.1` a final)
+- [ ] Publicar `v1.0.0-rc.1` y verificar el primer run del workflow (Release + ZIP + notas)
+- [ ] Piloto de 1–2 semanas con 3–5 personas de distintos squads/clusters, con la app portable en sus equipos
+- [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar `v1.0.0-rc.2`, repetir)
+- [ ] Validado en equipos "limpios": AWS CLI, kubeconfig, antivirus/SmartScreen, proxy corporativo
+- [ ] Mismo código que la última RC → tag `v1.0.0` y anuncio al equipo completo
+- [ ] Después de 1.0: cifrar credenciales con la cuenta de Windows (DPAPI) o usar perfiles SSO de AWS
+      (sin pegar claves); firmar el `.exe` para evitar el aviso de SmartScreen
 
 ## Beta (equipo completo)
 - [x] Historial por fecha desde la API de Kubernetes: rangos rápidos, personalizado desde/hasta, todo lo

@@ -156,7 +156,8 @@ public class DeploymentTabController {
         var clusterName = vm.clusterName();
         var namespace = vm.namespace();
         var creds = context.getAppState().getCredentials().stream()
-                .filter(c -> c.clusterName().equals(clusterName.split("/")[1])).findFirst().orElse(null);
+                .filter(c -> c.clusterName().equals(clusterName.substring(clusterName.lastIndexOf('/') + 1)))
+                .findFirst().orElse(null);
 
         KubeConfig kubeConfig = context.getAppState().getKubeConfig().stream()
                 .filter(c -> c.clusterName().contains(clusterName))

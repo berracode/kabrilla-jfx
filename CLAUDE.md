@@ -98,4 +98,9 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
   extender `Application`); ahí `module-info` no aplica. `--app-version` numérico vía `build-helper:parse-version`.
   Probar localmente: `target/dist/Kabrilla/Kabrilla.exe --spring.profiles.active=mock` desde la raíz.
 - Lombok es `provided` (no entra al paquete). Tests que arrancan JavaFX llevan `@Tag("ui")` (excluidos en CI).
-- La app portable escribe `clusters.json`/`credentials.2.json` en su directorio de trabajo (carpeta del .exe).
+- Datos locales en `LocalDataDirectory` (`kabrilla.data-dir`, default `~/.kabrilla`): `clusters.json`, `credentials.json`;
+  migra (copia) los archivos viejos del directorio de trabajo. Kubeconfig: `kabrilla.kubeconfig` > `KUBECONFIG` > `~/.kube/config`.
+- Versión en runtime: `kabrilla-version.properties` (único recurso filtrado por Maven; `application.properties` NO se
+  filtra porque usa `${...}` de Spring) → `kabrilla.version` en el título. Notas de release: `docs/releases/<tag>.md`.
+- Seguridad: nunca loguear headers HTTP (token Bearer), credenciales ni `toString` con secretos (`AwsCredentials`
+  y `CredentialsItemViewModel` los excluyen; hay test). La consola de la app portable es visible para el usuario.

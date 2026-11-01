@@ -10,15 +10,13 @@ import co.com.bancolombia.kabrilla.domain.model.Cluster;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FileClusterRepository implements ClusterRepository {
 
     private final File configFile;
     private final ObjectMapper mapper;
-
-    public FileClusterRepository() {
-        this(new File(System.getProperty("user.dir"), "clusters.json"));
-    }
 
     public FileClusterRepository(File configFile) {
         this.configFile = configFile;
@@ -39,7 +37,7 @@ public class FileClusterRepository implements ClusterRepository {
     public void saveAll(List<Cluster> clusters) throws IOException {
         configFile.getAbsoluteFile().getParentFile().mkdirs();
         mapper.writerWithDefaultPrettyPrinter().writeValue(configFile, clusters);
-        System.out.println("✅ Clusters guardados en: " + configFile.getAbsolutePath());
+        log.info("Clusters guardados en {}", configFile.getAbsolutePath());
 
     }
 }

@@ -15,7 +15,11 @@ import lombok.ToString;
 @ToString
 public class AwsCredentials {
     private String clusterName;
+    // Secretos: nunca en toString (y por tanto nunca en logs)
+    @ToString.Exclude
     private String accessKey;
+    @ToString.Exclude
     private String secretKey;
+    @ToString.Exclude
     private String sessionToken;
 }

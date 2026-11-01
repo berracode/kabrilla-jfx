@@ -29,7 +29,6 @@ public class SidebarController {
 
     @FXML
     public void initialize() {
-        log.info("Aqui 1.1");
         treeView.setRoot(sidebarStateViewModel.getRoot());
         treeView.setShowRoot(false);
 

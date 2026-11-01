@@ -97,7 +97,9 @@ public class StateDebugController {
 
     private String formatCredential(CredentialsItemViewModel cred) {
         return String.format("Cluster: %s\nAccessKey: %s\nSecretKey: %s\nSessionToken: %s",
-                             cred.clusterName(), cred.accessKey(), cred.secretKey(), cred.sessionToken());
+                             cred.clusterName(), CredentialsItemViewModel.mask(cred.accessKey()),
+                             CredentialsItemViewModel.mask(cred.secretKey()),
+                             CredentialsItemViewModel.mask(cred.sessionToken()));
     }
 
     private String formatKubeConfig(KubeClusterItemViewModel kube) {
