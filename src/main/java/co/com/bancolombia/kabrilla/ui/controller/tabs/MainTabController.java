@@ -2,12 +2,15 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 
 import java.io.IOException;
 
-import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
+import co.com.bancolombia.kabrilla.application.service.CredentialService;
+import co.com.bancolombia.kabrilla.application.service.LogsService;
+import co.com.bancolombia.kabrilla.application.service.PodService;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.AddCredentialsController;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
 import javafx.fxml.FXML;
@@ -25,15 +28,24 @@ public class MainTabController {
     private final MainTabViewModel mainTabViewModel;
     private final SidebarStateViewModel sidebarViewModel;
     private final AppContext context;
+    private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
+    private final CredentialService credentialService;
+    private final PodService podService;
+    private final LogsService logsService;
 
     @FXML
     private TabPane deploymentTabPane;
 
     public MainTabController(MainTabViewModel mainTabViewModel, SidebarStateViewModel sidebarViewModel,
-                             AppContext context) {
+                             AppContext context, ClusterNamespaceStateViewModel clusterNamespaceStateViewModel,
+                             CredentialService credentialService, PodService podService, LogsService logsService) {
         this.mainTabViewModel = mainTabViewModel;
         this.sidebarViewModel = sidebarViewModel;
         this.context = context;
+        this.clusterNamespaceStateViewModel = clusterNamespaceStateViewModel;
+        this.credentialService = credentialService;
+        this.podService = podService;
+        this.logsService = logsService;
     }
 
     @FXML
@@ -97,7 +109,8 @@ public class MainTabController {
             loader.setControllerFactory(type -> {
                 if (type == DeploymentTabController.class) {
                     log.info("Instanciando deploymentTabController");
-                    return new DeploymentTabController(deploymentTabItemViewModel, context);
+                    return new DeploymentTabController(deploymentTabItemViewModel, context, podService,
+                                                       logsService);
                 }
                 try {
                     return type.getDeclaredConstructor().newInstance();
@@ -134,9 +147,7 @@ public class MainTabController {
                 if (type == AddCredentialsController.class) {
                     return new AddCredentialsController(
                             new CredentialsStateViewModel(
-                                    context.getAppState(), AppBootstrap.getInstance().getCredentialService(),
-                                    AppBootstrap.getInstance()
-                                            .getClusterNamespaceStateViewModel()));
+                                    context.getAppState(), credentialService, clusterNamespaceStateViewModel));
                 }
                 try {
                     return type.getDeclaredConstructor().newInstance();

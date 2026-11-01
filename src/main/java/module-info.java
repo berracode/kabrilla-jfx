@@ -21,6 +21,10 @@ module co.com.bancolombia.kabrilla {
     exports co.com.bancolombia.kabrilla.startup;
     opens co.com.bancolombia.kabrilla.startup to javafx.fxml, com.fasterxml.jackson.databind;
 
+    // Configuración de beans de Spring
+    exports co.com.bancolombia.kabrilla.bootstrap;
+    opens co.com.bancolombia.kabrilla.bootstrap to spring.core, spring.beans, spring.context;
+
 
     // Controladores
     exports co.com.bancolombia.kabrilla.ui.controller; // opcional si otros módulos lo usan
@@ -29,6 +33,10 @@ module co.com.bancolombia.kabrilla {
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.base;
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace;
     exports co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs;
+    // Paquetes con beans: Spring corre en el classpath y necesita acceso a constructores/métodos públicos
+    exports co.com.bancolombia.kabrilla.ui.viewmodel.cluster;
+    exports co.com.bancolombia.kabrilla.ui.viewmodel.deployment;
+    exports co.com.bancolombia.kabrilla.infrastructure.config.k8s;
 
     exports co.com.bancolombia.kabrilla.ui.controller.debug;
     opens co.com.bancolombia.kabrilla.ui.controller.debug to javafx.fxml;

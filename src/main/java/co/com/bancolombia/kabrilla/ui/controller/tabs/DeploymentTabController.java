@@ -2,7 +2,8 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 
 import java.io.IOException;
 
-import co.com.bancolombia.kabrilla.bootstrap.AppBootstrap;
+import co.com.bancolombia.kabrilla.application.service.LogsService;
+import co.com.bancolombia.kabrilla.application.service.PodService;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController;
@@ -26,15 +27,20 @@ public class DeploymentTabController {
     private static final Logger log = LoggerFactory.getLogger(DeploymentTabController.class);
     private final DeploymentTabItemViewModel deploymentTabItemViewModel;
     private final AppContext context;
+    private final PodService podService;
+    private final LogsService logsService;
     private PodsViewModel podsViewModel;
     @FXML
     private TabPane commandTabPane;
     @FXML
     private AnchorPane commandContent;
 
-    public DeploymentTabController(DeploymentTabItemViewModel deploymentTabItemViewModel, AppContext context) {
+    public DeploymentTabController(DeploymentTabItemViewModel deploymentTabItemViewModel, AppContext context,
+                                   PodService podService, LogsService logsService) {
         this.deploymentTabItemViewModel = deploymentTabItemViewModel;
         this.context = context;
+        this.podService = podService;
+        this.logsService = logsService;
     }
 
 
@@ -66,12 +72,12 @@ public class DeploymentTabController {
             // Ejemplo de controller factory manual:
             loader.setControllerFactory(type -> {
                 if (podsViewModel == null) {
-                    podsViewModel = new PodsViewModel(AppBootstrap.getInstance().getPodService());
+                    podsViewModel = new PodsViewModel(podService);
                 }
                 if (type == PodsContentController.class) {
                     return new PodsContentController(podsViewModel);
                 } else if (type == LogsContentController.class) {
-                    var logViewModel = new LogsViewModel(AppBootstrap.getInstance().getLogsService());
+                    var logViewModel = new LogsViewModel(logsService);
                     return new LogsContentController(podsViewModel, logViewModel);
                 }
 

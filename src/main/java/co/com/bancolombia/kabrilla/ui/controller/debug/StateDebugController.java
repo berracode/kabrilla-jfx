@@ -16,7 +16,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StateDebugController {
     private static final Logger log = LoggerFactory.getLogger(StateDebugController.class);
     private final ClusterNamespaceStateViewModel clusterNamespaceState;

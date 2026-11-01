@@ -11,11 +11,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PrimaryStageInitializer implements ApplicationListener<StageReadyEvent> {
+
+    private static final double MIN_WIDTH = 1280.0;
+    private static final double MIN_HEIGHT = 720.0;
 
     private final ApplicationContext context;
 
@@ -29,13 +31,16 @@ public class PrimaryStageInitializer implements ApplicationListener<StageReadyEv
         try {
             Stage stage = event.getStage();
 
-            ClassPathResource fxmlResource = new ClassPathResource("ui/main-view.fxml");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
             fxmlLoader.setControllerFactory(context::getBean);
 
             Parent parent = fxmlLoader.load();
-            Scene scene = new Scene(parent, 1000, 650);
+            Scene scene = new Scene(parent, MIN_WIDTH, MIN_HEIGHT);
+            scene.getStylesheets().add(
+                    Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
 
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
             stage.setTitle("Kabrilla kubernetes Dashboard");
             stage.setScene(scene);
             stage.getIcons().addAll(
