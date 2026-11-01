@@ -1,0 +1,444 @@
+2025-10-31T08:40:01.272Z INFO  [orders,36ef7eae] --- [nio-8080-exec-9] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 93 ms
+2025-10-31T08:40:03.460Z INFO  [orders,a3509e11] --- [nio-8080-exec-2] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 300 ms
+2025-10-31T08:40:03.218Z WARN  [orders,cea2ac35] --- [nio-8080-exec-5] c.c.orders.InventoryClient : Latencia alta en POST /api/v1/orders: 1192 ms (umbral 500 ms)
+2025-10-31T08:40:05.012Z INFO  [orders,cce09d38] --- [nio-8080-exec-6] c.c.orders.OrderController : GET /actuator/health -> 200 en 57 ms
+2025-10-31T08:40:05.078Z INFO  [orders,dc6ac33d] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 563 ms
+2025-10-31T08:40:07.228Z INFO  [orders,f05efa1c] --- [nio-8080-exec-3] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 747 ms
+2025-10-31T08:40:09.621Z INFO  [orders,7b24780b] --- [nio-8080-exec-4] c.c.orders.OrderController : GET /actuator/health -> 200 en 754 ms
+2025-10-31T08:40:10.634Z INFO  [orders,502f9469] --- [nio-8080-exec-8] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 291 ms
+2025-10-31T08:40:11.384Z INFO  [orders,e28081f2] --- [nio-8080-exec-6] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 349 ms
+2025-10-31T08:40:11.309Z INFO  [orders,2f92921a] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 252 ms
+2025-10-31T08:40:13.470Z INFO  [orders,2876ab55] --- [nio-8080-exec-5] c.c.orders.OrderController : GET /actuator/health -> 200 en 662 ms
+2025-10-31T08:40:15.906Z INFO  [orders,42a04035] --- [nio-8080-exec-4] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 242 ms
+2025-10-31T08:40:17.912Z INFO  [orders,5fcfccc0] --- [nio-8080-exec-9] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 108 ms
+2025-10-31T08:40:19.351Z INFO  [orders,bd4a7360] --- [nio-8080-exec-2] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 766 ms
+2025-10-31T08:40:21.892Z INFO  [orders,e92ef5ce] --- [nio-8080-exec-4] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 149 ms
+2025-10-31T08:40:22.840Z INFO  [orders,984ef512] --- [nio-8080-exec-6] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 571 ms
+2025-10-31T08:40:22.075Z INFO  [orders,0128df37] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 19 ms
+2025-10-31T08:40:24.776Z INFO  [orders,d05f3113] --- [nio-8080-exec-9] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 411 ms
+2025-10-31T08:40:25.187Z INFO  [orders,2f458fca] --- [nio-8080-exec-4] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 13 ms
+2025-10-31T08:40:27.530Z INFO  [orders,bd4ac591] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 659 ms
+2025-10-31T08:40:27.667Z INFO  [orders,c30aca14] --- [nio-8080-exec-4] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 120 ms
+2025-10-31T08:40:29.527Z INFO  [orders,8f94e275] --- [nio-8080-exec-2] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 126 ms
+2025-10-31T08:40:29.582Z INFO  [orders,92f1cd34] --- [nio-8080-exec-6] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 210 ms
+2025-10-31T08:40:29.362Z INFO  [orders,de650ba5] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 643 ms
+2025-10-31T08:40:30.128Z INFO  [orders,cd027d77] --- [nio-8080-exec-9] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 469 ms
+2025-10-31T08:40:30.191Z INFO  [orders,ae8899ea] --- [nio-8080-exec-4] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 367 ms
+2025-10-31T08:40:31.275Z INFO  [orders,d83548e3] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 17 ms
+2025-10-31T08:40:32.785Z ERROR [orders,7d411e61] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a kafkaproducer-svc
+2025-10-31T08:40:34.596Z INFO  [orders,158bffc3] --- [nio-8080-exec-5] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 103 ms
+2025-10-31T08:40:36.609Z WARN  [orders,14fa7389] --- [nio-8080-exec-1] c.c.orders.OrderService : Latencia alta en POST /api/v1/orders: 505 ms (umbral 500 ms)
+2025-10-31T08:40:38.550Z INFO  [orders,0ceb3d79] --- [nio-8080-exec-9] c.c.orders.OrderController : GET /actuator/health -> 200 en 550 ms
+2025-10-31T08:40:40.802Z WARN  [orders,27071410] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : Latencia alta en GET /api/v1/orders/{id}: 1019 ms (umbral 500 ms)
+2025-10-31T08:40:40.875Z INFO  [orders,4e6683bc] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 572 ms
+2025-10-31T08:40:42.771Z INFO  [orders,47a00edf] --- [nio-8080-exec-7] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 42 ms
+2025-10-31T08:40:43.529Z INFO  [orders,8dd97e06] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 27 ms
+2025-10-31T08:40:45.017Z INFO  [orders,5bb9501f] --- [nio-8080-exec-5] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 414 ms
+2025-10-31T08:40:45.256Z INFO  [orders,efd36e41] --- [nio-8080-exec-7] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 157 ms
+2025-10-31T08:40:47.057Z INFO  [orders,2f5328f3] --- [nio-8080-exec-6] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 297 ms
+2025-10-31T08:40:49.062Z WARN  [orders,4b70d320] --- [nio-8080-exec-7] c.c.orders.OrderController : Latencia alta en GET /api/v1/orders/{id}: 520 ms (umbral 500 ms)
+2025-10-31T08:40:51.847Z WARN  [orders,44b6d540] --- [nio-8080-exec-1] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders: 1129 ms (umbral 500 ms)
+2025-10-31T08:40:51.170Z INFO  [orders,682c6eb6] --- [nio-8080-exec-6] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 83 ms
+2025-10-31T08:40:51.836Z INFO  [orders,01704911] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 730 ms
+2025-10-31T08:40:52.911Z WARN  [orders,409378b5] --- [nio-8080-exec-6] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders/{id}: 629 ms (umbral 500 ms)
+2025-10-31T08:40:54.260Z INFO  [orders,2fb1f477] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 704 ms
+2025-10-31T08:40:56.117Z INFO  [orders,3860d749] --- [nio-8080-exec-5] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 314 ms
+2025-10-31T08:40:56.993Z INFO  [orders,d2e1e9dc] --- [nio-8080-exec-6] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 620 ms
+2025-10-31T08:40:58.693Z INFO  [orders,b139da7f] --- [nio-8080-exec-9] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 581 ms
+2025-10-31T08:40:58.111Z INFO  [orders,08c1e2cf] --- [nio-8080-exec-5] c.c.orders.HikariPool : POST /api/v1/orders -> 200 en 152 ms
+2025-10-31T08:41:00.881Z INFO  [orders,04b85ffb] --- [nio-8080-exec-1] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 206 ms
+2025-10-31T08:41:02.259Z INFO  [orders,0d618e22] --- [nio-8080-exec-3] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 417 ms
+2025-10-31T08:41:02.697Z INFO  [orders,c6eb5c48] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 712 ms
+2025-10-31T08:41:04.550Z INFO  [orders,20dd88be] --- [nio-8080-exec-7] c.c.orders.HikariPool : POST /api/v1/orders -> 200 en 119 ms
+2025-10-31T08:41:04.996Z INFO  [orders,c53fb82b] --- [nio-8080-exec-2] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 459 ms
+2025-10-31T08:41:06.475Z INFO  [orders,374b0bf1] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 805 ms
+2025-10-31T08:41:06.223Z INFO  [orders,3ed4693a] --- [nio-8080-exec-7] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 381 ms
+2025-10-31T08:41:06.928Z INFO  [orders,5ff1f0a3] --- [nio-8080-exec-7] c.c.orders.OrderService : GET /actuator/health -> 200 en 16 ms
+2025-10-31T08:41:06.222Z WARN  [orders,abbb706c] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : Latencia alta en GET /actuator/health: 1309 ms (umbral 500 ms)
+2025-10-31T08:41:07.840Z INFO  [orders,929520ab] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 464 ms
+2025-10-31T08:41:08.031Z INFO  [orders,d2b134d0] --- [nio-8080-exec-7] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 196 ms
+2025-10-31T08:41:09.171Z ERROR [orders,fe365b40] --- [nio-8080-exec-2] c.c.orders.InventoryClient : Fallo procesando GET /api/v1/orders: timeout llamando a inventoryclient-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.InventoryClient.call(InventoryClient.java:158)
+	at co.com.orders.service.OrderService.process(OrderService.java:135)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:41:09.971Z INFO  [orders,b211a4fb] --- [nio-8080-exec-3] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 323 ms
+2025-10-31T08:41:09.113Z WARN  [orders,235a132f] --- [nio-8080-exec-4] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders: 628 ms (umbral 500 ms)
+2025-10-31T08:41:10.516Z WARN  [orders,de6f80eb] --- [nio-8080-exec-6] c.c.orders.OrderController : Latencia alta en PUT /api/v1/orders/{id}/status: 1184 ms (umbral 500 ms)
+2025-10-31T08:41:12.564Z INFO  [orders,9dd8213d] --- [nio-8080-exec-5] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 394 ms
+2025-10-31T08:41:13.026Z INFO  [orders,0690f66e] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 214 ms
+2025-10-31T08:41:15.823Z ERROR [orders,014fa53e] --- [nio-8080-exec-2] c.c.orders.HikariPool : Fallo procesando GET /actuator/health: timeout llamando a hikaripool-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.HikariPool.call(HikariPool.java:85)
+	at co.com.orders.service.OrderService.process(OrderService.java:39)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:41:16.224Z INFO  [orders,7cab4d2b] --- [nio-8080-exec-3] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 423 ms
+2025-10-31T08:41:17.531Z WARN  [orders,14b0c844] --- [nio-8080-exec-9] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 680 ms (umbral 500 ms)
+2025-10-31T08:41:17.075Z ERROR [orders,01228a21] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : Fallo procesando POST /api/v1/orders: timeout llamando a kafkaproducer-svc
+2025-10-31T08:41:17.366Z INFO  [orders,d3535fa0] --- [nio-8080-exec-2] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 301 ms
+2025-10-31T08:41:18.451Z INFO  [orders,7da21f51] --- [nio-8080-exec-5] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 421 ms
+2025-10-31T08:41:18.199Z INFO  [orders,d0847b92] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 336 ms
+2025-10-31T08:41:19.440Z INFO  [orders,6f8aed1e] --- [nio-8080-exec-4] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 54 ms
+2025-10-31T08:41:20.338Z INFO  [orders,6148c4b1] --- [nio-8080-exec-6] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 246 ms
+2025-10-31T08:41:20.519Z WARN  [orders,93f7c3ce] --- [nio-8080-exec-6] c.c.orders.OrderService : Latencia alta en GET /api/v1/orders/{id}: 1362 ms (umbral 500 ms)
+2025-10-31T08:41:22.055Z WARN  [orders,0977f447] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : Latencia alta en GET /api/v1/orders: 1010 ms (umbral 500 ms)
+2025-10-31T08:41:22.158Z WARN  [orders,f7e6decd] --- [nio-8080-exec-6] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders/{id}: 1384 ms (umbral 500 ms)
+2025-10-31T08:41:22.250Z INFO  [orders,916253e7] --- [nio-8080-exec-2] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 6 ms
+2025-10-31T08:41:24.502Z INFO  [orders,00ef7a80] --- [nio-8080-exec-3] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 247 ms
+2025-10-31T08:41:25.467Z INFO  [orders,e90b35be] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 195 ms
+2025-10-31T08:41:27.310Z INFO  [orders,427fb0ae] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 235 ms
+2025-10-31T08:41:28.521Z WARN  [orders,a6e16cbe] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : Latencia alta en POST /api/v1/orders: 956 ms (umbral 500 ms)
+2025-10-31T08:41:28.818Z WARN  [orders,e93583f3] --- [nio-8080-exec-7] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders/{id}: 1138 ms (umbral 500 ms)
+2025-10-31T08:41:28.347Z INFO  [orders,ab183bf8] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 315 ms
+2025-10-31T08:41:28.004Z INFO  [orders,9082eb6d] --- [nio-8080-exec-4] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 710 ms
+2025-10-31T08:41:29.548Z INFO  [orders,d3539e77] --- [nio-8080-exec-4] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 844 ms
+2025-10-31T08:41:31.861Z INFO  [orders,dcd41938] --- [nio-8080-exec-8] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 125 ms
+2025-10-31T08:41:33.425Z INFO  [orders,a0045760] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 368 ms
+2025-10-31T08:41:33.441Z INFO  [orders,8ac2910b] --- [nio-8080-exec-9] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 774 ms
+2025-10-31T08:41:33.404Z ERROR [orders,ebe2ff45] --- [nio-8080-exec-8] c.c.orders.OrderController : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a ordercontroller-svc
+2025-10-31T08:41:35.272Z INFO  [orders,88764752] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 845 ms
+2025-10-31T08:41:36.845Z ERROR [orders,f19768b8] --- [nio-8080-exec-6] c.c.orders.HikariPool : Fallo procesando GET /api/v1/orders: timeout llamando a hikaripool-svc
+2025-10-31T08:41:36.231Z INFO  [orders,7d33b9df] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 761 ms
+2025-10-31T08:41:37.133Z INFO  [orders,1fe15cc3] --- [nio-8080-exec-6] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 39 ms
+2025-10-31T08:41:39.195Z WARN  [orders,be0e24ce] --- [nio-8080-exec-7] c.c.orders.OrderController : Latencia alta en GET /api/v1/orders: 626 ms (umbral 500 ms)
+2025-10-31T08:41:40.754Z INFO  [orders,d82ed4db] --- [nio-8080-exec-5] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 42 ms
+2025-10-31T08:41:42.896Z INFO  [orders,984aa04f] --- [nio-8080-exec-2] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 691 ms
+2025-10-31T08:41:44.587Z INFO  [orders,764e7798] --- [nio-8080-exec-4] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 137 ms
+2025-10-31T08:41:46.272Z INFO  [orders,10e332e7] --- [nio-8080-exec-9] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 561 ms
+2025-10-31T08:41:48.875Z WARN  [orders,443e5940] --- [nio-8080-exec-8] c.c.orders.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 1179 ms (umbral 500 ms)
+2025-10-31T08:41:48.307Z INFO  [orders,36a15506] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 656 ms
+2025-10-31T08:41:48.172Z INFO  [orders,970eb5e5] --- [nio-8080-exec-2] c.c.orders.OrderService : GET /actuator/health -> 200 en 574 ms
+2025-10-31T08:41:48.362Z INFO  [orders,e86d93bd] --- [nio-8080-exec-8] c.c.orders.HikariPool : GET /actuator/health -> 200 en 7 ms
+2025-10-31T08:41:50.855Z INFO  [orders,8faa7c99] --- [nio-8080-exec-5] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 297 ms
+2025-10-31T08:41:50.168Z INFO  [orders,9ec7e7e4] --- [nio-8080-exec-9] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 164 ms
+2025-10-31T08:41:52.916Z WARN  [orders,ed8868ee] --- [nio-8080-exec-1] c.c.orders.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 1167 ms (umbral 500 ms)
+2025-10-31T08:41:53.242Z INFO  [orders,b2fa231c] --- [nio-8080-exec-6] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 104 ms
+2025-10-31T08:41:54.820Z WARN  [orders,6cfbec47] --- [nio-8080-exec-4] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 671 ms (umbral 500 ms)
+2025-10-31T08:41:56.800Z WARN  [orders,9a10fab8] --- [nio-8080-exec-4] c.c.orders.OrderService : Latencia alta en GET /actuator/health: 1013 ms (umbral 500 ms)
+2025-10-31T08:41:56.803Z INFO  [orders,0ff946e1] --- [nio-8080-exec-3] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 591 ms
+2025-10-31T08:41:58.043Z INFO  [orders,a521f554] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 263 ms
+2025-10-31T08:41:59.527Z INFO  [orders,37457e36] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 656 ms
+2025-10-31T08:41:59.680Z INFO  [orders,aaddd167] --- [nio-8080-exec-4] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 526 ms
+2025-10-31T08:42:00.522Z INFO  [orders,a5233899] --- [nio-8080-exec-6] c.c.orders.OrderService : GET /actuator/health -> 200 en 699 ms
+2025-10-31T08:42:00.513Z INFO  [orders,08b6d36a] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 856 ms
+2025-10-31T08:42:02.345Z INFO  [orders,41f9d612] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 417 ms
+2025-10-31T08:42:02.038Z INFO  [orders,16dfbcb0] --- [nio-8080-exec-5] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 863 ms
+2025-10-31T08:42:02.375Z WARN  [orders,4c7007d0] --- [nio-8080-exec-3] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 752 ms (umbral 500 ms)
+2025-10-31T08:42:03.491Z INFO  [orders,ecc5049c] --- [nio-8080-exec-7] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 689 ms
+2025-10-31T08:42:04.440Z WARN  [orders,1548b747] --- [nio-8080-exec-3] c.c.orders.OrderController : Latencia alta en GET /api/v1/orders: 681 ms (umbral 500 ms)
+2025-10-31T08:42:04.540Z INFO  [orders,04f08294] --- [nio-8080-exec-9] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 807 ms
+2025-10-31T08:42:05.593Z ERROR [orders,6c234712] --- [nio-8080-exec-8] c.c.orders.OrderService : Fallo procesando GET /api/v1/orders: timeout llamando a orderservice-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.OrderService.call(OrderService.java:13)
+	at co.com.orders.service.OrderService.process(OrderService.java:151)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:42:05.510Z INFO  [orders,2f6a601a] --- [nio-8080-exec-7] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 675 ms
+2025-10-31T08:42:07.745Z ERROR [orders,d97dcd25] --- [nio-8080-exec-8] c.c.orders.InventoryClient : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a inventoryclient-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.InventoryClient.call(InventoryClient.java:69)
+	at co.com.orders.service.OrderService.process(OrderService.java:180)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:42:09.135Z ERROR [orders,c0ce64e1] --- [nio-8080-exec-7] c.c.orders.InventoryClient : Fallo procesando GET /actuator/health: timeout llamando a inventoryclient-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.InventoryClient.call(InventoryClient.java:166)
+	at co.com.orders.service.OrderService.process(OrderService.java:146)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:42:11.034Z INFO  [orders,807d8ef8] --- [nio-8080-exec-6] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 576 ms
+2025-10-31T08:42:11.914Z INFO  [orders,50edb42b] --- [nio-8080-exec-1] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 619 ms
+2025-10-31T08:42:13.939Z ERROR [orders,77657339] --- [nio-8080-exec-7] c.c.orders.OrderService : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a orderservice-svc
+2025-10-31T08:42:14.138Z INFO  [orders,7d5e19d5] --- [nio-8080-exec-7] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 376 ms
+2025-10-31T08:42:14.353Z INFO  [orders,33d75cf3] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 750 ms
+2025-10-31T08:42:15.575Z ERROR [orders,0f241a12] --- [nio-8080-exec-2] c.c.orders.OrderService : Fallo procesando GET /api/v1/orders: timeout llamando a orderservice-svc
+2025-10-31T08:42:15.334Z INFO  [orders,083a42db] --- [nio-8080-exec-3] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 664 ms
+2025-10-31T08:42:16.821Z INFO  [orders,a6ab9b9b] --- [nio-8080-exec-9] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 673 ms
+2025-10-31T08:42:16.954Z INFO  [orders,d3efe778] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 253 ms
+2025-10-31T08:42:16.631Z INFO  [orders,71b4cf7b] --- [nio-8080-exec-9] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 474 ms
+2025-10-31T08:42:18.530Z INFO  [orders,5a080eb3] --- [nio-8080-exec-9] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 329 ms
+2025-10-31T08:42:20.049Z WARN  [orders,78637fe1] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : Latencia alta en GET /actuator/health: 833 ms (umbral 500 ms)
+2025-10-31T08:42:20.204Z INFO  [orders,0fef4f38] --- [nio-8080-exec-2] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 329 ms
+2025-10-31T08:42:20.988Z INFO  [orders,d39ee8c8] --- [nio-8080-exec-6] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 581 ms
+2025-10-31T08:42:22.283Z INFO  [orders,13213849] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 412 ms
+2025-10-31T08:42:24.604Z INFO  [orders,e0db8675] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 847 ms
+2025-10-31T08:42:26.747Z INFO  [orders,4fcc8aa9] --- [nio-8080-exec-1] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 365 ms
+2025-10-31T08:42:28.092Z INFO  [orders,da2f0cb8] --- [nio-8080-exec-2] c.c.orders.HikariPool : GET /actuator/health -> 200 en 855 ms
+2025-10-31T08:42:30.816Z ERROR [orders,aa8e2af5] --- [nio-8080-exec-6] c.c.orders.OrderController : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a ordercontroller-svc
+2025-10-31T08:42:30.839Z INFO  [orders,19210b99] --- [nio-8080-exec-9] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 104 ms
+2025-10-31T08:42:30.687Z INFO  [orders,ec02e63a] --- [nio-8080-exec-5] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 585 ms
+2025-10-31T08:42:31.799Z INFO  [orders,a9a155a5] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 172 ms
+2025-10-31T08:42:32.370Z INFO  [orders,6b7c232e] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 149 ms
+2025-10-31T08:42:33.252Z INFO  [orders,1700aa4a] --- [nio-8080-exec-7] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 614 ms
+2025-10-31T08:42:34.835Z INFO  [orders,f71b0e8c] --- [nio-8080-exec-9] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 630 ms
+2025-10-31T08:42:35.390Z INFO  [orders,c8dd88f6] --- [nio-8080-exec-8] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 272 ms
+2025-10-31T08:42:35.947Z INFO  [orders,5a5e9f4f] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 584 ms
+2025-10-31T08:42:37.305Z INFO  [orders,9d615a0f] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 785 ms
+2025-10-31T08:42:39.759Z INFO  [orders,c677be68] --- [nio-8080-exec-8] c.c.orders.HikariPool : POST /api/v1/orders -> 200 en 471 ms
+2025-10-31T08:42:39.423Z INFO  [orders,e8c0876f] --- [nio-8080-exec-7] c.c.orders.OrderController : GET /actuator/health -> 200 en 270 ms
+2025-10-31T08:42:39.333Z INFO  [orders,0db55bfa] --- [nio-8080-exec-5] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 308 ms
+2025-10-31T08:42:41.630Z INFO  [orders,da35575d] --- [nio-8080-exec-5] c.c.orders.HikariPool : GET /actuator/health -> 200 en 852 ms
+2025-10-31T08:42:42.930Z INFO  [orders,4102406e] --- [nio-8080-exec-1] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 559 ms
+2025-10-31T08:42:43.264Z INFO  [orders,e5b1699c] --- [nio-8080-exec-9] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 73 ms
+2025-10-31T08:42:45.383Z WARN  [orders,c5d62653] --- [nio-8080-exec-1] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 848 ms (umbral 500 ms)
+2025-10-31T08:42:46.212Z INFO  [orders,67273458] --- [nio-8080-exec-7] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 88 ms
+2025-10-31T08:42:46.524Z INFO  [orders,39740252] --- [nio-8080-exec-1] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 657 ms
+2025-10-31T08:42:47.373Z INFO  [orders,153dd277] --- [nio-8080-exec-3] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 420 ms
+2025-10-31T08:42:49.958Z WARN  [orders,3b6f25f2] --- [nio-8080-exec-9] c.c.orders.HikariPool : Latencia alta en POST /api/v1/orders: 580 ms (umbral 500 ms)
+2025-10-31T08:42:51.506Z WARN  [orders,30ffdf66] --- [nio-8080-exec-5] c.c.orders.OrderService : Latencia alta en GET /api/v1/orders/{id}: 739 ms (umbral 500 ms)
+2025-10-31T08:42:51.387Z INFO  [orders,8eedda27] --- [nio-8080-exec-3] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 300 ms
+2025-10-31T08:42:51.540Z INFO  [orders,5661463f] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 170 ms
+2025-10-31T08:42:51.477Z INFO  [orders,2027b4e7] --- [nio-8080-exec-7] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 719 ms
+2025-10-31T08:42:53.606Z ERROR [orders,c38d9362] --- [nio-8080-exec-9] c.c.orders.HikariPool : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a hikaripool-svc
+2025-10-31T08:42:55.432Z INFO  [orders,356d1eb0] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 665 ms
+2025-10-31T08:42:57.107Z INFO  [orders,e313da4d] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 819 ms
+2025-10-31T08:42:59.416Z INFO  [orders,c76dcf8c] --- [nio-8080-exec-2] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 735 ms
+2025-10-31T08:43:00.181Z INFO  [orders,7099fbbc] --- [nio-8080-exec-5] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 496 ms
+2025-10-31T08:43:00.919Z INFO  [orders,c0ad557b] --- [nio-8080-exec-9] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 814 ms
+2025-10-31T08:43:02.021Z INFO  [orders,93bce039] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 110 ms
+2025-10-31T08:43:02.710Z INFO  [orders,adde1954] --- [nio-8080-exec-5] c.c.orders.OrderService : GET /actuator/health -> 200 en 881 ms
+2025-10-31T08:43:02.517Z INFO  [orders,bcd7ab95] --- [nio-8080-exec-5] c.c.orders.OrderController : GET /actuator/health -> 200 en 321 ms
+2025-10-31T08:43:02.126Z INFO  [orders,775e64e8] --- [nio-8080-exec-3] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 228 ms
+2025-10-31T08:43:03.337Z INFO  [orders,1b2c3dd2] --- [nio-8080-exec-9] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 593 ms
+2025-10-31T08:43:05.263Z INFO  [orders,e143e110] --- [nio-8080-exec-2] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 836 ms
+2025-10-31T08:43:06.295Z INFO  [orders,7d8f3077] --- [nio-8080-exec-7] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 878 ms
+2025-10-31T08:43:06.495Z ERROR [orders,eac0f513] --- [nio-8080-exec-8] c.c.orders.OrderController : Fallo procesando GET /api/v1/orders: timeout llamando a ordercontroller-svc
+2025-10-31T08:43:08.297Z WARN  [orders,4a16dd29] --- [nio-8080-exec-2] c.c.orders.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 1224 ms (umbral 500 ms)
+2025-10-31T08:43:08.959Z INFO  [orders,010dfbb8] --- [nio-8080-exec-7] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 608 ms
+2025-10-31T08:43:10.011Z WARN  [orders,bae7ffdc] --- [nio-8080-exec-8] c.c.orders.InventoryClient : Latencia alta en GET /actuator/health: 1211 ms (umbral 500 ms)
+2025-10-31T08:43:10.663Z INFO  [orders,b26e7071] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 887 ms
+2025-10-31T08:43:12.638Z INFO  [orders,1bb1d945] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 796 ms
+2025-10-31T08:43:14.692Z INFO  [orders,ef0d7b19] --- [nio-8080-exec-8] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 418 ms
+2025-10-31T08:43:15.616Z INFO  [orders,ed682058] --- [nio-8080-exec-1] c.c.orders.OrderService : GET /actuator/health -> 200 en 369 ms
+2025-10-31T08:43:16.612Z WARN  [orders,78a2ca15] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : Latencia alta en POST /api/v1/orders: 934 ms (umbral 500 ms)
+2025-10-31T08:43:17.729Z INFO  [orders,59a38f44] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 409 ms
+2025-10-31T08:43:19.309Z INFO  [orders,e55d5a33] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 399 ms
+2025-10-31T08:43:19.267Z INFO  [orders,3c2d86ed] --- [nio-8080-exec-8] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 624 ms
+2025-10-31T08:43:21.742Z INFO  [orders,5feec1ab] --- [nio-8080-exec-1] c.c.orders.OrderService : GET /actuator/health -> 200 en 486 ms
+2025-10-31T08:43:22.972Z INFO  [orders,f2fb1cef] --- [nio-8080-exec-1] c.c.orders.OrderService : GET /actuator/health -> 200 en 573 ms
+2025-10-31T08:43:22.614Z INFO  [orders,ede29420] --- [nio-8080-exec-7] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 471 ms
+2025-10-31T08:43:23.792Z WARN  [orders,5daecdd8] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : Latencia alta en PUT /api/v1/orders/{id}/status: 727 ms (umbral 500 ms)
+2025-10-31T08:43:25.009Z WARN  [orders,acd59ad0] --- [nio-8080-exec-4] c.c.orders.OrderController : Latencia alta en GET /api/v1/orders/{id}: 757 ms (umbral 500 ms)
+2025-10-31T08:43:25.932Z INFO  [orders,2793cc0c] --- [nio-8080-exec-5] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 177 ms
+2025-10-31T08:43:26.551Z INFO  [orders,dcfcd5d9] --- [nio-8080-exec-2] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 722 ms
+2025-10-31T08:43:27.921Z INFO  [orders,675965c9] --- [nio-8080-exec-6] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 813 ms
+2025-10-31T08:43:28.884Z INFO  [orders,46a1399d] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 378 ms
+2025-10-31T08:43:28.083Z INFO  [orders,a8bb65c4] --- [nio-8080-exec-3] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 108 ms
+2025-10-31T08:43:30.566Z INFO  [orders,52b66ffc] --- [nio-8080-exec-8] c.c.orders.OrderService : GET /actuator/health -> 200 en 357 ms
+2025-10-31T08:43:30.037Z ERROR [orders,bafaa153] --- [nio-8080-exec-9] c.c.orders.HikariPool : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a hikaripool-svc
+2025-10-31T08:43:30.574Z INFO  [orders,7659c33b] --- [nio-8080-exec-1] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 537 ms
+2025-10-31T08:43:32.158Z WARN  [orders,c571beef] --- [nio-8080-exec-1] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders: 505 ms (umbral 500 ms)
+2025-10-31T08:43:32.141Z INFO  [orders,8ed681a5] --- [nio-8080-exec-2] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 535 ms
+2025-10-31T08:43:33.956Z INFO  [orders,cec4c4a6] --- [nio-8080-exec-1] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 100 ms
+2025-10-31T08:43:33.770Z INFO  [orders,8e51cbea] --- [nio-8080-exec-6] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 431 ms
+2025-10-31T08:43:34.634Z ERROR [orders,9d3f9a76] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : Fallo procesando POST /api/v1/orders: timeout llamando a kafkaproducer-svc
+2025-10-31T08:43:35.501Z INFO  [orders,71d3fe88] --- [nio-8080-exec-8] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 341 ms
+2025-10-31T08:43:36.624Z INFO  [orders,2fed0dec] --- [nio-8080-exec-8] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 743 ms
+2025-10-31T08:43:38.102Z INFO  [orders,4aa5f0cf] --- [nio-8080-exec-3] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 338 ms
+2025-10-31T08:43:40.019Z INFO  [orders,baa526d0] --- [nio-8080-exec-4] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 508 ms
+2025-10-31T08:43:42.024Z INFO  [orders,0da70e1c] --- [nio-8080-exec-4] c.c.orders.HikariPool : GET /actuator/health -> 200 en 889 ms
+2025-10-31T08:43:42.831Z INFO  [orders,6aec92fb] --- [nio-8080-exec-5] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 684 ms
+2025-10-31T08:43:42.966Z INFO  [orders,8a3d4898] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 401 ms
+2025-10-31T08:43:44.189Z INFO  [orders,8356ef1b] --- [nio-8080-exec-6] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 720 ms
+2025-10-31T08:43:45.933Z INFO  [orders,2881fd92] --- [nio-8080-exec-8] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 446 ms
+2025-10-31T08:43:45.299Z INFO  [orders,ea616802] --- [nio-8080-exec-8] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 724 ms
+2025-10-31T08:43:46.060Z INFO  [orders,94720a03] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 621 ms
+2025-10-31T08:43:48.423Z INFO  [orders,b68a5d38] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 428 ms
+2025-10-31T08:43:48.491Z INFO  [orders,d0551c6d] --- [nio-8080-exec-4] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 728 ms
+2025-10-31T08:43:48.951Z INFO  [orders,2cceb3f4] --- [nio-8080-exec-7] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 13 ms
+2025-10-31T08:43:48.242Z INFO  [orders,55c8063d] --- [nio-8080-exec-5] c.c.orders.HikariPool : POST /api/v1/orders -> 200 en 568 ms
+2025-10-31T08:43:48.618Z INFO  [orders,a6985d94] --- [nio-8080-exec-2] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 828 ms
+2025-10-31T08:43:49.237Z INFO  [orders,2e102adf] --- [nio-8080-exec-9] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 728 ms
+2025-10-31T08:43:51.151Z WARN  [orders,8d12cdba] --- [nio-8080-exec-1] c.c.orders.OrderService : Latencia alta en GET /api/v1/orders: 829 ms (umbral 500 ms)
+2025-10-31T08:43:51.438Z INFO  [orders,87d4fafc] --- [nio-8080-exec-6] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 508 ms
+2025-10-31T08:43:52.156Z INFO  [orders,89b76513] --- [nio-8080-exec-3] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 723 ms
+2025-10-31T08:43:52.942Z WARN  [orders,d32d4e51] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : Latencia alta en POST /api/v1/orders: 1281 ms (umbral 500 ms)
+2025-10-31T08:43:54.511Z ERROR [orders,882d7776] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : Fallo procesando GET /api/v1/orders: timeout llamando a kafkaproducer-svc
+2025-10-31T08:43:55.472Z INFO  [orders,d30c992d] --- [nio-8080-exec-8] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 296 ms
+2025-10-31T08:43:56.036Z INFO  [orders,25f181c6] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 373 ms
+2025-10-31T08:43:57.867Z INFO  [orders,e2dc59a4] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 58 ms
+2025-10-31T08:43:57.797Z INFO  [orders,b0bc1643] --- [nio-8080-exec-4] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 721 ms
+2025-10-31T08:43:57.715Z INFO  [orders,399aa241] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 356 ms
+2025-10-31T08:43:57.940Z WARN  [orders,ce841c36] --- [nio-8080-exec-5] c.c.orders.OrderService : Latencia alta en GET /api/v1/orders: 1216 ms (umbral 500 ms)
+2025-10-31T08:43:59.572Z WARN  [orders,80f82396] --- [nio-8080-exec-3] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders: 1309 ms (umbral 500 ms)
+2025-10-31T08:44:00.586Z ERROR [orders,30a9eca8] --- [nio-8080-exec-9] c.c.orders.OrderService : Fallo procesando GET /api/v1/orders: timeout llamando a orderservice-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.OrderService.call(OrderService.java:52)
+	at co.com.orders.service.OrderService.process(OrderService.java:34)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:44:01.662Z INFO  [orders,7596604d] --- [nio-8080-exec-8] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 588 ms
+2025-10-31T08:44:01.621Z INFO  [orders,af2dc2a7] --- [nio-8080-exec-6] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 206 ms
+2025-10-31T08:44:02.051Z INFO  [orders,9771588c] --- [nio-8080-exec-3] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 75 ms
+2025-10-31T08:44:04.242Z WARN  [orders,2a036fb0] --- [nio-8080-exec-1] c.c.orders.InventoryClient : Latencia alta en POST /api/v1/orders: 1191 ms (umbral 500 ms)
+2025-10-31T08:44:06.084Z INFO  [orders,3d33a8f8] --- [nio-8080-exec-5] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 415 ms
+2025-10-31T08:44:06.076Z INFO  [orders,23aaef82] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 45 ms
+2025-10-31T08:44:06.730Z INFO  [orders,d31da24b] --- [nio-8080-exec-9] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 645 ms
+2025-10-31T08:44:06.284Z INFO  [orders,7dba49e9] --- [nio-8080-exec-6] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 289 ms
+2025-10-31T08:44:06.134Z WARN  [orders,f19af221] --- [nio-8080-exec-4] c.c.orders.HikariPool : Latencia alta en POST /api/v1/orders: 914 ms (umbral 500 ms)
+2025-10-31T08:44:06.010Z INFO  [orders,4b1b1a99] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 439 ms
+2025-10-31T08:44:08.553Z ERROR [orders,052fdb23] --- [nio-8080-exec-8] c.c.orders.OrderService : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a orderservice-svc
+2025-10-31T08:44:10.506Z INFO  [orders,4d637272] --- [nio-8080-exec-6] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 801 ms
+2025-10-31T08:44:11.849Z INFO  [orders,a8703791] --- [nio-8080-exec-9] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 792 ms
+2025-10-31T08:44:11.644Z INFO  [orders,25a3b157] --- [nio-8080-exec-2] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 430 ms
+2025-10-31T08:44:13.040Z INFO  [orders,a114b1d5] --- [nio-8080-exec-7] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 133 ms
+2025-10-31T08:44:15.880Z INFO  [orders,a6bb70f8] --- [nio-8080-exec-6] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 297 ms
+2025-10-31T08:44:15.737Z INFO  [orders,3de39bfd] --- [nio-8080-exec-9] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 9 ms
+2025-10-31T08:44:15.685Z INFO  [orders,ccf05ec1] --- [nio-8080-exec-1] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 822 ms
+2025-10-31T08:44:16.672Z WARN  [orders,7c55acc9] --- [nio-8080-exec-6] c.c.orders.OrderService : Latencia alta en GET /actuator/health: 890 ms (umbral 500 ms)
+2025-10-31T08:44:16.733Z INFO  [orders,8d5bf9a0] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 603 ms
+2025-10-31T08:44:17.246Z INFO  [orders,ddbc6338] --- [nio-8080-exec-1] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 412 ms
+2025-10-31T08:44:18.252Z INFO  [orders,0fd13092] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 900 ms
+2025-10-31T08:44:19.006Z INFO  [orders,50f2f58c] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 363 ms
+2025-10-31T08:44:19.042Z INFO  [orders,78b215a8] --- [nio-8080-exec-8] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 587 ms
+2025-10-31T08:44:19.818Z INFO  [orders,25c36931] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 329 ms
+2025-10-31T08:44:19.118Z INFO  [orders,e7018568] --- [nio-8080-exec-9] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 787 ms
+2025-10-31T08:44:21.369Z INFO  [orders,91196360] --- [nio-8080-exec-2] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 19 ms
+2025-10-31T08:44:22.691Z INFO  [orders,ea68a513] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 91 ms
+2025-10-31T08:44:24.145Z INFO  [orders,74fa1fe5] --- [nio-8080-exec-4] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 42 ms
+2025-10-31T08:44:26.886Z INFO  [orders,9dc3f37f] --- [nio-8080-exec-1] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 514 ms
+2025-10-31T08:44:27.786Z WARN  [orders,5485e4a4] --- [nio-8080-exec-2] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders: 1304 ms (umbral 500 ms)
+2025-10-31T08:44:27.893Z INFO  [orders,55633e32] --- [nio-8080-exec-3] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 620 ms
+2025-10-31T08:44:27.008Z INFO  [orders,96606873] --- [nio-8080-exec-9] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 845 ms
+2025-10-31T08:44:29.511Z INFO  [orders,84f7f9ca] --- [nio-8080-exec-6] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 730 ms
+2025-10-31T08:44:29.603Z INFO  [orders,bb8fab34] --- [nio-8080-exec-4] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 342 ms
+2025-10-31T08:44:30.473Z WARN  [orders,56c248a2] --- [nio-8080-exec-6] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 847 ms (umbral 500 ms)
+2025-10-31T08:44:31.171Z INFO  [orders,ab99ee4d] --- [nio-8080-exec-5] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 188 ms
+2025-10-31T08:44:33.730Z INFO  [orders,0531e8d8] --- [nio-8080-exec-3] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 408 ms
+2025-10-31T08:44:34.747Z INFO  [orders,c254b1c2] --- [nio-8080-exec-9] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 436 ms
+2025-10-31T08:44:34.507Z INFO  [orders,758388a5] --- [nio-8080-exec-1] c.c.orders.HikariPool : POST /api/v1/orders -> 200 en 104 ms
+2025-10-31T08:44:36.956Z WARN  [orders,68800c02] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : Latencia alta en GET /actuator/health: 890 ms (umbral 500 ms)
+2025-10-31T08:44:38.239Z INFO  [orders,67f68a41] --- [nio-8080-exec-7] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 741 ms
+2025-10-31T08:44:38.696Z INFO  [orders,01e96905] --- [nio-8080-exec-5] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 881 ms
+2025-10-31T08:44:38.878Z INFO  [orders,ad3ed804] --- [nio-8080-exec-9] c.c.orders.OrderController : GET /actuator/health -> 200 en 398 ms
+2025-10-31T08:44:38.655Z INFO  [orders,4245fb9e] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 518 ms
+2025-10-31T08:44:40.986Z INFO  [orders,bdaaa316] --- [nio-8080-exec-1] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 548 ms
+2025-10-31T08:44:41.170Z INFO  [orders,aca9bdb4] --- [nio-8080-exec-4] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 877 ms
+2025-10-31T08:44:43.424Z INFO  [orders,3c213d47] --- [nio-8080-exec-6] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 493 ms
+2025-10-31T08:44:45.605Z INFO  [orders,94c17036] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 833 ms
+2025-10-31T08:44:45.835Z INFO  [orders,4526ea8e] --- [nio-8080-exec-1] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 59 ms
+2025-10-31T08:44:47.936Z INFO  [orders,35cd8fc8] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 698 ms
+2025-10-31T08:44:49.718Z INFO  [orders,a4448361] --- [nio-8080-exec-9] c.c.orders.HikariPool : GET /api/v1/orders/{id} -> 200 en 553 ms
+2025-10-31T08:44:50.751Z INFO  [orders,936e6b11] --- [nio-8080-exec-3] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 494 ms
+2025-10-31T08:44:52.346Z INFO  [orders,f0794db2] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 848 ms
+2025-10-31T08:44:52.121Z INFO  [orders,38474808] --- [nio-8080-exec-2] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 478 ms
+2025-10-31T08:44:53.529Z WARN  [orders,1b210eaa] --- [nio-8080-exec-7] c.c.orders.HikariPool : Latencia alta en GET /actuator/health: 571 ms (umbral 500 ms)
+2025-10-31T08:44:54.788Z INFO  [orders,24463257] --- [nio-8080-exec-3] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 816 ms
+2025-10-31T08:44:54.959Z INFO  [orders,2f7602d6] --- [nio-8080-exec-3] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 592 ms
+2025-10-31T08:44:54.082Z ERROR [orders,bf61a554] --- [nio-8080-exec-9] c.c.orders.OrderController : Fallo procesando GET /api/v1/orders: timeout llamando a ordercontroller-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.OrderController.call(OrderController.java:144)
+	at co.com.orders.service.OrderService.process(OrderService.java:153)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:44:54.436Z INFO  [orders,9b299b28] --- [nio-8080-exec-2] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 97 ms
+2025-10-31T08:44:54.807Z INFO  [orders,7f038b8d] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 231 ms
+2025-10-31T08:44:54.883Z INFO  [orders,1c783f2b] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 420 ms
+2025-10-31T08:44:55.503Z INFO  [orders,655c3695] --- [nio-8080-exec-2] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 140 ms
+2025-10-31T08:44:55.671Z WARN  [orders,ba13f2e6] --- [nio-8080-exec-4] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders: 947 ms (umbral 500 ms)
+2025-10-31T08:44:55.529Z INFO  [orders,6481bbaa] --- [nio-8080-exec-7] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 764 ms
+2025-10-31T08:44:55.580Z INFO  [orders,3adb8c02] --- [nio-8080-exec-7] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 716 ms
+2025-10-31T08:44:55.093Z WARN  [orders,7694e5b5] --- [nio-8080-exec-5] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders/{id}: 684 ms (umbral 500 ms)
+2025-10-31T08:44:57.043Z INFO  [orders,fe2aebac] --- [nio-8080-exec-2] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 619 ms
+2025-10-31T08:44:59.248Z ERROR [orders,c6b19019] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : Fallo procesando POST /api/v1/orders: timeout llamando a kafkaproducer-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.KafkaProducer.call(KafkaProducer.java:104)
+	at co.com.orders.service.OrderService.process(OrderService.java:186)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:44:59.472Z INFO  [orders,ea7ee04b] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 145 ms
+2025-10-31T08:44:59.195Z INFO  [orders,c2d03b5d] --- [nio-8080-exec-1] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 681 ms
+2025-10-31T08:45:01.233Z INFO  [orders,7a7fddb4] --- [nio-8080-exec-3] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 32 ms
+2025-10-31T08:45:02.037Z WARN  [orders,2acf3119] --- [nio-8080-exec-1] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders: 1332 ms (umbral 500 ms)
+2025-10-31T08:45:03.929Z INFO  [orders,2be9c106] --- [nio-8080-exec-8] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 424 ms
+2025-10-31T08:45:04.116Z WARN  [orders,cb89de18] --- [nio-8080-exec-6] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders: 1299 ms (umbral 500 ms)
+2025-10-31T08:45:06.800Z ERROR [orders,f700123e] --- [nio-8080-exec-7] c.c.orders.InventoryClient : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a inventoryclient-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.InventoryClient.call(InventoryClient.java:178)
+	at co.com.orders.service.OrderService.process(OrderService.java:147)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:45:06.414Z INFO  [orders,52f4ec17] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 254 ms
+2025-10-31T08:45:06.135Z INFO  [orders,4f19d704] --- [nio-8080-exec-4] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 225 ms
+2025-10-31T08:45:07.763Z INFO  [orders,773ac8b0] --- [nio-8080-exec-1] c.c.orders.OrderController : GET /actuator/health -> 200 en 252 ms
+2025-10-31T08:45:09.435Z INFO  [orders,27e5a2d2] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 609 ms
+2025-10-31T08:45:10.721Z INFO  [orders,26f328bf] --- [nio-8080-exec-1] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 253 ms
+2025-10-31T08:45:10.216Z WARN  [orders,b8edf957] --- [nio-8080-exec-7] c.c.orders.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 718 ms (umbral 500 ms)
+2025-10-31T08:45:11.488Z INFO  [orders,b1b7b735] --- [nio-8080-exec-3] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 47 ms
+2025-10-31T08:45:11.579Z INFO  [orders,d203be47] --- [nio-8080-exec-2] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 93 ms
+2025-10-31T08:45:12.673Z INFO  [orders,ae2a56a0] --- [nio-8080-exec-5] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 767 ms
+2025-10-31T08:45:12.699Z INFO  [orders,1277c4a5] --- [nio-8080-exec-7] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 643 ms
+2025-10-31T08:45:13.133Z ERROR [orders,a73f6b5d] --- [nio-8080-exec-4] c.c.orders.HikariPool : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a hikaripool-svc
+2025-10-31T08:45:15.681Z WARN  [orders,5c29763d] --- [nio-8080-exec-6] c.c.orders.OrderService : Latencia alta en GET /actuator/health: 1057 ms (umbral 500 ms)
+2025-10-31T08:45:16.344Z ERROR [orders,61433517] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : Fallo procesando GET /actuator/health: timeout llamando a kafkaproducer-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.KafkaProducer.call(KafkaProducer.java:62)
+	at co.com.orders.service.OrderService.process(OrderService.java:53)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:45:16.248Z INFO  [orders,4709531f] --- [nio-8080-exec-4] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 210 ms
+2025-10-31T08:45:18.748Z INFO  [orders,9b9f1328] --- [nio-8080-exec-8] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 463 ms
+2025-10-31T08:45:19.805Z INFO  [orders,ffcf9d15] --- [nio-8080-exec-7] c.c.orders.InventoryClient : GET /api/v1/orders/{id} -> 200 en 823 ms
+2025-10-31T08:45:19.123Z INFO  [orders,6b45f59a] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 882 ms
+2025-10-31T08:45:19.414Z WARN  [orders,b4a33d91] --- [nio-8080-exec-7] c.c.orders.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 1221 ms (umbral 500 ms)
+2025-10-31T08:45:19.584Z ERROR [orders,0f9010a0] --- [nio-8080-exec-9] c.c.orders.OrderService : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a orderservice-svc
+2025-10-31T08:45:19.786Z WARN  [orders,7582719e] --- [nio-8080-exec-8] c.c.orders.OrderController : Latencia alta en GET /api/v1/orders/{id}: 935 ms (umbral 500 ms)
+2025-10-31T08:45:19.822Z INFO  [orders,b260a393] --- [nio-8080-exec-3] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 280 ms
+2025-10-31T08:45:19.172Z INFO  [orders,5f37f7b2] --- [nio-8080-exec-7] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 774 ms
+2025-10-31T08:45:19.159Z ERROR [orders,99ddefa1] --- [nio-8080-exec-9] c.c.orders.HikariPool : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a hikaripool-svc
+2025-10-31T08:45:20.667Z INFO  [orders,792373b5] --- [nio-8080-exec-7] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 27 ms
+2025-10-31T08:45:22.570Z INFO  [orders,c0b98ab6] --- [nio-8080-exec-7] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 309 ms
+2025-10-31T08:45:23.211Z INFO  [orders,9d7ecf4e] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 672 ms
+2025-10-31T08:45:23.182Z INFO  [orders,e9343a4e] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 168 ms
+2025-10-31T08:45:25.965Z WARN  [orders,12ba2263] --- [nio-8080-exec-9] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 919 ms (umbral 500 ms)
+2025-10-31T08:45:27.284Z INFO  [orders,153b84a4] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 877 ms
+2025-10-31T08:45:28.927Z INFO  [orders,433f2c3e] --- [nio-8080-exec-3] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 850 ms
+2025-10-31T08:45:28.060Z WARN  [orders,d2bb873a] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : Latencia alta en GET /actuator/health: 973 ms (umbral 500 ms)
+2025-10-31T08:45:29.058Z INFO  [orders,ac15d97f] --- [nio-8080-exec-3] c.c.orders.OrderService : POST /api/v1/orders -> 200 en 473 ms
+2025-10-31T08:45:30.048Z INFO  [orders,900367b9] --- [nio-8080-exec-8] c.c.orders.OrderController : GET /api/v1/orders -> 200 en 745 ms
+2025-10-31T08:45:30.725Z INFO  [orders,8e3f0aaa] --- [nio-8080-exec-6] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 523 ms
+2025-10-31T08:45:31.636Z WARN  [orders,ee3285bf] --- [nio-8080-exec-4] c.c.orders.OrderController : Latencia alta en POST /api/v1/orders: 891 ms (umbral 500 ms)
+2025-10-31T08:45:33.319Z INFO  [orders,32350a2b] --- [nio-8080-exec-9] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 431 ms
+2025-10-31T08:45:33.852Z INFO  [orders,2fe97c06] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 142 ms
+2025-10-31T08:45:35.768Z INFO  [orders,54cee45d] --- [nio-8080-exec-8] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 646 ms
+2025-10-31T08:45:37.938Z INFO  [orders,b9527d65] --- [nio-8080-exec-8] c.c.orders.InventoryClient : POST /api/v1/orders -> 200 en 605 ms
+2025-10-31T08:45:37.531Z ERROR [orders,a49a45dd] --- [nio-8080-exec-1] c.c.orders.OrderService : Fallo procesando GET /actuator/health: timeout llamando a orderservice-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.orders.client.OrderService.call(OrderService.java:57)
+	at co.com.orders.service.OrderService.process(OrderService.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:45:38.879Z INFO  [orders,579ca1d2] --- [nio-8080-exec-7] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 852 ms
+2025-10-31T08:45:38.160Z INFO  [orders,385df79a] --- [nio-8080-exec-1] c.c.orders.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 351 ms
+2025-10-31T08:45:39.465Z INFO  [orders,822ae22c] --- [nio-8080-exec-6] c.c.orders.OrderService : GET /api/v1/orders/{id} -> 200 en 745 ms
+2025-10-31T08:45:40.573Z INFO  [orders,2f9ae6ff] --- [nio-8080-exec-4] c.c.orders.HikariPool : GET /api/v1/orders -> 200 en 863 ms
+2025-10-31T08:45:40.161Z WARN  [orders,40c0d1d0] --- [nio-8080-exec-4] c.c.orders.HikariPool : Latencia alta en GET /api/v1/orders/{id}: 886 ms (umbral 500 ms)
+2025-10-31T08:45:41.646Z WARN  [orders,f68cb58d] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : Latencia alta en GET /api/v1/orders: 989 ms (umbral 500 ms)
+2025-10-31T08:45:42.506Z INFO  [orders,142c2dc4] --- [nio-8080-exec-5] c.c.orders.HikariPool : GET /actuator/health -> 200 en 78 ms
+2025-10-31T08:45:42.770Z INFO  [orders,28dc61fc] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 858 ms
+2025-10-31T08:45:44.981Z INFO  [orders,5ef2cc01] --- [nio-8080-exec-9] c.c.orders.KafkaProducer : GET /api/v1/orders -> 200 en 874 ms
+2025-10-31T08:45:46.773Z INFO  [orders,56a32e3f] --- [nio-8080-exec-3] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 436 ms
+2025-10-31T08:45:47.997Z INFO  [orders,d014cf35] --- [nio-8080-exec-5] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 158 ms
+2025-10-31T08:45:47.596Z INFO  [orders,1d2dc44e] --- [nio-8080-exec-2] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 89 ms
+2025-10-31T08:45:49.604Z INFO  [orders,ed610ec8] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 330 ms
+2025-10-31T08:45:50.054Z INFO  [orders,c2a01853] --- [nio-8080-exec-7] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 325 ms
+2025-10-31T08:45:52.300Z INFO  [orders,bf080cdf] --- [nio-8080-exec-4] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 378 ms
+2025-10-31T08:45:54.316Z INFO  [orders,705ba90d] --- [nio-8080-exec-8] c.c.orders.OrderService : GET /actuator/health -> 200 en 265 ms
+2025-10-31T08:45:56.351Z INFO  [orders,c7cbb0de] --- [nio-8080-exec-6] c.c.orders.OrderController : GET /actuator/health -> 200 en 62 ms
+2025-10-31T08:45:56.749Z INFO  [orders,9657b18a] --- [nio-8080-exec-5] c.c.orders.OrderController : GET /actuator/health -> 200 en 450 ms
+2025-10-31T08:45:58.942Z INFO  [orders,a14247ea] --- [nio-8080-exec-9] c.c.orders.OrderController : POST /api/v1/orders -> 200 en 291 ms
+2025-10-31T08:45:58.729Z INFO  [orders,59e77194] --- [nio-8080-exec-7] c.c.orders.OrderController : GET /actuator/health -> 200 en 124 ms
+2025-10-31T08:46:00.209Z INFO  [orders,b8a871ea] --- [nio-8080-exec-5] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 444 ms
+2025-10-31T08:46:01.674Z WARN  [orders,4e8a39e3] --- [nio-8080-exec-2] c.c.orders.OrderController : Latencia alta en PUT /api/v1/orders/{id}/status: 845 ms (umbral 500 ms)
+2025-10-31T08:46:02.041Z INFO  [orders,5d78f36c] --- [nio-8080-exec-2] c.c.orders.InventoryClient : GET /actuator/health -> 200 en 766 ms
+2025-10-31T08:46:03.140Z ERROR [orders,17c9da2b] --- [nio-8080-exec-5] c.c.orders.OrderService : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a orderservice-svc
+2025-10-31T08:46:03.496Z INFO  [orders,c158d53b] --- [nio-8080-exec-5] c.c.orders.OrderService : GET /api/v1/orders -> 200 en 589 ms
+2025-10-31T08:46:03.276Z INFO  [orders,c8f4b00c] --- [nio-8080-exec-6] c.c.orders.HikariPool : GET /actuator/health -> 200 en 377 ms
+2025-10-31T08:46:05.444Z INFO  [orders,b7693532] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 123 ms
+2025-10-31T08:46:05.352Z WARN  [orders,05decede] --- [nio-8080-exec-2] c.c.orders.KafkaProducer : Latencia alta en GET /actuator/health: 756 ms (umbral 500 ms)
+2025-10-31T08:46:07.147Z INFO  [orders,b5da5766] --- [nio-8080-exec-4] c.c.orders.OrderController : GET /actuator/health -> 200 en 289 ms
+2025-10-31T08:46:07.592Z INFO  [orders,2c71b0fd] --- [nio-8080-exec-6] c.c.orders.KafkaProducer : POST /api/v1/orders -> 200 en 665 ms
+2025-10-31T08:46:09.948Z INFO  [orders,60373ec3] --- [nio-8080-exec-1] c.c.orders.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 94 ms
+2025-10-31T08:46:11.991Z INFO  [orders,adfa8171] --- [nio-8080-exec-1] c.c.orders.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 831 ms
+2025-10-31T08:46:11.930Z INFO  [orders,b2b2e8a1] --- [nio-8080-exec-8] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 304 ms
+2025-10-31T08:46:13.054Z WARN  [orders,4134e143] --- [nio-8080-exec-8] c.c.orders.OrderService : Latencia alta en POST /api/v1/orders: 1395 ms (umbral 500 ms)
+2025-10-31T08:46:14.675Z INFO  [orders,5fd279d7] --- [nio-8080-exec-7] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 665 ms
+2025-10-31T08:46:16.803Z INFO  [orders,7a86a1dc] --- [nio-8080-exec-4] c.c.orders.OrderService : GET /actuator/health -> 200 en 310 ms
+2025-10-31T08:46:18.170Z INFO  [orders,197d038a] --- [nio-8080-exec-7] c.c.orders.InventoryClient : GET /api/v1/orders -> 200 en 13 ms
+2025-10-31T08:46:19.232Z INFO  [orders,3394e3a8] --- [nio-8080-exec-7] c.c.orders.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 258 ms
+2025-10-31T08:46:19.342Z WARN  [orders,1fefa40b] --- [nio-8080-exec-6] c.c.orders.OrderService : Latencia alta en GET /api/v1/orders/{id}: 682 ms (umbral 500 ms)
+2025-10-31T08:46:20.058Z INFO  [orders,4a06e85a] --- [nio-8080-exec-6] c.c.orders.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 65 ms
+2025-10-31T08:46:21.256Z INFO  [orders,e26cfc8c] --- [nio-8080-exec-4] c.c.orders.KafkaProducer : GET /actuator/health -> 200 en 898 ms
+2025-10-31T08:46:23.923Z WARN  [orders,21fa3fbd] --- [nio-8080-exec-4] c.c.orders.InventoryClient : Latencia alta en GET /api/v1/orders/{id}: 1291 ms (umbral 500 ms)
+2025-10-31T08:46:23.598Z INFO  [orders,86c3362c] --- [nio-8080-exec-7] c.c.orders.OrderController : GET /api/v1/orders/{id} -> 200 en 491 ms

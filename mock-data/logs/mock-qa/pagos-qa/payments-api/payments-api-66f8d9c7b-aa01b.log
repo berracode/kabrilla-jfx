@@ -1,0 +1,289 @@
+2025-10-31T08:40:00.547Z INFO  [payments,eec8d1a7] --- [nio-8080-exec-8] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 440 ms
+2025-10-31T08:40:01.362Z INFO  [payments,c2e8e399] --- [nio-8080-exec-3] c.c.payments.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 213 ms
+2025-10-31T08:40:01.471Z WARN  [payments,d42c9137] --- [nio-8080-exec-3] c.c.payments.OrderService : Latencia alta en GET /actuator/health: 1319 ms (umbral 500 ms)
+2025-10-31T08:40:01.983Z INFO  [payments,a24527fc] --- [nio-8080-exec-2] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 124 ms
+2025-10-31T08:40:02.906Z INFO  [payments,3da98142] --- [nio-8080-exec-7] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 637 ms
+2025-10-31T08:40:04.915Z INFO  [payments,9a557322] --- [nio-8080-exec-5] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 334 ms
+2025-10-31T08:40:05.292Z INFO  [payments,2afe853e] --- [nio-8080-exec-5] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 334 ms
+2025-10-31T08:40:06.461Z INFO  [payments,a98c137b] --- [nio-8080-exec-7] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 496 ms
+2025-10-31T08:40:07.875Z INFO  [payments,4fee108c] --- [nio-8080-exec-1] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 606 ms
+2025-10-31T08:40:09.091Z INFO  [payments,a5fbb91b] --- [nio-8080-exec-8] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 901 ms
+2025-10-31T08:40:09.897Z INFO  [payments,3dcde7d9] --- [nio-8080-exec-7] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 828 ms
+2025-10-31T08:40:11.398Z INFO  [payments,97b72cdc] --- [nio-8080-exec-1] c.c.payments.HikariPool : GET /actuator/health -> 200 en 773 ms
+2025-10-31T08:40:13.334Z INFO  [payments,c55941df] --- [nio-8080-exec-6] c.c.payments.KafkaProducer : GET /actuator/health -> 200 en 15 ms
+2025-10-31T08:40:15.754Z WARN  [payments,11fe070e] --- [nio-8080-exec-2] c.c.payments.OrderController : Latencia alta en GET /api/v1/orders: 582 ms (umbral 500 ms)
+2025-10-31T08:40:17.975Z WARN  [payments,59a3d697] --- [nio-8080-exec-4] c.c.payments.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 722 ms (umbral 500 ms)
+2025-10-31T08:40:18.392Z INFO  [payments,68a0c38a] --- [nio-8080-exec-7] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 249 ms
+2025-10-31T08:40:18.314Z INFO  [payments,44ac4b5e] --- [nio-8080-exec-7] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 729 ms
+2025-10-31T08:40:18.006Z INFO  [payments,44fd0415] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /actuator/health -> 200 en 307 ms
+2025-10-31T08:40:18.767Z INFO  [payments,29c13945] --- [nio-8080-exec-3] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 581 ms
+2025-10-31T08:40:18.790Z ERROR [payments,4dbbc916] --- [nio-8080-exec-4] c.c.payments.OrderService : Fallo procesando GET /actuator/health: timeout llamando a orderservice-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.OrderService.call(OrderService.java:177)
+	at co.com.payments.service.OrderService.process(OrderService.java:81)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:40:19.945Z INFO  [payments,615a5394] --- [nio-8080-exec-5] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 366 ms
+2025-10-31T08:40:20.424Z INFO  [payments,6dcfa15b] --- [nio-8080-exec-3] c.c.payments.HikariPool : GET /api/v1/orders -> 200 en 729 ms
+2025-10-31T08:40:20.311Z INFO  [payments,3395e835] --- [nio-8080-exec-9] c.c.payments.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 253 ms
+2025-10-31T08:40:22.826Z INFO  [payments,2cf7cfa2] --- [nio-8080-exec-4] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 251 ms
+2025-10-31T08:40:24.906Z ERROR [payments,27b22fa0] --- [nio-8080-exec-7] c.c.payments.InventoryClient : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a inventoryclient-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.InventoryClient.call(InventoryClient.java:123)
+	at co.com.payments.service.OrderService.process(OrderService.java:73)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:40:24.161Z INFO  [payments,811f649a] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 122 ms
+2025-10-31T08:40:26.571Z INFO  [payments,74ce882b] --- [nio-8080-exec-7] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 757 ms
+2025-10-31T08:40:26.117Z WARN  [payments,16806dc7] --- [nio-8080-exec-5] c.c.payments.OrderService : Latencia alta en GET /api/v1/orders/{id}: 929 ms (umbral 500 ms)
+2025-10-31T08:40:28.308Z WARN  [payments,bb6aa796] --- [nio-8080-exec-5] c.c.payments.OrderService : Latencia alta en GET /actuator/health: 658 ms (umbral 500 ms)
+2025-10-31T08:40:30.033Z INFO  [payments,caa10ad9] --- [nio-8080-exec-1] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 198 ms
+2025-10-31T08:40:32.055Z INFO  [payments,104884d3] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 533 ms
+2025-10-31T08:40:34.586Z INFO  [payments,0989fe58] --- [nio-8080-exec-3] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 787 ms
+2025-10-31T08:40:34.295Z WARN  [payments,81499344] --- [nio-8080-exec-9] c.c.payments.HikariPool : Latencia alta en PUT /api/v1/orders/{id}/status: 1369 ms (umbral 500 ms)
+2025-10-31T08:40:35.408Z INFO  [payments,c337fea4] --- [nio-8080-exec-1] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 274 ms
+2025-10-31T08:40:35.296Z INFO  [payments,49f2ef3c] --- [nio-8080-exec-4] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 153 ms
+2025-10-31T08:40:37.827Z ERROR [payments,b6d02b4d] --- [nio-8080-exec-1] c.c.payments.OrderController : Fallo procesando GET /api/v1/orders: timeout llamando a ordercontroller-svc
+2025-10-31T08:40:39.557Z INFO  [payments,e7ff091b] --- [nio-8080-exec-4] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 232 ms
+2025-10-31T08:40:41.779Z INFO  [payments,946d7b56] --- [nio-8080-exec-2] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 807 ms
+2025-10-31T08:40:43.527Z INFO  [payments,dcda95a0] --- [nio-8080-exec-1] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 193 ms
+2025-10-31T08:40:45.757Z WARN  [payments,69ef02b8] --- [nio-8080-exec-6] c.c.payments.KafkaProducer : Latencia alta en GET /api/v1/orders: 1018 ms (umbral 500 ms)
+2025-10-31T08:40:47.582Z INFO  [payments,9297edf9] --- [nio-8080-exec-5] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 441 ms
+2025-10-31T08:40:47.234Z INFO  [payments,fa7b9da0] --- [nio-8080-exec-4] c.c.payments.HikariPool : GET /api/v1/orders -> 200 en 22 ms
+2025-10-31T08:40:48.131Z INFO  [payments,1724d342] --- [nio-8080-exec-3] c.c.payments.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 274 ms
+2025-10-31T08:40:48.674Z INFO  [payments,ad2aa23b] --- [nio-8080-exec-2] c.c.payments.InventoryClient : GET /api/v1/orders -> 200 en 514 ms
+2025-10-31T08:40:48.137Z INFO  [payments,f6acf859] --- [nio-8080-exec-1] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 241 ms
+2025-10-31T08:40:50.915Z INFO  [payments,fb04e66a] --- [nio-8080-exec-7] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 808 ms
+2025-10-31T08:40:50.712Z INFO  [payments,441b497a] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 142 ms
+2025-10-31T08:40:51.317Z WARN  [payments,d1bf7925] --- [nio-8080-exec-1] c.c.payments.KafkaProducer : Latencia alta en POST /api/v1/orders: 536 ms (umbral 500 ms)
+2025-10-31T08:40:52.104Z INFO  [payments,3e670118] --- [nio-8080-exec-2] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 134 ms
+2025-10-31T08:40:52.252Z INFO  [payments,816317da] --- [nio-8080-exec-6] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 509 ms
+2025-10-31T08:40:54.247Z INFO  [payments,2e2d6b74] --- [nio-8080-exec-1] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 77 ms
+2025-10-31T08:40:56.763Z INFO  [payments,d0985009] --- [nio-8080-exec-8] c.c.payments.OrderController : GET /actuator/health -> 200 en 68 ms
+2025-10-31T08:40:57.115Z INFO  [payments,89ad6eee] --- [nio-8080-exec-8] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 561 ms
+2025-10-31T08:40:57.133Z ERROR [payments,c4e010d5] --- [nio-8080-exec-8] c.c.payments.OrderController : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a ordercontroller-svc
+2025-10-31T08:40:58.204Z INFO  [payments,fb7dbcfa] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 293 ms
+2025-10-31T08:41:00.498Z INFO  [payments,3f51b3fe] --- [nio-8080-exec-4] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 323 ms
+2025-10-31T08:41:01.490Z INFO  [payments,a09e9efc] --- [nio-8080-exec-8] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 212 ms
+2025-10-31T08:41:03.535Z WARN  [payments,a4938a26] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : Latencia alta en GET /api/v1/orders/{id}: 705 ms (umbral 500 ms)
+2025-10-31T08:41:05.514Z WARN  [payments,38294571] --- [nio-8080-exec-8] c.c.payments.OrderService : Latencia alta en POST /api/v1/orders: 1382 ms (umbral 500 ms)
+2025-10-31T08:41:06.127Z WARN  [payments,2f9b0a4e] --- [nio-8080-exec-1] c.c.payments.OrderController : Latencia alta en GET /api/v1/orders: 613 ms (umbral 500 ms)
+2025-10-31T08:41:07.797Z INFO  [payments,cbe9aeac] --- [nio-8080-exec-9] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 753 ms
+2025-10-31T08:41:07.427Z INFO  [payments,b2027518] --- [nio-8080-exec-6] c.c.payments.OrderController : GET /actuator/health -> 200 en 358 ms
+2025-10-31T08:41:08.534Z INFO  [payments,0ce7c4e0] --- [nio-8080-exec-6] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 437 ms
+2025-10-31T08:41:08.372Z INFO  [payments,724b8cf4] --- [nio-8080-exec-4] c.c.payments.OrderController : GET /actuator/health -> 200 en 845 ms
+2025-10-31T08:41:08.889Z WARN  [payments,20ce6caa] --- [nio-8080-exec-3] c.c.payments.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 561 ms (umbral 500 ms)
+2025-10-31T08:41:10.512Z INFO  [payments,e0e1ef86] --- [nio-8080-exec-8] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 800 ms
+2025-10-31T08:41:12.479Z INFO  [payments,0667b181] --- [nio-8080-exec-2] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 617 ms
+2025-10-31T08:41:13.436Z INFO  [payments,71123977] --- [nio-8080-exec-9] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 127 ms
+2025-10-31T08:41:15.278Z INFO  [payments,c513ced0] --- [nio-8080-exec-8] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 179 ms
+2025-10-31T08:41:16.581Z INFO  [payments,1435077a] --- [nio-8080-exec-9] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 401 ms
+2025-10-31T08:41:16.287Z INFO  [payments,a4254e68] --- [nio-8080-exec-4] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 164 ms
+2025-10-31T08:41:16.006Z INFO  [payments,fb66d042] --- [nio-8080-exec-4] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 466 ms
+2025-10-31T08:41:17.311Z INFO  [payments,5892e165] --- [nio-8080-exec-1] c.c.payments.InventoryClient : GET /api/v1/orders -> 200 en 654 ms
+2025-10-31T08:41:19.335Z INFO  [payments,07421e1a] --- [nio-8080-exec-1] c.c.payments.OrderService : GET /actuator/health -> 200 en 391 ms
+2025-10-31T08:41:21.474Z INFO  [payments,c7b18576] --- [nio-8080-exec-6] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 799 ms
+2025-10-31T08:41:21.466Z INFO  [payments,919922f0] --- [nio-8080-exec-4] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 55 ms
+2025-10-31T08:41:22.801Z WARN  [payments,b7b41b78] --- [nio-8080-exec-9] c.c.payments.HikariPool : Latencia alta en GET /api/v1/orders: 605 ms (umbral 500 ms)
+2025-10-31T08:41:23.312Z INFO  [payments,af919f51] --- [nio-8080-exec-9] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 467 ms
+2025-10-31T08:41:24.399Z INFO  [payments,895ac0ef] --- [nio-8080-exec-8] c.c.payments.KafkaProducer : GET /actuator/health -> 200 en 702 ms
+2025-10-31T08:41:25.870Z ERROR [payments,ae9f595d] --- [nio-8080-exec-2] c.c.payments.InventoryClient : Fallo procesando GET /api/v1/orders: timeout llamando a inventoryclient-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.InventoryClient.call(InventoryClient.java:118)
+	at co.com.payments.service.OrderService.process(OrderService.java:50)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:41:26.828Z WARN  [payments,57b5e801] --- [nio-8080-exec-2] c.c.payments.OrderController : Latencia alta en PUT /api/v1/orders/{id}/status: 956 ms (umbral 500 ms)
+2025-10-31T08:41:28.278Z INFO  [payments,91bc5c17] --- [nio-8080-exec-8] c.c.payments.KafkaProducer : GET /actuator/health -> 200 en 535 ms
+2025-10-31T08:41:30.214Z WARN  [payments,f1415ad9] --- [nio-8080-exec-7] c.c.payments.HikariPool : Latencia alta en GET /actuator/health: 938 ms (umbral 500 ms)
+2025-10-31T08:41:31.736Z INFO  [payments,f10e25a2] --- [nio-8080-exec-9] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 675 ms
+2025-10-31T08:41:31.885Z WARN  [payments,167cf47f] --- [nio-8080-exec-9] c.c.payments.HikariPool : Latencia alta en PUT /api/v1/orders/{id}/status: 1001 ms (umbral 500 ms)
+2025-10-31T08:41:33.691Z INFO  [payments,498f15e0] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 334 ms
+2025-10-31T08:41:33.026Z WARN  [payments,4a2c7f7f] --- [nio-8080-exec-2] c.c.payments.KafkaProducer : Latencia alta en PUT /api/v1/orders/{id}/status: 1298 ms (umbral 500 ms)
+2025-10-31T08:41:33.883Z WARN  [payments,de44af1d] --- [nio-8080-exec-3] c.c.payments.InventoryClient : Latencia alta en GET /api/v1/orders: 931 ms (umbral 500 ms)
+2025-10-31T08:41:33.474Z INFO  [payments,dbd51a34] --- [nio-8080-exec-4] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 883 ms
+2025-10-31T08:41:34.124Z INFO  [payments,77fe050d] --- [nio-8080-exec-9] c.c.payments.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 361 ms
+2025-10-31T08:41:34.398Z INFO  [payments,643b4f91] --- [nio-8080-exec-2] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 349 ms
+2025-10-31T08:41:36.699Z INFO  [payments,ec2e0eb5] --- [nio-8080-exec-4] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 631 ms
+2025-10-31T08:41:37.825Z INFO  [payments,0a686396] --- [nio-8080-exec-1] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 857 ms
+2025-10-31T08:41:39.862Z INFO  [payments,8091818b] --- [nio-8080-exec-1] c.c.payments.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 713 ms
+2025-10-31T08:41:41.148Z INFO  [payments,20ebf6e1] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /actuator/health -> 200 en 526 ms
+2025-10-31T08:41:43.244Z INFO  [payments,fc531a46] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 319 ms
+2025-10-31T08:41:45.292Z INFO  [payments,c68af574] --- [nio-8080-exec-5] c.c.payments.InventoryClient : GET /api/v1/orders -> 200 en 551 ms
+2025-10-31T08:41:47.323Z INFO  [payments,5e827f5e] --- [nio-8080-exec-4] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 36 ms
+2025-10-31T08:41:47.113Z INFO  [payments,9c861279] --- [nio-8080-exec-5] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 479 ms
+2025-10-31T08:41:47.975Z INFO  [payments,b552b333] --- [nio-8080-exec-7] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 829 ms
+2025-10-31T08:41:47.653Z INFO  [payments,dcbb8d45] --- [nio-8080-exec-1] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 287 ms
+2025-10-31T08:41:49.200Z INFO  [payments,19e45411] --- [nio-8080-exec-7] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 85 ms
+2025-10-31T08:41:51.036Z INFO  [payments,364a0410] --- [nio-8080-exec-8] c.c.payments.HikariPool : GET /api/v1/orders -> 200 en 803 ms
+2025-10-31T08:41:52.627Z ERROR [payments,af219ea9] --- [nio-8080-exec-8] c.c.payments.OrderController : Fallo procesando GET /actuator/health: timeout llamando a ordercontroller-svc
+2025-10-31T08:41:54.594Z INFO  [payments,b1f78fc3] --- [nio-8080-exec-4] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 796 ms
+2025-10-31T08:41:55.081Z INFO  [payments,91afd9c7] --- [nio-8080-exec-7] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 62 ms
+2025-10-31T08:41:57.985Z INFO  [payments,c791fb14] --- [nio-8080-exec-6] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 357 ms
+2025-10-31T08:41:57.865Z INFO  [payments,327645c9] --- [nio-8080-exec-4] c.c.payments.HikariPool : GET /actuator/health -> 200 en 429 ms
+2025-10-31T08:41:58.213Z INFO  [payments,96e644f7] --- [nio-8080-exec-3] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 154 ms
+2025-10-31T08:41:58.929Z INFO  [payments,af92194d] --- [nio-8080-exec-5] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 255 ms
+2025-10-31T08:42:00.130Z ERROR [payments,eee8b0b6] --- [nio-8080-exec-9] c.c.payments.HikariPool : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a hikaripool-svc
+2025-10-31T08:42:02.283Z ERROR [payments,45c5d0f8] --- [nio-8080-exec-7] c.c.payments.OrderService : Fallo procesando POST /api/v1/orders: timeout llamando a orderservice-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.OrderService.call(OrderService.java:115)
+	at co.com.payments.service.OrderService.process(OrderService.java:65)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:42:02.227Z INFO  [payments,03ae49eb] --- [nio-8080-exec-8] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 92 ms
+2025-10-31T08:42:04.158Z INFO  [payments,6d56d9c6] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 457 ms
+2025-10-31T08:42:06.022Z INFO  [payments,3df71076] --- [nio-8080-exec-2] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 437 ms
+2025-10-31T08:42:08.867Z WARN  [payments,359b2ac4] --- [nio-8080-exec-1] c.c.payments.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 1035 ms (umbral 500 ms)
+2025-10-31T08:42:09.707Z INFO  [payments,7f2eb841] --- [nio-8080-exec-9] c.c.payments.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 842 ms
+2025-10-31T08:42:09.445Z INFO  [payments,cc34e0d0] --- [nio-8080-exec-5] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 542 ms
+2025-10-31T08:42:10.114Z INFO  [payments,d5562a97] --- [nio-8080-exec-1] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 410 ms
+2025-10-31T08:42:12.219Z WARN  [payments,5c04a3cd] --- [nio-8080-exec-4] c.c.payments.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 1177 ms (umbral 500 ms)
+2025-10-31T08:42:14.049Z WARN  [payments,5df066d1] --- [nio-8080-exec-7] c.c.payments.OrderController : Latencia alta en POST /api/v1/orders: 1288 ms (umbral 500 ms)
+2025-10-31T08:42:15.899Z INFO  [payments,c5c039cb] --- [nio-8080-exec-4] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 773 ms
+2025-10-31T08:42:15.735Z INFO  [payments,8ff9877e] --- [nio-8080-exec-7] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 716 ms
+2025-10-31T08:42:16.842Z INFO  [payments,c2811421] --- [nio-8080-exec-3] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 362 ms
+2025-10-31T08:42:17.172Z ERROR [payments,2f96df51] --- [nio-8080-exec-7] c.c.payments.OrderController : Fallo procesando POST /api/v1/orders: timeout llamando a ordercontroller-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.OrderController.call(OrderController.java:41)
+	at co.com.payments.service.OrderService.process(OrderService.java:193)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:42:19.408Z INFO  [payments,f0bea270] --- [nio-8080-exec-1] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 831 ms
+2025-10-31T08:42:21.897Z WARN  [payments,503fae28] --- [nio-8080-exec-3] c.c.payments.KafkaProducer : Latencia alta en GET /api/v1/orders/{id}: 1081 ms (umbral 500 ms)
+2025-10-31T08:42:21.083Z INFO  [payments,217acb00] --- [nio-8080-exec-2] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 680 ms
+2025-10-31T08:42:22.229Z INFO  [payments,9ca5fd59] --- [nio-8080-exec-5] c.c.payments.InventoryClient : GET /api/v1/orders -> 200 en 724 ms
+2025-10-31T08:42:24.770Z ERROR [payments,ba208d24] --- [nio-8080-exec-4] c.c.payments.OrderController : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a ordercontroller-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.OrderController.call(OrderController.java:158)
+	at co.com.payments.service.OrderService.process(OrderService.java:202)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:42:24.483Z ERROR [payments,28e8e29d] --- [nio-8080-exec-3] c.c.payments.OrderController : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a ordercontroller-svc
+2025-10-31T08:42:26.670Z WARN  [payments,e387682a] --- [nio-8080-exec-5] c.c.payments.HikariPool : Latencia alta en GET /api/v1/orders/{id}: 1317 ms (umbral 500 ms)
+2025-10-31T08:42:27.351Z INFO  [payments,e5a8c343] --- [nio-8080-exec-1] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 495 ms
+2025-10-31T08:42:27.341Z WARN  [payments,2405228c] --- [nio-8080-exec-3] c.c.payments.KafkaProducer : Latencia alta en GET /api/v1/orders/{id}: 833 ms (umbral 500 ms)
+2025-10-31T08:42:27.806Z INFO  [payments,f69450fb] --- [nio-8080-exec-4] c.c.payments.HikariPool : GET /actuator/health -> 200 en 618 ms
+2025-10-31T08:42:27.685Z INFO  [payments,f7cb4a45] --- [nio-8080-exec-1] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 869 ms
+2025-10-31T08:42:28.461Z INFO  [payments,71352acc] --- [nio-8080-exec-8] c.c.payments.OrderController : GET /actuator/health -> 200 en 388 ms
+2025-10-31T08:42:28.589Z INFO  [payments,da85dcb5] --- [nio-8080-exec-7] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 362 ms
+2025-10-31T08:42:30.501Z INFO  [payments,4f07482c] --- [nio-8080-exec-8] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 172 ms
+2025-10-31T08:42:30.202Z INFO  [payments,b2fa28a7] --- [nio-8080-exec-1] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 195 ms
+2025-10-31T08:42:31.322Z INFO  [payments,5d97139e] --- [nio-8080-exec-4] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 171 ms
+2025-10-31T08:42:33.548Z WARN  [payments,e9cb2ddf] --- [nio-8080-exec-8] c.c.payments.InventoryClient : Latencia alta en GET /actuator/health: 546 ms (umbral 500 ms)
+2025-10-31T08:42:35.345Z INFO  [payments,7b50bd53] --- [nio-8080-exec-7] c.c.payments.OrderService : GET /actuator/health -> 200 en 345 ms
+2025-10-31T08:42:36.361Z INFO  [payments,ff9f0277] --- [nio-8080-exec-3] c.c.payments.KafkaProducer : GET /api/v1/orders -> 200 en 76 ms
+2025-10-31T08:42:38.415Z INFO  [payments,42df8835] --- [nio-8080-exec-2] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 564 ms
+2025-10-31T08:42:40.459Z WARN  [payments,9ccf1e54] --- [nio-8080-exec-3] c.c.payments.OrderController : Latencia alta en PUT /api/v1/orders/{id}/status: 784 ms (umbral 500 ms)
+2025-10-31T08:42:41.455Z INFO  [payments,e148eee8] --- [nio-8080-exec-2] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 865 ms
+2025-10-31T08:42:43.483Z INFO  [payments,7c9e6e43] --- [nio-8080-exec-5] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 513 ms
+2025-10-31T08:42:43.201Z INFO  [payments,fcef0a39] --- [nio-8080-exec-1] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 342 ms
+2025-10-31T08:42:43.706Z WARN  [payments,05bbaa8b] --- [nio-8080-exec-4] c.c.payments.KafkaProducer : Latencia alta en GET /actuator/health: 780 ms (umbral 500 ms)
+2025-10-31T08:42:43.289Z ERROR [payments,d43e019d] --- [nio-8080-exec-5] c.c.payments.OrderService : Fallo procesando POST /api/v1/orders: timeout llamando a orderservice-svc
+2025-10-31T08:42:45.472Z INFO  [payments,9654eb44] --- [nio-8080-exec-7] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 343 ms
+2025-10-31T08:42:46.355Z INFO  [payments,137b8339] --- [nio-8080-exec-4] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 655 ms
+2025-10-31T08:42:47.558Z INFO  [payments,8a6add52] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 389 ms
+2025-10-31T08:42:47.353Z INFO  [payments,734f3cc1] --- [nio-8080-exec-4] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 539 ms
+2025-10-31T08:42:49.925Z WARN  [payments,70f1ff8e] --- [nio-8080-exec-4] c.c.payments.InventoryClient : Latencia alta en GET /actuator/health: 1262 ms (umbral 500 ms)
+2025-10-31T08:42:51.029Z INFO  [payments,9b6a2195] --- [nio-8080-exec-7] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 845 ms
+2025-10-31T08:42:51.801Z ERROR [payments,b4196b97] --- [nio-8080-exec-1] c.c.payments.OrderService : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a orderservice-svc
+2025-10-31T08:42:52.604Z INFO  [payments,039a3222] --- [nio-8080-exec-9] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 808 ms
+2025-10-31T08:42:53.090Z INFO  [payments,851b47ac] --- [nio-8080-exec-6] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 840 ms
+2025-10-31T08:42:53.894Z INFO  [payments,9d7e1231] --- [nio-8080-exec-3] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 75 ms
+2025-10-31T08:42:55.211Z INFO  [payments,6140d281] --- [nio-8080-exec-9] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 563 ms
+2025-10-31T08:42:56.370Z INFO  [payments,d9fefa7d] --- [nio-8080-exec-1] c.c.payments.KafkaProducer : GET /api/v1/orders/{id} -> 200 en 304 ms
+2025-10-31T08:42:58.191Z INFO  [payments,c7068fc0] --- [nio-8080-exec-8] c.c.payments.HikariPool : GET /actuator/health -> 200 en 483 ms
+2025-10-31T08:42:58.495Z INFO  [payments,4741608a] --- [nio-8080-exec-7] c.c.payments.HikariPool : GET /actuator/health -> 200 en 405 ms
+2025-10-31T08:42:58.136Z INFO  [payments,af757c2b] --- [nio-8080-exec-9] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 577 ms
+2025-10-31T08:42:58.099Z INFO  [payments,fca60151] --- [nio-8080-exec-6] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 93 ms
+2025-10-31T08:42:58.719Z WARN  [payments,f79b6dff] --- [nio-8080-exec-9] c.c.payments.KafkaProducer : Latencia alta en GET /actuator/health: 1098 ms (umbral 500 ms)
+2025-10-31T08:43:00.246Z WARN  [payments,2384c585] --- [nio-8080-exec-3] c.c.payments.HikariPool : Latencia alta en PUT /api/v1/orders/{id}/status: 1058 ms (umbral 500 ms)
+2025-10-31T08:43:02.125Z INFO  [payments,caad3154] --- [nio-8080-exec-4] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 209 ms
+2025-10-31T08:43:04.343Z INFO  [payments,8004fa2f] --- [nio-8080-exec-2] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 354 ms
+2025-10-31T08:43:06.889Z INFO  [payments,ee7ee5e6] --- [nio-8080-exec-2] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 38 ms
+2025-10-31T08:43:07.903Z INFO  [payments,4fded0ce] --- [nio-8080-exec-8] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 788 ms
+2025-10-31T08:43:08.161Z INFO  [payments,cf7a0ac1] --- [nio-8080-exec-4] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 60 ms
+2025-10-31T08:43:09.411Z INFO  [payments,06153eb8] --- [nio-8080-exec-6] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 818 ms
+2025-10-31T08:43:09.665Z INFO  [payments,90bb761a] --- [nio-8080-exec-4] c.c.payments.HikariPool : GET /actuator/health -> 200 en 68 ms
+2025-10-31T08:43:11.093Z INFO  [payments,df3f0a70] --- [nio-8080-exec-5] c.c.payments.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 900 ms
+2025-10-31T08:43:11.627Z INFO  [payments,de37767c] --- [nio-8080-exec-9] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 641 ms
+2025-10-31T08:43:11.703Z INFO  [payments,bcf7e361] --- [nio-8080-exec-3] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 783 ms
+2025-10-31T08:43:11.575Z INFO  [payments,d8386207] --- [nio-8080-exec-9] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 422 ms
+2025-10-31T08:43:11.436Z WARN  [payments,fb7543bb] --- [nio-8080-exec-3] c.c.payments.InventoryClient : Latencia alta en GET /api/v1/orders/{id}: 1364 ms (umbral 500 ms)
+2025-10-31T08:43:12.788Z INFO  [payments,f1dd398c] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 259 ms
+2025-10-31T08:43:13.434Z INFO  [payments,dfb247b2] --- [nio-8080-exec-1] c.c.payments.HikariPool : GET /actuator/health -> 200 en 182 ms
+2025-10-31T08:43:15.056Z INFO  [payments,da09ce9d] --- [nio-8080-exec-2] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 764 ms
+2025-10-31T08:43:15.070Z ERROR [payments,2c49309d] --- [nio-8080-exec-6] c.c.payments.HikariPool : Fallo procesando POST /api/v1/orders: timeout llamando a hikaripool-svc
+2025-10-31T08:43:15.417Z INFO  [payments,b25e6477] --- [nio-8080-exec-1] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 479 ms
+2025-10-31T08:43:16.682Z INFO  [payments,ab0c0d41] --- [nio-8080-exec-7] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 170 ms
+2025-10-31T08:43:16.483Z INFO  [payments,b78d6e17] --- [nio-8080-exec-3] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 224 ms
+2025-10-31T08:43:17.386Z ERROR [payments,31be058d] --- [nio-8080-exec-2] c.c.payments.KafkaProducer : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a kafkaproducer-svc
+2025-10-31T08:43:17.585Z INFO  [payments,9aa62f32] --- [nio-8080-exec-8] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 329 ms
+2025-10-31T08:43:18.630Z INFO  [payments,2c793bda] --- [nio-8080-exec-4] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 393 ms
+2025-10-31T08:43:19.163Z INFO  [payments,6fbf6ab1] --- [nio-8080-exec-2] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 188 ms
+2025-10-31T08:43:19.853Z ERROR [payments,ebe614a8] --- [nio-8080-exec-8] c.c.payments.OrderController : Fallo procesando GET /api/v1/orders: timeout llamando a ordercontroller-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.OrderController.call(OrderController.java:29)
+	at co.com.payments.service.OrderService.process(OrderService.java:104)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:43:20.445Z INFO  [payments,d2d98b57] --- [nio-8080-exec-3] c.c.payments.HikariPool : GET /api/v1/orders -> 200 en 580 ms
+2025-10-31T08:43:20.873Z INFO  [payments,a1a8224b] --- [nio-8080-exec-8] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 666 ms
+2025-10-31T08:43:20.519Z WARN  [payments,ad6360a3] --- [nio-8080-exec-6] c.c.payments.OrderController : Latencia alta en PUT /api/v1/orders/{id}/status: 924 ms (umbral 500 ms)
+2025-10-31T08:43:22.010Z INFO  [payments,6a88205b] --- [nio-8080-exec-1] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 559 ms
+2025-10-31T08:43:23.400Z INFO  [payments,bea043ca] --- [nio-8080-exec-7] c.c.payments.KafkaProducer : GET /actuator/health -> 200 en 635 ms
+2025-10-31T08:43:24.393Z INFO  [payments,e0abbcf8] --- [nio-8080-exec-9] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 754 ms
+2025-10-31T08:43:25.469Z INFO  [payments,160efbda] --- [nio-8080-exec-5] c.c.payments.InventoryClient : POST /api/v1/orders -> 200 en 724 ms
+2025-10-31T08:43:27.545Z ERROR [payments,bfb7def2] --- [nio-8080-exec-1] c.c.payments.HikariPool : Fallo procesando POST /api/v1/orders: timeout llamando a hikaripool-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.HikariPool.call(HikariPool.java:15)
+	at co.com.payments.service.OrderService.process(OrderService.java:206)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:43:27.308Z WARN  [payments,b440d5f1] --- [nio-8080-exec-1] c.c.payments.InventoryClient : Latencia alta en PUT /api/v1/orders/{id}/status: 1308 ms (umbral 500 ms)
+2025-10-31T08:43:27.198Z INFO  [payments,0614e8f6] --- [nio-8080-exec-8] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 576 ms
+2025-10-31T08:43:29.271Z INFO  [payments,48f324c8] --- [nio-8080-exec-1] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 504 ms
+2025-10-31T08:43:31.038Z WARN  [payments,7435bf17] --- [nio-8080-exec-4] c.c.payments.InventoryClient : Latencia alta en PUT /api/v1/orders/{id}/status: 870 ms (umbral 500 ms)
+2025-10-31T08:43:33.170Z INFO  [payments,b9d181eb] --- [nio-8080-exec-8] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 815 ms
+2025-10-31T08:43:35.233Z INFO  [payments,6917e190] --- [nio-8080-exec-1] c.c.payments.OrderController : GET /actuator/health -> 200 en 427 ms
+2025-10-31T08:43:35.095Z INFO  [payments,53923111] --- [nio-8080-exec-1] c.c.payments.InventoryClient : GET /actuator/health -> 200 en 319 ms
+2025-10-31T08:43:36.303Z INFO  [payments,bde75747] --- [nio-8080-exec-1] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 94 ms
+2025-10-31T08:43:38.495Z INFO  [payments,8891cfa9] --- [nio-8080-exec-4] c.c.payments.OrderController : GET /actuator/health -> 200 en 265 ms
+2025-10-31T08:43:40.757Z INFO  [payments,10dd4fdb] --- [nio-8080-exec-2] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 109 ms
+2025-10-31T08:43:40.519Z INFO  [payments,5924520b] --- [nio-8080-exec-7] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 237 ms
+2025-10-31T08:43:40.078Z INFO  [payments,fa1aa462] --- [nio-8080-exec-5] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 148 ms
+2025-10-31T08:43:41.336Z INFO  [payments,3f893856] --- [nio-8080-exec-8] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 652 ms
+2025-10-31T08:43:42.465Z WARN  [payments,730bc88c] --- [nio-8080-exec-3] c.c.payments.OrderService : Latencia alta en PUT /api/v1/orders/{id}/status: 749 ms (umbral 500 ms)
+2025-10-31T08:43:44.501Z INFO  [payments,eb877929] --- [nio-8080-exec-1] c.c.payments.OrderController : GET /actuator/health -> 200 en 79 ms
+2025-10-31T08:43:45.643Z INFO  [payments,a871252e] --- [nio-8080-exec-9] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 382 ms
+2025-10-31T08:43:47.199Z INFO  [payments,4aa8e49a] --- [nio-8080-exec-1] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 399 ms
+2025-10-31T08:43:49.763Z INFO  [payments,48d8945d] --- [nio-8080-exec-2] c.c.payments.OrderService : POST /api/v1/orders -> 200 en 622 ms
+2025-10-31T08:43:51.751Z INFO  [payments,6e149ab3] --- [nio-8080-exec-6] c.c.payments.OrderController : PUT /api/v1/orders/{id}/status -> 200 en 163 ms
+2025-10-31T08:43:51.797Z INFO  [payments,0a28dd69] --- [nio-8080-exec-9] c.c.payments.HikariPool : POST /api/v1/orders -> 200 en 444 ms
+2025-10-31T08:43:52.817Z INFO  [payments,5a6b6ff8] --- [nio-8080-exec-8] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 135 ms
+2025-10-31T08:43:54.313Z INFO  [payments,a61d4e0d] --- [nio-8080-exec-9] c.c.payments.HikariPool : PUT /api/v1/orders/{id}/status -> 200 en 682 ms
+2025-10-31T08:43:56.475Z WARN  [payments,0a809747] --- [nio-8080-exec-3] c.c.payments.OrderService : Latencia alta en POST /api/v1/orders: 896 ms (umbral 500 ms)
+2025-10-31T08:43:58.242Z INFO  [payments,a7ad567a] --- [nio-8080-exec-5] c.c.payments.HikariPool : GET /api/v1/orders -> 200 en 814 ms
+2025-10-31T08:43:58.842Z ERROR [payments,d75aa84f] --- [nio-8080-exec-1] c.c.payments.OrderController : Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a ordercontroller-svc
+2025-10-31T08:44:00.859Z INFO  [payments,587149ab] --- [nio-8080-exec-4] c.c.payments.OrderService : PUT /api/v1/orders/{id}/status -> 200 en 74 ms
+2025-10-31T08:44:00.502Z INFO  [payments,55c84817] --- [nio-8080-exec-4] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 724 ms
+2025-10-31T08:44:01.521Z INFO  [payments,38d15994] --- [nio-8080-exec-8] c.c.payments.KafkaProducer : PUT /api/v1/orders/{id}/status -> 200 en 145 ms
+2025-10-31T08:44:01.899Z INFO  [payments,2e3da851] --- [nio-8080-exec-6] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 374 ms
+2025-10-31T08:44:02.925Z WARN  [payments,4ce3d79f] --- [nio-8080-exec-2] c.c.payments.HikariPool : Latencia alta en PUT /api/v1/orders/{id}/status: 812 ms (umbral 500 ms)
+2025-10-31T08:44:03.848Z INFO  [payments,c5116a5b] --- [nio-8080-exec-1] c.c.payments.HikariPool : GET /api/v1/orders -> 200 en 632 ms
+2025-10-31T08:44:04.069Z INFO  [payments,902657dd] --- [nio-8080-exec-7] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 776 ms
+2025-10-31T08:44:06.418Z ERROR [payments,1d164139] --- [nio-8080-exec-1] c.c.payments.HikariPool : Fallo procesando GET /api/v1/orders/{id}: timeout llamando a hikaripool-svc
+java.net.SocketTimeoutException: Read timed out
+	at co.com.payments.client.HikariPool.call(HikariPool.java:49)
+	at co.com.payments.service.OrderService.process(OrderService.java:144)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-31T08:44:06.970Z INFO  [payments,14a29614] --- [nio-8080-exec-5] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 606 ms
+2025-10-31T08:44:08.340Z INFO  [payments,adda2c93] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 85 ms
+2025-10-31T08:44:09.495Z INFO  [payments,3d56b0b4] --- [nio-8080-exec-6] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 33 ms
+2025-10-31T08:44:10.692Z INFO  [payments,8bb9de60] --- [nio-8080-exec-7] c.c.payments.HikariPool : GET /api/v1/orders/{id} -> 200 en 310 ms
+2025-10-31T08:44:11.827Z INFO  [payments,954954e2] --- [nio-8080-exec-9] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 205 ms
+2025-10-31T08:44:12.704Z INFO  [payments,9b9ed85d] --- [nio-8080-exec-6] c.c.payments.OrderController : GET /api/v1/orders/{id} -> 200 en 8 ms
+2025-10-31T08:44:13.874Z INFO  [payments,ed929796] --- [nio-8080-exec-4] c.c.payments.OrderController : GET /api/v1/orders -> 200 en 192 ms
+2025-10-31T08:44:14.150Z INFO  [payments,8de7dd5e] --- [nio-8080-exec-7] c.c.payments.OrderService : GET /api/v1/orders/{id} -> 200 en 314 ms
+2025-10-31T08:44:16.734Z INFO  [payments,2d335d1e] --- [nio-8080-exec-5] c.c.payments.InventoryClient : PUT /api/v1/orders/{id}/status -> 200 en 63 ms
+2025-10-31T08:44:16.154Z INFO  [payments,672db2d3] --- [nio-8080-exec-1] c.c.payments.OrderController : POST /api/v1/orders -> 200 en 682 ms
+2025-10-31T08:44:18.746Z WARN  [payments,469970b6] --- [nio-8080-exec-3] c.c.payments.OrderController : Latencia alta en GET /api/v1/orders/{id}: 1392 ms (umbral 500 ms)
+2025-10-31T08:44:18.531Z INFO  [payments,695ee605] --- [nio-8080-exec-8] c.c.payments.InventoryClient : GET /api/v1/orders/{id} -> 200 en 261 ms
+2025-10-31T08:44:18.030Z INFO  [payments,e70a8d8f] --- [nio-8080-exec-5] c.c.payments.KafkaProducer : POST /api/v1/orders -> 200 en 252 ms
+2025-10-31T08:44:19.789Z INFO  [payments,ce49cc14] --- [nio-8080-exec-6] c.c.payments.OrderService : GET /api/v1/orders -> 200 en 275 ms
+2025-10-31T08:44:19.858Z INFO  [payments,e11ad0cd] --- [nio-8080-exec-2] c.c.payments.KafkaProducer : GET /actuator/health -> 200 en 137 ms
+2025-10-31T08:44:20.675Z INFO  [payments,48b39d5d] --- [nio-8080-exec-1] c.c.payments.KafkaProducer : GET /api/v1/orders -> 200 en 696 ms
+2025-10-31T08:44:20.675Z ERROR [payments,deadbeef] --- [main] o.s.boot.SpringApplication : Application run failed
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3541)

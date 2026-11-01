@@ -12,14 +12,6 @@ import co.com.bancolombia.kabrilla.domain.gateway.KubeconfigRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.DeploymentRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.LogsRepository;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.PodsRepository;
-import co.com.bancolombia.kabrilla.infrastructure.adapters.EksTokenProvider;
-import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.FileClusterRepository;
-import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.JsonCredentialRepository;
-import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.DeploymentAdapter;
-import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.LogsAdapter;
-import co.com.bancolombia.kabrilla.infrastructure.adapters.k8s.PodAdapter;
-import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeClientFactory;
-import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeconfigAdapter;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppState;
@@ -30,47 +22,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Cableado de dependencias. Domain y application no conocen Spring: sus clases se registran aquí.
+ * Cableado de dependencias común. Domain y application no conocen Spring: sus clases se registran aquí.
+ * Los adaptadores (gateways) se definen por perfil en {@link K8sAdaptersConfiguration} y
+ * {@link MockAdaptersConfiguration}.
  */
 @Configuration(proxyBeanMethods = false)
 public class BeanConfiguration {
-
-    // --- Adaptadores (infraestructura) ---
-
-    @Bean
-    public KubeconfigRepository kubeconfigRepository() {
-        return new KubeconfigAdapter();
-    }
-
-    @Bean
-    public ClusterRepository clusterRepository() {
-        return new FileClusterRepository();
-    }
-
-    @Bean
-    public CredentialRepository credentialRepository() {
-        return new JsonCredentialRepository();
-    }
-
-    @Bean(destroyMethod = "shutdown")
-    public KubeClientFactory kubeClientFactory() {
-        return new KubeClientFactory(EksTokenProvider::getEksToken);
-    }
-
-    @Bean
-    public DeploymentRepository deploymentRepository(KubeClientFactory factory) {
-        return new DeploymentAdapter(factory);
-    }
-
-    @Bean
-    public PodsRepository podsRepository(KubeClientFactory factory) {
-        return new PodAdapter(factory);
-    }
-
-    @Bean
-    public LogsRepository logsRepository(KubeClientFactory factory) {
-        return new LogsAdapter(factory);
-    }
 
     // --- Servicios (application) ---
 

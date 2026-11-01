@@ -1,0 +1,300 @@
+{"timestamp":"2025-10-31T08:40:01.927Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"64fffc4f","message":"Latencia alta en POST /api/v1/orders: 588 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:01.345Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"d821b07f","message":"GET /api/v1/orders -> 200 en 629 ms"}
+{"timestamp":"2025-10-31T08:40:01.001Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"a0945a47","message":"GET /api/v1/orders -> 200 en 129 ms"}
+{"timestamp":"2025-10-31T08:40:02.746Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"0257a86e","message":"GET /api/v1/orders -> 200 en 414 ms"}
+{"timestamp":"2025-10-31T08:40:03.669Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"2345ec1d","message":"POST /api/v1/orders -> 200 en 835 ms"}
+{"timestamp":"2025-10-31T08:40:05.599Z","level":"ERROR","logger":"co.com.catalog.OrderController","trace_id":"c388068b","message":"Fallo procesando GET /actuator/health: timeout llamando a ordercontroller-svc"}
+{"timestamp":"2025-10-31T08:40:07.400Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"2601e8b9","message":"GET /actuator/health -> 200 en 13 ms"}
+{"timestamp":"2025-10-31T08:40:07.026Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"04fef95d","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 1050 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:07.227Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"1d301e06","message":"Latencia alta en POST /api/v1/orders: 987 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:08.743Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"6b87f87c","message":"Latencia alta en GET /api/v1/orders/{id}: 896 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:09.428Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"ce2433a2","message":"GET /api/v1/orders/{id} -> 200 en 467 ms"}
+{"timestamp":"2025-10-31T08:40:11.385Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"31400361","message":"GET /api/v1/orders -> 200 en 704 ms"}
+{"timestamp":"2025-10-31T08:40:11.162Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"4ce9deac","message":"POST /api/v1/orders -> 200 en 215 ms"}
+{"timestamp":"2025-10-31T08:40:11.936Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"baa91b60","message":"PUT /api/v1/orders/{id}/status -> 200 en 567 ms"}
+{"timestamp":"2025-10-31T08:40:11.828Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"d6c8fa1f","message":"POST /api/v1/orders -> 200 en 752 ms"}
+{"timestamp":"2025-10-31T08:40:13.135Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"d39ac350","message":"PUT /api/v1/orders/{id}/status -> 200 en 105 ms"}
+{"timestamp":"2025-10-31T08:40:13.814Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"d5094bc5","message":"POST /api/v1/orders -> 200 en 862 ms"}
+{"timestamp":"2025-10-31T08:40:15.767Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"d77c3df0","message":"PUT /api/v1/orders/{id}/status -> 200 en 858 ms"}
+{"timestamp":"2025-10-31T08:40:16.544Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"ce6c4300","message":"POST /api/v1/orders -> 200 en 13 ms"}
+{"timestamp":"2025-10-31T08:40:17.654Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"2920617c","message":"PUT /api/v1/orders/{id}/status -> 200 en 194 ms"}
+{"timestamp":"2025-10-31T08:40:19.091Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"6b528a85","message":"GET /api/v1/orders/{id} -> 200 en 276 ms"}
+{"timestamp":"2025-10-31T08:40:20.495Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1d0d4299","message":"GET /api/v1/orders/{id} -> 200 en 636 ms"}
+{"timestamp":"2025-10-31T08:40:20.710Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"0fe07e9d","message":"GET /api/v1/orders/{id} -> 200 en 766 ms"}
+{"timestamp":"2025-10-31T08:40:20.344Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"4eba4549","message":"GET /api/v1/orders/{id} -> 200 en 809 ms"}
+{"timestamp":"2025-10-31T08:40:20.004Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"ce703f06","message":"GET /api/v1/orders -> 200 en 124 ms"}
+{"timestamp":"2025-10-31T08:40:21.181Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"dc0ee642","message":"POST /api/v1/orders -> 200 en 204 ms"}
+{"timestamp":"2025-10-31T08:40:21.608Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"a82770f2","message":"GET /actuator/health -> 200 en 509 ms"}
+{"timestamp":"2025-10-31T08:40:21.069Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"5a26c10d","message":"GET /api/v1/orders/{id} -> 200 en 818 ms"}
+{"timestamp":"2025-10-31T08:40:21.625Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"2edc690d","message":"PUT /api/v1/orders/{id}/status -> 200 en 300 ms"}
+{"timestamp":"2025-10-31T08:40:22.072Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"f8e44848","message":"POST /api/v1/orders -> 200 en 403 ms"}
+{"timestamp":"2025-10-31T08:40:22.952Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"2a027b93","message":"POST /api/v1/orders -> 200 en 904 ms"}
+{"timestamp":"2025-10-31T08:40:22.025Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"997590d2","message":"PUT /api/v1/orders/{id}/status -> 200 en 169 ms"}
+{"timestamp":"2025-10-31T08:40:24.979Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"64a1bdf5","message":"PUT /api/v1/orders/{id}/status -> 200 en 809 ms"}
+{"timestamp":"2025-10-31T08:40:25.798Z","level":"ERROR","logger":"co.com.catalog.OrderController","trace_id":"3b55cc14","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a ordercontroller-svc"}
+{"timestamp":"2025-10-31T08:40:26.314Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"241ae646","message":"POST /api/v1/orders -> 200 en 790 ms"}
+{"timestamp":"2025-10-31T08:40:27.191Z","level":"WARN","logger":"co.com.catalog.KafkaProducer","trace_id":"6c8c0d29","message":"Latencia alta en GET /api/v1/orders: 1048 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:27.661Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"4e5ec800","message":"Latencia alta en GET /actuator/health: 859 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:29.061Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"a5d628b5","message":"PUT /api/v1/orders/{id}/status -> 200 en 845 ms"}
+{"timestamp":"2025-10-31T08:40:31.440Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"1aef8ab6","message":"GET /actuator/health -> 200 en 843 ms"}
+{"timestamp":"2025-10-31T08:40:32.732Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"8f28e561","message":"GET /api/v1/orders -> 200 en 178 ms"}
+{"timestamp":"2025-10-31T08:40:33.583Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"04b31a30","message":"PUT /api/v1/orders/{id}/status -> 200 en 21 ms"}
+{"timestamp":"2025-10-31T08:40:34.268Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"a39aa840","message":"GET /api/v1/orders/{id} -> 200 en 587 ms"}
+{"timestamp":"2025-10-31T08:40:34.124Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"6af5db11","message":"Latencia alta en GET /api/v1/orders: 1131 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:35.930Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1ae5af2a","message":"GET /api/v1/orders/{id} -> 200 en 850 ms"}
+{"timestamp":"2025-10-31T08:40:36.530Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"5d1c7ed5","message":"GET /api/v1/orders/{id} -> 200 en 267 ms"}
+{"timestamp":"2025-10-31T08:40:38.496Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"d084b637","message":"GET /api/v1/orders -> 200 en 483 ms"}
+{"timestamp":"2025-10-31T08:40:38.726Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"efd486dd","message":"GET /api/v1/orders/{id} -> 200 en 572 ms"}
+{"timestamp":"2025-10-31T08:40:38.112Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"cef77ca6","message":"PUT /api/v1/orders/{id}/status -> 200 en 585 ms"}
+{"timestamp":"2025-10-31T08:40:38.397Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"22c5976d","message":"POST /api/v1/orders -> 200 en 326 ms"}
+{"timestamp":"2025-10-31T08:40:39.869Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"a14c59e4","message":"GET /api/v1/orders/{id} -> 200 en 309 ms"}
+{"timestamp":"2025-10-31T08:40:39.817Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"4be1360c","message":"PUT /api/v1/orders/{id}/status -> 200 en 679 ms"}
+{"timestamp":"2025-10-31T08:40:41.153Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"1e5a5eaf","message":"Latencia alta en GET /actuator/health: 517 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:42.756Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"9a7124d8","message":"GET /actuator/health -> 200 en 349 ms"}
+{"timestamp":"2025-10-31T08:40:42.381Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"8125322c","message":"GET /api/v1/orders -> 200 en 98 ms"}
+{"timestamp":"2025-10-31T08:40:44.832Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"133a5583","message":"GET /api/v1/orders -> 200 en 505 ms"}
+{"timestamp":"2025-10-31T08:40:44.407Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"e05271cc","message":"POST /api/v1/orders -> 200 en 73 ms"}
+{"timestamp":"2025-10-31T08:40:44.357Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"b69f16cb","message":"PUT /api/v1/orders/{id}/status -> 200 en 554 ms"}
+{"timestamp":"2025-10-31T08:40:44.731Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"feb9256f","message":"GET /api/v1/orders -> 200 en 278 ms"}
+{"timestamp":"2025-10-31T08:40:46.230Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"506b1d7a","message":"GET /actuator/health -> 200 en 262 ms"}
+{"timestamp":"2025-10-31T08:40:46.241Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"c65032a0","message":"POST /api/v1/orders -> 200 en 257 ms"}
+{"timestamp":"2025-10-31T08:40:47.837Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"9731daa9","message":"GET /api/v1/orders -> 200 en 529 ms"}
+{"timestamp":"2025-10-31T08:40:47.784Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"ca56099a","message":"GET /api/v1/orders/{id} -> 200 en 357 ms"}
+{"timestamp":"2025-10-31T08:40:47.912Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"e00d93f4","message":"POST /api/v1/orders -> 200 en 170 ms"}
+{"timestamp":"2025-10-31T08:40:47.230Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"8f54c845","message":"GET /api/v1/orders/{id} -> 200 en 593 ms"}
+{"timestamp":"2025-10-31T08:40:48.318Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"1558a4de","message":"GET /api/v1/orders -> 200 en 248 ms"}
+{"timestamp":"2025-10-31T08:40:49.337Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"2fe8f07b","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 1391 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:51.140Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"004d4835","message":"POST /api/v1/orders -> 200 en 857 ms"}
+{"timestamp":"2025-10-31T08:40:51.965Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"17084965","message":"GET /api/v1/orders -> 200 en 670 ms"}
+{"timestamp":"2025-10-31T08:40:52.153Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"593384b1","message":"GET /api/v1/orders/{id} -> 200 en 94 ms"}
+{"timestamp":"2025-10-31T08:40:52.200Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"3669c455","message":"GET /actuator/health -> 200 en 779 ms"}
+{"timestamp":"2025-10-31T08:40:54.858Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"bd54dfd7","message":"Latencia alta en GET /api/v1/orders/{id}: 1070 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:55.599Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"deffd013","message":"GET /api/v1/orders/{id} -> 200 en 779 ms"}
+{"timestamp":"2025-10-31T08:40:56.437Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"ef693e91","message":"GET /api/v1/orders/{id} -> 200 en 192 ms"}
+{"timestamp":"2025-10-31T08:40:56.210Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"7089f67e","message":"GET /api/v1/orders -> 200 en 542 ms"}
+{"timestamp":"2025-10-31T08:40:58.011Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"f5972379","message":"GET /api/v1/orders -> 200 en 311 ms"}
+{"timestamp":"2025-10-31T08:41:00.747Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"06e5d787","message":"GET /api/v1/orders/{id} -> 200 en 509 ms"}
+{"timestamp":"2025-10-31T08:41:02.034Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"c6a4c154","message":"GET /actuator/health -> 200 en 791 ms"}
+{"timestamp":"2025-10-31T08:41:04.042Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"49924d2d","message":"POST /api/v1/orders -> 200 en 684 ms"}
+{"timestamp":"2025-10-31T08:41:05.441Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"4765857c","message":"PUT /api/v1/orders/{id}/status -> 200 en 335 ms"}
+{"timestamp":"2025-10-31T08:41:07.371Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"2505cc16","message":"GET /api/v1/orders/{id} -> 200 en 804 ms"}
+{"timestamp":"2025-10-31T08:41:08.639Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"04aaaa38","message":"GET /api/v1/orders -> 200 en 295 ms"}
+{"timestamp":"2025-10-31T08:41:08.176Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"a67b876e","message":"GET /api/v1/orders -> 200 en 674 ms"}
+{"timestamp":"2025-10-31T08:41:08.683Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"dccf0462","message":"GET /api/v1/orders -> 200 en 877 ms"}
+{"timestamp":"2025-10-31T08:41:10.465Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"e4f282c7","message":"GET /actuator/health -> 200 en 139 ms"}
+{"timestamp":"2025-10-31T08:41:12.935Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"62e4c8a7","message":"GET /api/v1/orders/{id} -> 200 en 812 ms"}
+{"timestamp":"2025-10-31T08:41:13.580Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"ac4b661f","message":"POST /api/v1/orders -> 200 en 724 ms"}
+{"timestamp":"2025-10-31T08:41:14.553Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"cc28a15c","message":"POST /api/v1/orders -> 200 en 128 ms"}
+{"timestamp":"2025-10-31T08:41:16.650Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"e291b39f","message":"GET /actuator/health -> 200 en 493 ms"}
+{"timestamp":"2025-10-31T08:41:17.174Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"dcfd3e1a","message":"GET /api/v1/orders -> 200 en 436 ms"}
+{"timestamp":"2025-10-31T08:41:17.957Z","level":"ERROR","logger":"co.com.catalog.KafkaProducer","trace_id":"2fe7dee7","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a kafkaproducer-svc"}
+{"timestamp":"2025-10-31T08:41:17.496Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"4e2b7318","message":"GET /api/v1/orders/{id} -> 200 en 282 ms"}
+{"timestamp":"2025-10-31T08:41:17.560Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"1ba5b990","message":"Latencia alta en GET /actuator/health: 1394 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:18.655Z","level":"ERROR","logger":"co.com.catalog.OrderService","trace_id":"cda105bd","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:41:18.892Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"41853895","message":"GET /actuator/health -> 200 en 470 ms"}
+{"timestamp":"2025-10-31T08:41:20.779Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"27d2731c","message":"GET /api/v1/orders/{id} -> 200 en 730 ms"}
+{"timestamp":"2025-10-31T08:41:20.637Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"5a6ec468","message":"PUT /api/v1/orders/{id}/status -> 200 en 34 ms"}
+{"timestamp":"2025-10-31T08:41:21.646Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"dab953b6","message":"PUT /api/v1/orders/{id}/status -> 200 en 663 ms"}
+{"timestamp":"2025-10-31T08:41:21.124Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"1ba3b4d3","message":"Latencia alta en GET /api/v1/orders: 1026 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:21.131Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"c5d0f4c7","message":"PUT /api/v1/orders/{id}/status -> 200 en 776 ms"}
+{"timestamp":"2025-10-31T08:41:22.785Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"8154ef27","message":"GET /actuator/health -> 200 en 282 ms"}
+{"timestamp":"2025-10-31T08:41:23.380Z","level":"WARN","logger":"co.com.catalog.KafkaProducer","trace_id":"6c0f0401","message":"Latencia alta en GET /api/v1/orders/{id}: 577 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:23.516Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"0fb51447","message":"GET /api/v1/orders/{id} -> 200 en 255 ms"}
+{"timestamp":"2025-10-31T08:41:25.097Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"180fe9a6","message":"GET /actuator/health -> 200 en 389 ms"}
+{"timestamp":"2025-10-31T08:41:26.667Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"9400e9de","message":"PUT /api/v1/orders/{id}/status -> 200 en 761 ms"}
+{"timestamp":"2025-10-31T08:41:27.485Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"ad1cadfb","message":"GET /api/v1/orders -> 200 en 398 ms"}
+{"timestamp":"2025-10-31T08:41:29.529Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"d284d459","message":"GET /api/v1/orders -> 200 en 707 ms"}
+{"timestamp":"2025-10-31T08:41:30.823Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"379727d6","message":"POST /api/v1/orders -> 200 en 670 ms"}
+{"timestamp":"2025-10-31T08:41:31.833Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"61eba8c2","message":"GET /api/v1/orders/{id} -> 200 en 198 ms"}
+{"timestamp":"2025-10-31T08:41:31.208Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"dbab7cb5","message":"PUT /api/v1/orders/{id}/status -> 200 en 387 ms"}
+{"timestamp":"2025-10-31T08:41:33.109Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"3e53c5ae","message":"GET /api/v1/orders -> 200 en 374 ms"}
+{"timestamp":"2025-10-31T08:41:33.908Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"246622a2","message":"GET /api/v1/orders/{id} -> 200 en 282 ms"}
+{"timestamp":"2025-10-31T08:41:34.002Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"5ebd6a45","message":"POST /api/v1/orders -> 200 en 844 ms"}
+{"timestamp":"2025-10-31T08:41:35.868Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"c41df851","message":"GET /actuator/health -> 200 en 479 ms"}
+{"timestamp":"2025-10-31T08:41:37.871Z","level":"WARN","logger":"co.com.catalog.OrderService","trace_id":"36a5f06f","message":"Latencia alta en GET /actuator/health: 630 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:37.301Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"c85b975d","message":"GET /api/v1/orders/{id} -> 200 en 528 ms"}
+{"timestamp":"2025-10-31T08:41:37.638Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"006136fc","message":"GET /api/v1/orders -> 200 en 542 ms"}
+{"timestamp":"2025-10-31T08:41:37.338Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"db821506","message":"Latencia alta en GET /api/v1/orders: 968 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:39.438Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"ee3c11ad","message":"GET /api/v1/orders/{id} -> 200 en 858 ms"}
+{"timestamp":"2025-10-31T08:41:40.088Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"941623df","message":"Latencia alta en GET /api/v1/orders/{id}: 1282 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:40.667Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"0cd69bd9","message":"GET /actuator/health -> 200 en 901 ms"}
+{"timestamp":"2025-10-31T08:41:42.157Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"f841633f","message":"GET /api/v1/orders/{id} -> 200 en 726 ms"}
+{"timestamp":"2025-10-31T08:41:43.725Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"30b441f8","message":"Latencia alta en POST /api/v1/orders: 989 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:45.637Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"1c121114","message":"PUT /api/v1/orders/{id}/status -> 200 en 295 ms"}
+{"timestamp":"2025-10-31T08:41:47.832Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"db717e4f","message":"POST /api/v1/orders -> 200 en 35 ms"}
+{"timestamp":"2025-10-31T08:41:49.975Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"3f739805","message":"PUT /api/v1/orders/{id}/status -> 200 en 746 ms"}
+{"timestamp":"2025-10-31T08:41:51.738Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"a14b12d8","message":"GET /actuator/health -> 200 en 818 ms"}
+{"timestamp":"2025-10-31T08:41:51.394Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"b8922431","message":"GET /actuator/health -> 200 en 790 ms"}
+{"timestamp":"2025-10-31T08:41:53.591Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"0ee11240","message":"GET /actuator/health -> 200 en 339 ms"}
+{"timestamp":"2025-10-31T08:41:54.871Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"8f1440ca","message":"GET /api/v1/orders/{id} -> 200 en 429 ms"}
+{"timestamp":"2025-10-31T08:41:54.957Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1062c637","message":"GET /actuator/health -> 200 en 587 ms"}
+{"timestamp":"2025-10-31T08:41:56.735Z","level":"ERROR","logger":"co.com.catalog.HikariPool","trace_id":"287350e7","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:41:56.296Z","level":"WARN","logger":"co.com.catalog.OrderService","trace_id":"705c5fdc","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 846 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:58.774Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"cff00054","message":"GET /actuator/health -> 200 en 556 ms"}
+{"timestamp":"2025-10-31T08:41:59.594Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"a0627e84","message":"GET /actuator/health -> 200 en 785 ms"}
+{"timestamp":"2025-10-31T08:42:00.163Z","level":"WARN","logger":"co.com.catalog.OrderService","trace_id":"92cf97cc","message":"Latencia alta en GET /actuator/health: 1385 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:01.745Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"76f32c2f","message":"GET /api/v1/orders/{id} -> 200 en 210 ms"}
+{"timestamp":"2025-10-31T08:42:03.355Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"6b2d627d","message":"GET /api/v1/orders -> 200 en 134 ms"}
+{"timestamp":"2025-10-31T08:42:04.309Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1be35bc4","message":"GET /api/v1/orders -> 200 en 796 ms"}
+{"timestamp":"2025-10-31T08:42:05.300Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"21ab858e","message":"GET /api/v1/orders -> 200 en 158 ms"}
+{"timestamp":"2025-10-31T08:42:05.152Z","level":"ERROR","logger":"co.com.catalog.OrderService","trace_id":"d2fdbce7","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:42:05.868Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"72a4e0bb","message":"GET /api/v1/orders -> 200 en 705 ms"}
+{"timestamp":"2025-10-31T08:42:05.669Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"64893ed3","message":"GET /actuator/health -> 200 en 833 ms"}
+{"timestamp":"2025-10-31T08:42:05.960Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"2c5e9211","message":"POST /api/v1/orders -> 200 en 373 ms"}
+{"timestamp":"2025-10-31T08:42:06.160Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"89544581","message":"GET /actuator/health -> 200 en 638 ms"}
+{"timestamp":"2025-10-31T08:42:07.450Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"76a0bead","message":"POST /api/v1/orders -> 200 en 428 ms"}
+{"timestamp":"2025-10-31T08:42:09.942Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"c6f4ea42","message":"PUT /api/v1/orders/{id}/status -> 200 en 374 ms"}
+{"timestamp":"2025-10-31T08:42:11.498Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"c550bf61","message":"PUT /api/v1/orders/{id}/status -> 200 en 366 ms"}
+{"timestamp":"2025-10-31T08:42:12.755Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"e7a7c343","message":"GET /api/v1/orders -> 200 en 598 ms"}
+{"timestamp":"2025-10-31T08:42:13.950Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"efa0ba51","message":"POST /api/v1/orders -> 200 en 411 ms"}
+{"timestamp":"2025-10-31T08:42:15.376Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"5ec3a349","message":"PUT /api/v1/orders/{id}/status -> 200 en 73 ms"}
+{"timestamp":"2025-10-31T08:42:15.986Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"66e2f338","message":"PUT /api/v1/orders/{id}/status -> 200 en 65 ms"}
+{"timestamp":"2025-10-31T08:42:16.936Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"6aba0803","message":"Latencia alta en GET /api/v1/orders: 670 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:17.712Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"fe28cdb5","message":"PUT /api/v1/orders/{id}/status -> 200 en 525 ms"}
+{"timestamp":"2025-10-31T08:42:18.656Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"ba2bd364","message":"PUT /api/v1/orders/{id}/status -> 200 en 770 ms"}
+{"timestamp":"2025-10-31T08:42:19.557Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"d10cd4dc","message":"GET /api/v1/orders/{id} -> 200 en 138 ms"}
+{"timestamp":"2025-10-31T08:42:21.899Z","level":"WARN","logger":"co.com.catalog.KafkaProducer","trace_id":"4d71584b","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 747 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:23.892Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"c74267f0","message":"PUT /api/v1/orders/{id}/status -> 200 en 30 ms"}
+{"timestamp":"2025-10-31T08:42:24.517Z","level":"ERROR","logger":"co.com.catalog.KafkaProducer","trace_id":"ad2389b1","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a kafkaproducer-svc"}
+{"timestamp":"2025-10-31T08:42:26.479Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"dadd2250","message":"GET /actuator/health -> 200 en 729 ms"}
+{"timestamp":"2025-10-31T08:42:27.781Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"77edafb7","message":"GET /api/v1/orders/{id} -> 200 en 200 ms"}
+{"timestamp":"2025-10-31T08:42:28.920Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"a88d1ec0","message":"GET /api/v1/orders -> 200 en 357 ms"}
+{"timestamp":"2025-10-31T08:42:28.486Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"7979de1f","message":"GET /api/v1/orders -> 200 en 145 ms"}
+{"timestamp":"2025-10-31T08:42:29.939Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"e71300b8","message":"GET /api/v1/orders/{id} -> 200 en 709 ms"}
+{"timestamp":"2025-10-31T08:42:31.475Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"da7bfc76","message":"GET /actuator/health -> 200 en 200 ms"}
+{"timestamp":"2025-10-31T08:42:33.411Z","level":"ERROR","logger":"co.com.catalog.KafkaProducer","trace_id":"4caea78a","message":"Fallo procesando GET /api/v1/orders: timeout llamando a kafkaproducer-svc"}
+{"timestamp":"2025-10-31T08:42:35.998Z","level":"ERROR","logger":"co.com.catalog.OrderService","trace_id":"d5114456","message":"Fallo procesando GET /api/v1/orders: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:42:36.133Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"772c15bd","message":"GET /api/v1/orders/{id} -> 200 en 194 ms"}
+{"timestamp":"2025-10-31T08:42:37.462Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"de3f9640","message":"PUT /api/v1/orders/{id}/status -> 200 en 324 ms"}
+{"timestamp":"2025-10-31T08:42:38.529Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"cee43861","message":"PUT /api/v1/orders/{id}/status -> 200 en 326 ms"}
+{"timestamp":"2025-10-31T08:42:39.031Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"36c01aa6","message":"GET /api/v1/orders/{id} -> 200 en 181 ms"}
+{"timestamp":"2025-10-31T08:42:40.870Z","level":"WARN","logger":"co.com.catalog.KafkaProducer","trace_id":"ecf524ac","message":"Latencia alta en POST /api/v1/orders: 1014 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:41.338Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"04355d48","message":"GET /api/v1/orders -> 200 en 456 ms"}
+{"timestamp":"2025-10-31T08:42:41.852Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"e897773a","message":"GET /actuator/health -> 200 en 165 ms"}
+{"timestamp":"2025-10-31T08:42:42.497Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"1d4b1a73","message":"GET /api/v1/orders/{id} -> 200 en 86 ms"}
+{"timestamp":"2025-10-31T08:42:44.155Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"1d8fe48b","message":"POST /api/v1/orders -> 200 en 623 ms"}
+{"timestamp":"2025-10-31T08:42:44.288Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"dce1e4bf","message":"GET /actuator/health -> 200 en 812 ms"}
+{"timestamp":"2025-10-31T08:42:44.383Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"012c3db3","message":"PUT /api/v1/orders/{id}/status -> 200 en 599 ms"}
+{"timestamp":"2025-10-31T08:42:45.448Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"1263765e","message":"GET /api/v1/orders/{id} -> 200 en 54 ms"}
+{"timestamp":"2025-10-31T08:42:47.718Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"5b2e56e9","message":"POST /api/v1/orders -> 200 en 779 ms"}
+{"timestamp":"2025-10-31T08:42:49.100Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"cadc2156","message":"PUT /api/v1/orders/{id}/status -> 200 en 505 ms"}
+{"timestamp":"2025-10-31T08:42:49.237Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1701aab3","message":"PUT /api/v1/orders/{id}/status -> 200 en 781 ms"}
+{"timestamp":"2025-10-31T08:42:51.713Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"383b837f","message":"PUT /api/v1/orders/{id}/status -> 200 en 771 ms"}
+{"timestamp":"2025-10-31T08:42:53.680Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"7a737ed9","message":"GET /api/v1/orders/{id} -> 200 en 779 ms"}
+{"timestamp":"2025-10-31T08:42:53.897Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"46b2d3f8","message":"GET /api/v1/orders -> 200 en 39 ms"}
+{"timestamp":"2025-10-31T08:42:55.656Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"69e70644","message":"GET /api/v1/orders -> 200 en 899 ms"}
+{"timestamp":"2025-10-31T08:42:57.265Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"a8d427c5","message":"POST /api/v1/orders -> 200 en 10 ms"}
+{"timestamp":"2025-10-31T08:42:59.685Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"a2c37a74","message":"GET /api/v1/orders -> 200 en 115 ms"}
+{"timestamp":"2025-10-31T08:42:59.286Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"b03de42a","message":"GET /api/v1/orders/{id} -> 200 en 790 ms"}
+{"timestamp":"2025-10-31T08:42:59.715Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"a227db85","message":"GET /actuator/health -> 200 en 111 ms"}
+{"timestamp":"2025-10-31T08:43:00.180Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"11d32a7b","message":"PUT /api/v1/orders/{id}/status -> 200 en 43 ms"}
+{"timestamp":"2025-10-31T08:43:02.016Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"ab8ab948","message":"PUT /api/v1/orders/{id}/status -> 200 en 826 ms"}
+{"timestamp":"2025-10-31T08:43:02.519Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"077999d9","message":"PUT /api/v1/orders/{id}/status -> 200 en 7 ms"}
+{"timestamp":"2025-10-31T08:43:04.718Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"6c0c6d05","message":"PUT /api/v1/orders/{id}/status -> 200 en 767 ms"}
+{"timestamp":"2025-10-31T08:43:05.700Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"e639832a","message":"PUT /api/v1/orders/{id}/status -> 200 en 447 ms"}
+{"timestamp":"2025-10-31T08:43:07.700Z","level":"ERROR","logger":"co.com.catalog.OrderService","trace_id":"d8b3fa92","message":"Fallo procesando POST /api/v1/orders: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:43:09.269Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"d353a74b","message":"POST /api/v1/orders -> 200 en 246 ms"}
+{"timestamp":"2025-10-31T08:43:09.335Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"b7f4b458","message":"POST /api/v1/orders -> 200 en 262 ms"}
+{"timestamp":"2025-10-31T08:43:09.285Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"44cf6021","message":"GET /actuator/health -> 200 en 411 ms"}
+{"timestamp":"2025-10-31T08:43:09.494Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"c5f0c981","message":"PUT /api/v1/orders/{id}/status -> 200 en 627 ms"}
+{"timestamp":"2025-10-31T08:43:11.318Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"240f0c2d","message":"PUT /api/v1/orders/{id}/status -> 200 en 83 ms"}
+{"timestamp":"2025-10-31T08:43:11.200Z","level":"ERROR","logger":"co.com.catalog.OrderController","trace_id":"d6e2cbd8","message":"Fallo procesando GET /api/v1/orders: timeout llamando a ordercontroller-svc"}
+{"timestamp":"2025-10-31T08:43:11.813Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"795d1b12","message":"PUT /api/v1/orders/{id}/status -> 200 en 256 ms"}
+{"timestamp":"2025-10-31T08:43:11.167Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"a373b6cb","message":"Latencia alta en GET /api/v1/orders/{id}: 943 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:13.870Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"569d078b","message":"PUT /api/v1/orders/{id}/status -> 200 en 40 ms"}
+{"timestamp":"2025-10-31T08:43:15.011Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"26595385","message":"GET /api/v1/orders -> 200 en 105 ms"}
+{"timestamp":"2025-10-31T08:43:16.180Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"d904badd","message":"GET /api/v1/orders/{id} -> 200 en 866 ms"}
+{"timestamp":"2025-10-31T08:43:18.144Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"f2c884da","message":"GET /api/v1/orders/{id} -> 200 en 580 ms"}
+{"timestamp":"2025-10-31T08:43:18.825Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"1e5b60ed","message":"GET /actuator/health -> 200 en 97 ms"}
+{"timestamp":"2025-10-31T08:43:19.131Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"f4c144b9","message":"GET /api/v1/orders -> 200 en 655 ms"}
+{"timestamp":"2025-10-31T08:43:19.268Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"a8c7f592","message":"POST /api/v1/orders -> 200 en 681 ms"}
+{"timestamp":"2025-10-31T08:43:19.906Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"a1a53168","message":"GET /api/v1/orders/{id} -> 200 en 420 ms"}
+{"timestamp":"2025-10-31T08:43:21.943Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"0ffb6a13","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 1384 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:22.537Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"976c90c7","message":"GET /actuator/health -> 200 en 377 ms"}
+{"timestamp":"2025-10-31T08:43:24.791Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"a0871992","message":"GET /api/v1/orders/{id} -> 200 en 503 ms"}
+{"timestamp":"2025-10-31T08:43:24.713Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"7b626375","message":"PUT /api/v1/orders/{id}/status -> 200 en 579 ms"}
+{"timestamp":"2025-10-31T08:43:26.550Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"d4b3031f","message":"GET /actuator/health -> 200 en 856 ms"}
+{"timestamp":"2025-10-31T08:43:26.669Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"62da04ef","message":"Latencia alta en GET /api/v1/orders: 1115 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:27.335Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"64472e88","message":"GET /actuator/health -> 200 en 753 ms"}
+{"timestamp":"2025-10-31T08:43:28.370Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"13f8fd88","message":"POST /api/v1/orders -> 200 en 809 ms"}
+{"timestamp":"2025-10-31T08:43:28.806Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"59ccf02f","message":"GET /actuator/health -> 200 en 774 ms"}
+{"timestamp":"2025-10-31T08:43:29.869Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"0014df95","message":"GET /actuator/health -> 200 en 374 ms"}
+{"timestamp":"2025-10-31T08:43:30.993Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"47f8b2ae","message":"POST /api/v1/orders -> 200 en 555 ms"}
+{"timestamp":"2025-10-31T08:43:31.289Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"a7a0ede9","message":"GET /api/v1/orders -> 200 en 624 ms"}
+{"timestamp":"2025-10-31T08:43:33.052Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"239d6e93","message":"Latencia alta en POST /api/v1/orders: 685 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:33.744Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"777d0228","message":"GET /api/v1/orders -> 200 en 295 ms"}
+{"timestamp":"2025-10-31T08:43:34.948Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"66251e58","message":"Latencia alta en GET /api/v1/orders/{id}: 1279 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:35.018Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"8a98f9bc","message":"GET /actuator/health -> 200 en 408 ms"}
+{"timestamp":"2025-10-31T08:43:36.312Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"3def7c29","message":"PUT /api/v1/orders/{id}/status -> 200 en 683 ms"}
+{"timestamp":"2025-10-31T08:43:36.030Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"36e44f6b","message":"GET /api/v1/orders/{id} -> 200 en 134 ms"}
+{"timestamp":"2025-10-31T08:43:36.698Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"4ac0c5e0","message":"PUT /api/v1/orders/{id}/status -> 200 en 437 ms"}
+{"timestamp":"2025-10-31T08:43:37.688Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"c7cc4173","message":"GET /actuator/health -> 200 en 637 ms"}
+{"timestamp":"2025-10-31T08:43:38.101Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"33c2f4d8","message":"GET /actuator/health -> 200 en 77 ms"}
+{"timestamp":"2025-10-31T08:43:39.346Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"deb8b30f","message":"POST /api/v1/orders -> 200 en 757 ms"}
+{"timestamp":"2025-10-31T08:43:39.877Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"5ac89051","message":"GET /actuator/health -> 200 en 160 ms"}
+{"timestamp":"2025-10-31T08:43:40.670Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"646b5a70","message":"PUT /api/v1/orders/{id}/status -> 200 en 760 ms"}
+{"timestamp":"2025-10-31T08:43:41.872Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"fb06f499","message":"GET /api/v1/orders -> 200 en 827 ms"}
+{"timestamp":"2025-10-31T08:43:43.617Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"5c240eeb","message":"GET /api/v1/orders -> 200 en 231 ms"}
+{"timestamp":"2025-10-31T08:43:45.203Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"1274f7c7","message":"Latencia alta en GET /api/v1/orders/{id}: 932 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:47.469Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1607dc4f","message":"GET /actuator/health -> 200 en 819 ms"}
+{"timestamp":"2025-10-31T08:43:47.550Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"707c17ee","message":"GET /api/v1/orders -> 200 en 24 ms"}
+{"timestamp":"2025-10-31T08:43:48.464Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"c69bc819","message":"GET /api/v1/orders/{id} -> 200 en 628 ms"}
+{"timestamp":"2025-10-31T08:43:50.038Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"66a22f9c","message":"GET /api/v1/orders/{id} -> 200 en 761 ms"}
+{"timestamp":"2025-10-31T08:43:51.571Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"da4999cf","message":"GET /api/v1/orders/{id} -> 200 en 547 ms"}
+{"timestamp":"2025-10-31T08:43:51.975Z","level":"WARN","logger":"co.com.catalog.OrderService","trace_id":"619c77d2","message":"Latencia alta en POST /api/v1/orders: 1065 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:51.792Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"ff3c70fe","message":"GET /actuator/health -> 200 en 654 ms"}
+{"timestamp":"2025-10-31T08:43:53.378Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"3eb54d8a","message":"GET /api/v1/orders -> 200 en 379 ms"}
+{"timestamp":"2025-10-31T08:43:53.429Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"9a917d83","message":"GET /actuator/health -> 200 en 550 ms"}
+{"timestamp":"2025-10-31T08:43:54.795Z","level":"WARN","logger":"co.com.catalog.InventoryClient","trace_id":"bb394ca5","message":"Latencia alta en GET /api/v1/orders: 686 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:54.686Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"4cc8f39d","message":"GET /api/v1/orders/{id} -> 200 en 195 ms"}
+{"timestamp":"2025-10-31T08:43:56.846Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"55e50375","message":"GET /actuator/health -> 200 en 733 ms"}
+{"timestamp":"2025-10-31T08:43:57.167Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"ef7ab1f7","message":"Latencia alta en POST /api/v1/orders: 1169 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:59.979Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"be10baa9","message":"GET /actuator/health -> 200 en 444 ms"}
+{"timestamp":"2025-10-31T08:44:00.060Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"c89d8be2","message":"POST /api/v1/orders -> 200 en 685 ms"}
+{"timestamp":"2025-10-31T08:44:00.513Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"1410bbac","message":"POST /api/v1/orders -> 200 en 804 ms"}
+{"timestamp":"2025-10-31T08:44:01.163Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"1833646a","message":"GET /api/v1/orders/{id} -> 200 en 13 ms"}
+{"timestamp":"2025-10-31T08:44:01.875Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"5c60da67","message":"POST /api/v1/orders -> 200 en 65 ms"}
+{"timestamp":"2025-10-31T08:44:03.474Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"413cf391","message":"GET /api/v1/orders -> 200 en 615 ms"}
+{"timestamp":"2025-10-31T08:44:04.504Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"2d621127","message":"PUT /api/v1/orders/{id}/status -> 200 en 193 ms"}
+{"timestamp":"2025-10-31T08:44:06.165Z","level":"WARN","logger":"co.com.catalog.OrderService","trace_id":"6ad7fdb1","message":"Latencia alta en GET /actuator/health: 1376 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:44:06.534Z","level":"ERROR","logger":"co.com.catalog.OrderService","trace_id":"d90d7afe","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:44:07.640Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"f808795f","message":"GET /api/v1/orders -> 200 en 170 ms"}
+{"timestamp":"2025-10-31T08:44:09.232Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"2835b1c9","message":"PUT /api/v1/orders/{id}/status -> 200 en 571 ms"}
+{"timestamp":"2025-10-31T08:44:10.088Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"2b1b3e58","message":"Latencia alta en GET /actuator/health: 972 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:44:10.537Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"0ba47c26","message":"GET /actuator/health -> 200 en 757 ms"}
+{"timestamp":"2025-10-31T08:44:10.019Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"589040fb","message":"GET /api/v1/orders -> 200 en 429 ms"}
+{"timestamp":"2025-10-31T08:44:12.141Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"3e93347a","message":"GET /api/v1/orders -> 200 en 756 ms"}
+{"timestamp":"2025-10-31T08:44:14.531Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"29aada43","message":"GET /api/v1/orders/{id} -> 200 en 382 ms"}
+{"timestamp":"2025-10-31T08:44:14.466Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"8ced845b","message":"GET /api/v1/orders/{id} -> 200 en 495 ms"}
+{"timestamp":"2025-10-31T08:44:14.511Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"253e7001","message":"POST /api/v1/orders -> 200 en 420 ms"}
+{"timestamp":"2025-10-31T08:44:16.300Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"52f1866d","message":"GET /api/v1/orders -> 200 en 572 ms"}
+{"timestamp":"2025-10-31T08:44:17.394Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"1a4c2b64","message":"POST /api/v1/orders -> 200 en 10 ms"}
+{"timestamp":"2025-10-31T08:44:17.471Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"0694cdeb","message":"PUT /api/v1/orders/{id}/status -> 200 en 785 ms"}
+{"timestamp":"2025-10-31T08:44:19.903Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"02e2a7ae","message":"PUT /api/v1/orders/{id}/status -> 200 en 881 ms"}
+{"timestamp":"2025-10-31T08:44:21.608Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"81d0be3b","message":"GET /api/v1/orders -> 200 en 461 ms"}
+{"timestamp":"2025-10-31T08:44:23.738Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"7997d23e","message":"PUT /api/v1/orders/{id}/status -> 200 en 241 ms"}
+{"timestamp":"2025-10-31T08:44:23.865Z","level":"WARN","logger":"co.com.catalog.OrderController","trace_id":"cbb7f08b","message":"Latencia alta en GET /api/v1/orders/{id}: 1346 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:44:24.778Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"72af0c48","message":"PUT /api/v1/orders/{id}/status -> 200 en 792 ms"}
+{"timestamp":"2025-10-31T08:44:25.707Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"9e8582d7","message":"POST /api/v1/orders -> 200 en 873 ms"}
+{"timestamp":"2025-10-31T08:44:26.760Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"894f4e33","message":"POST /api/v1/orders -> 200 en 682 ms"}
+{"timestamp":"2025-10-31T08:44:28.984Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"d762354d","message":"POST /api/v1/orders -> 200 en 191 ms"}
+{"timestamp":"2025-10-31T08:44:30.638Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"e710ecf8","message":"GET /api/v1/orders/{id} -> 200 en 856 ms"}
+{"timestamp":"2025-10-31T08:44:31.881Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"a2fbb560","message":"POST /api/v1/orders -> 200 en 74 ms"}
+{"timestamp":"2025-10-31T08:44:31.965Z","level":"ERROR","logger":"co.com.catalog.OrderController","trace_id":"4cf0abb4","message":"Fallo procesando GET /actuator/health: timeout llamando a ordercontroller-svc"}
+{"timestamp":"2025-10-31T08:44:33.550Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"5301b00b","message":"GET /api/v1/orders -> 200 en 182 ms"}
+{"timestamp":"2025-10-31T08:44:33.861Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"597b2661","message":"PUT /api/v1/orders/{id}/status -> 200 en 474 ms"}
+{"timestamp":"2025-10-31T08:44:35.874Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"8ad6d1ed","message":"GET /api/v1/orders/{id} -> 200 en 433 ms"}
+{"timestamp":"2025-10-31T08:44:36.061Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"87971d6a","message":"GET /api/v1/orders/{id} -> 200 en 381 ms"}
+{"timestamp":"2025-10-31T08:44:37.603Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"189b60d5","message":"GET /api/v1/orders/{id} -> 200 en 492 ms"}
+{"timestamp":"2025-10-31T08:44:39.324Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"6c1eca1c","message":"POST /api/v1/orders -> 200 en 660 ms"}
+{"timestamp":"2025-10-31T08:44:41.448Z","level":"INFO","logger":"co.com.catalog.HikariPool","trace_id":"d9bd320b","message":"PUT /api/v1/orders/{id}/status -> 200 en 724 ms"}
+{"timestamp":"2025-10-31T08:44:42.472Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"1c23a5e3","message":"GET /actuator/health -> 200 en 133 ms"}
+{"timestamp":"2025-10-31T08:44:43.903Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"5a6d7b19","message":"GET /api/v1/orders/{id} -> 200 en 603 ms"}
+{"timestamp":"2025-10-31T08:44:43.609Z","level":"INFO","logger":"co.com.catalog.KafkaProducer","trace_id":"c2c72f4b","message":"GET /api/v1/orders -> 200 en 299 ms"}
+{"timestamp":"2025-10-31T08:44:43.090Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"e567cb94","message":"GET /api/v1/orders -> 200 en 856 ms"}
+{"timestamp":"2025-10-31T08:44:45.425Z","level":"WARN","logger":"co.com.catalog.HikariPool","trace_id":"cfded7ba","message":"Latencia alta en GET /actuator/health: 1057 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:44:47.980Z","level":"INFO","logger":"co.com.catalog.OrderService","trace_id":"b2f0c2e0","message":"GET /api/v1/orders -> 200 en 616 ms"}
+{"timestamp":"2025-10-31T08:44:47.830Z","level":"ERROR","logger":"co.com.catalog.InventoryClient","trace_id":"25f8c789","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a inventoryclient-svc"}
+{"timestamp":"2025-10-31T08:44:47.575Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"e9aeaca9","message":"GET /actuator/health -> 200 en 463 ms"}
+{"timestamp":"2025-10-31T08:44:47.018Z","level":"INFO","logger":"co.com.catalog.InventoryClient","trace_id":"c5b3e361","message":"GET /actuator/health -> 200 en 129 ms"}
+{"timestamp":"2025-10-31T08:44:47.047Z","level":"INFO","logger":"co.com.catalog.OrderController","trace_id":"d324e205","message":"PUT /api/v1/orders/{id}/status -> 200 en 66 ms"}

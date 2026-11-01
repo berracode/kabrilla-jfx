@@ -1,0 +1,15 @@
+[ {
+  "name" : "mock-qa",
+  "namespaces" : [ {
+    "name" : "ventas-qa"
+  }, {
+    "name" : "pagos-qa"
+  }, {
+    "name" : "vacio-qa"
+  } ]
+}, {
+  "name" : "mock-dev",
+  "namespaces" : [ {
+    "name" : "ventas-dev"
+  } ]
+} ]

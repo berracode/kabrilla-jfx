@@ -1,0 +1,200 @@
+{"timestamp":"2025-10-31T08:40:00.720Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"7bc22d3f","message":"GET /api/v1/orders -> 200 en 465 ms"}
+{"timestamp":"2025-10-31T08:40:02.687Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"5a9aa13e","message":"GET /actuator/health -> 200 en 232 ms"}
+{"timestamp":"2025-10-31T08:40:02.339Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"d98f565d","message":"POST /api/v1/orders -> 200 en 831 ms"}
+{"timestamp":"2025-10-31T08:40:04.162Z","level":"ERROR","logger":"co.com.paymentsworker.HikariPool","trace_id":"182271a8","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:40:06.981Z","level":"ERROR","logger":"co.com.paymentsworker.InventoryClient","trace_id":"6e277664","message":"Fallo procesando POST /api/v1/orders: timeout llamando a inventoryclient-svc"}
+{"timestamp":"2025-10-31T08:40:06.165Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"19ea20b4","message":"GET /api/v1/orders -> 200 en 719 ms"}
+{"timestamp":"2025-10-31T08:40:08.025Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"7758cf5d","message":"GET /api/v1/orders/{id} -> 200 en 112 ms"}
+{"timestamp":"2025-10-31T08:40:08.419Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"b69725cc","message":"GET /api/v1/orders -> 200 en 146 ms"}
+{"timestamp":"2025-10-31T08:40:08.274Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"b1622690","message":"GET /api/v1/orders -> 200 en 848 ms"}
+{"timestamp":"2025-10-31T08:40:08.097Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"56107cc0","message":"GET /api/v1/orders -> 200 en 857 ms"}
+{"timestamp":"2025-10-31T08:40:08.266Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"f28996e9","message":"GET /api/v1/orders/{id} -> 200 en 30 ms"}
+{"timestamp":"2025-10-31T08:40:09.879Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"1d4e00a4","message":"GET /actuator/health -> 200 en 842 ms"}
+{"timestamp":"2025-10-31T08:40:11.140Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"ca183136","message":"GET /api/v1/orders -> 200 en 56 ms"}
+{"timestamp":"2025-10-31T08:40:13.065Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"cfcc2547","message":"GET /actuator/health -> 200 en 577 ms"}
+{"timestamp":"2025-10-31T08:40:13.643Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"b7176026","message":"PUT /api/v1/orders/{id}/status -> 200 en 56 ms"}
+{"timestamp":"2025-10-31T08:40:13.703Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"2e11e2c9","message":"GET /api/v1/orders -> 200 en 132 ms"}
+{"timestamp":"2025-10-31T08:40:13.512Z","level":"ERROR","logger":"co.com.paymentsworker.HikariPool","trace_id":"d3d23a94","message":"Fallo procesando POST /api/v1/orders: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:40:13.087Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"9f68b4fe","message":"POST /api/v1/orders -> 200 en 771 ms"}
+{"timestamp":"2025-10-31T08:40:14.498Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"cc4d8163","message":"GET /api/v1/orders/{id} -> 200 en 408 ms"}
+{"timestamp":"2025-10-31T08:40:14.000Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"d4c3739d","message":"GET /actuator/health -> 200 en 99 ms"}
+{"timestamp":"2025-10-31T08:40:16.829Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"3924dad6","message":"GET /api/v1/orders -> 200 en 66 ms"}
+{"timestamp":"2025-10-31T08:40:18.311Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"f1417c1e","message":"PUT /api/v1/orders/{id}/status -> 200 en 668 ms"}
+{"timestamp":"2025-10-31T08:40:20.887Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"a0d7505c","message":"PUT /api/v1/orders/{id}/status -> 200 en 129 ms"}
+{"timestamp":"2025-10-31T08:40:22.844Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"16b8670d","message":"GET /api/v1/orders -> 200 en 752 ms"}
+{"timestamp":"2025-10-31T08:40:23.033Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"4331e6fe","message":"GET /api/v1/orders -> 200 en 175 ms"}
+{"timestamp":"2025-10-31T08:40:25.118Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"5feb42fa","message":"GET /api/v1/orders -> 200 en 813 ms"}
+{"timestamp":"2025-10-31T08:40:25.415Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"622a9b3b","message":"GET /actuator/health -> 200 en 331 ms"}
+{"timestamp":"2025-10-31T08:40:26.862Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"b6a82230","message":"PUT /api/v1/orders/{id}/status -> 200 en 745 ms"}
+{"timestamp":"2025-10-31T08:40:27.880Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"64c83c57","message":"POST /api/v1/orders -> 200 en 793 ms"}
+{"timestamp":"2025-10-31T08:40:29.391Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"bdaf795f","message":"GET /actuator/health -> 200 en 6 ms"}
+{"timestamp":"2025-10-31T08:40:31.724Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"4303a6a6","message":"GET /api/v1/orders/{id} -> 200 en 599 ms"}
+{"timestamp":"2025-10-31T08:40:33.629Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"a580e9aa","message":"GET /api/v1/orders/{id} -> 200 en 449 ms"}
+{"timestamp":"2025-10-31T08:40:34.578Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"fd620aef","message":"GET /actuator/health -> 200 en 663 ms"}
+{"timestamp":"2025-10-31T08:40:34.684Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"4a63899a","message":"GET /actuator/health -> 200 en 619 ms"}
+{"timestamp":"2025-10-31T08:40:34.315Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"9df86ffa","message":"GET /actuator/health -> 200 en 230 ms"}
+{"timestamp":"2025-10-31T08:40:35.301Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"0c71824f","message":"GET /api/v1/orders -> 200 en 136 ms"}
+{"timestamp":"2025-10-31T08:40:35.561Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"51bc81c1","message":"PUT /api/v1/orders/{id}/status -> 200 en 707 ms"}
+{"timestamp":"2025-10-31T08:40:36.105Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"aae3866e","message":"GET /api/v1/orders/{id} -> 200 en 407 ms"}
+{"timestamp":"2025-10-31T08:40:37.235Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"572934cc","message":"GET /actuator/health -> 200 en 214 ms"}
+{"timestamp":"2025-10-31T08:40:39.046Z","level":"ERROR","logger":"co.com.paymentsworker.HikariPool","trace_id":"92972e38","message":"Fallo procesando GET /api/v1/orders: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:40:39.620Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"8ec71e6a","message":"GET /actuator/health -> 200 en 309 ms"}
+{"timestamp":"2025-10-31T08:40:40.439Z","level":"ERROR","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"91ea365d","message":"Fallo procesando GET /api/v1/orders: timeout llamando a kafkaproducer-svc"}
+{"timestamp":"2025-10-31T08:40:41.191Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"8d5e787d","message":"GET /api/v1/orders -> 200 en 115 ms"}
+{"timestamp":"2025-10-31T08:40:43.371Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"e409d7a4","message":"GET /actuator/health -> 200 en 365 ms"}
+{"timestamp":"2025-10-31T08:40:45.075Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"52d0db06","message":"GET /actuator/health -> 200 en 881 ms"}
+{"timestamp":"2025-10-31T08:40:46.923Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"261cd916","message":"GET /actuator/health -> 200 en 296 ms"}
+{"timestamp":"2025-10-31T08:40:46.813Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"1c27bfbf","message":"POST /api/v1/orders -> 200 en 655 ms"}
+{"timestamp":"2025-10-31T08:40:48.636Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"473d54a3","message":"GET /actuator/health -> 200 en 263 ms"}
+{"timestamp":"2025-10-31T08:40:48.714Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"0d9658df","message":"PUT /api/v1/orders/{id}/status -> 200 en 648 ms"}
+{"timestamp":"2025-10-31T08:40:49.620Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"a3ba517d","message":"PUT /api/v1/orders/{id}/status -> 200 en 331 ms"}
+{"timestamp":"2025-10-31T08:40:51.470Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"1e099ac3","message":"POST /api/v1/orders -> 200 en 700 ms"}
+{"timestamp":"2025-10-31T08:40:51.281Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"67b28b61","message":"POST /api/v1/orders -> 200 en 463 ms"}
+{"timestamp":"2025-10-31T08:40:53.209Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"48eee325","message":"GET /api/v1/orders -> 200 en 875 ms"}
+{"timestamp":"2025-10-31T08:40:54.987Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"29efed88","message":"GET /api/v1/orders/{id} -> 200 en 64 ms"}
+{"timestamp":"2025-10-31T08:40:55.438Z","level":"WARN","logger":"co.com.paymentsworker.OrderController","trace_id":"03097810","message":"Latencia alta en GET /api/v1/orders/{id}: 1287 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:56.186Z","level":"WARN","logger":"co.com.paymentsworker.HikariPool","trace_id":"61494390","message":"Latencia alta en GET /actuator/health: 590 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:56.441Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"acbdea90","message":"POST /api/v1/orders -> 200 en 573 ms"}
+{"timestamp":"2025-10-31T08:40:56.596Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"9b8a3ffd","message":"GET /api/v1/orders/{id} -> 200 en 33 ms"}
+{"timestamp":"2025-10-31T08:40:56.355Z","level":"WARN","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"3d0475a5","message":"Latencia alta en POST /api/v1/orders: 574 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:40:56.426Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"19bf9db9","message":"POST /api/v1/orders -> 200 en 395 ms"}
+{"timestamp":"2025-10-31T08:40:56.886Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"f11fc94f","message":"PUT /api/v1/orders/{id}/status -> 200 en 655 ms"}
+{"timestamp":"2025-10-31T08:40:58.740Z","level":"ERROR","logger":"co.com.paymentsworker.HikariPool","trace_id":"e8786a9e","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:40:59.292Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"cd22d3b0","message":"GET /actuator/health -> 200 en 249 ms"}
+{"timestamp":"2025-10-31T08:40:59.821Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"96e7d348","message":"GET /actuator/health -> 200 en 150 ms"}
+{"timestamp":"2025-10-31T08:41:00.654Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"052f03e9","message":"POST /api/v1/orders -> 200 en 134 ms"}
+{"timestamp":"2025-10-31T08:41:01.143Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"7ff96c48","message":"GET /api/v1/orders -> 200 en 79 ms"}
+{"timestamp":"2025-10-31T08:41:03.982Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"0352d0bb","message":"PUT /api/v1/orders/{id}/status -> 200 en 550 ms"}
+{"timestamp":"2025-10-31T08:41:04.067Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"728f0743","message":"POST /api/v1/orders -> 200 en 91 ms"}
+{"timestamp":"2025-10-31T08:41:05.472Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"2f163cf1","message":"GET /api/v1/orders/{id} -> 200 en 122 ms"}
+{"timestamp":"2025-10-31T08:41:07.678Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"3bd6bc83","message":"POST /api/v1/orders -> 200 en 736 ms"}
+{"timestamp":"2025-10-31T08:41:07.241Z","level":"WARN","logger":"co.com.paymentsworker.HikariPool","trace_id":"2f8ea419","message":"Latencia alta en GET /api/v1/orders: 1040 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:08.517Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"7cbe125f","message":"GET /api/v1/orders/{id} -> 200 en 61 ms"}
+{"timestamp":"2025-10-31T08:41:09.134Z","level":"WARN","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"ab553663","message":"Latencia alta en POST /api/v1/orders: 728 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:11.238Z","level":"WARN","logger":"co.com.paymentsworker.HikariPool","trace_id":"2f440e8b","message":"Latencia alta en GET /actuator/health: 1078 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:12.659Z","level":"ERROR","logger":"co.com.paymentsworker.OrderService","trace_id":"8e6b3b46","message":"Fallo procesando GET /api/v1/orders: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:41:14.674Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"64c1bd75","message":"POST /api/v1/orders -> 200 en 711 ms"}
+{"timestamp":"2025-10-31T08:41:15.569Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"a3f26b5d","message":"GET /api/v1/orders -> 200 en 664 ms"}
+{"timestamp":"2025-10-31T08:41:16.597Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"6feee09f","message":"GET /api/v1/orders -> 200 en 257 ms"}
+{"timestamp":"2025-10-31T08:41:16.547Z","level":"WARN","logger":"co.com.paymentsworker.InventoryClient","trace_id":"ce63ffb8","message":"Latencia alta en GET /actuator/health: 1209 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:17.019Z","level":"WARN","logger":"co.com.paymentsworker.HikariPool","trace_id":"5825c11f","message":"Latencia alta en POST /api/v1/orders: 876 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:17.937Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"2d3b1dd5","message":"POST /api/v1/orders -> 200 en 624 ms"}
+{"timestamp":"2025-10-31T08:41:18.091Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"8e3913e4","message":"PUT /api/v1/orders/{id}/status -> 200 en 349 ms"}
+{"timestamp":"2025-10-31T08:41:20.075Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"1d2fa0f7","message":"POST /api/v1/orders -> 200 en 507 ms"}
+{"timestamp":"2025-10-31T08:41:20.957Z","level":"WARN","logger":"co.com.paymentsworker.OrderController","trace_id":"a6bab6ce","message":"Latencia alta en POST /api/v1/orders: 768 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:21.009Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"e025ac58","message":"PUT /api/v1/orders/{id}/status -> 200 en 782 ms"}
+{"timestamp":"2025-10-31T08:41:22.975Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"6e36d446","message":"GET /actuator/health -> 200 en 183 ms"}
+{"timestamp":"2025-10-31T08:41:22.634Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"986ed1a8","message":"GET /api/v1/orders -> 200 en 239 ms"}
+{"timestamp":"2025-10-31T08:41:22.807Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"955ccfe8","message":"GET /api/v1/orders -> 200 en 535 ms"}
+{"timestamp":"2025-10-31T08:41:22.034Z","level":"WARN","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"9df9de1f","message":"Latencia alta en GET /actuator/health: 1391 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:24.094Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"d2985ea5","message":"GET /actuator/health -> 200 en 201 ms"}
+{"timestamp":"2025-10-31T08:41:26.440Z","level":"ERROR","logger":"co.com.paymentsworker.InventoryClient","trace_id":"653d3374","message":"Fallo procesando GET /actuator/health: timeout llamando a inventoryclient-svc"}
+{"timestamp":"2025-10-31T08:41:28.946Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"e8900f0b","message":"POST /api/v1/orders -> 200 en 366 ms"}
+{"timestamp":"2025-10-31T08:41:30.646Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"ff38880d","message":"POST /api/v1/orders -> 200 en 21 ms"}
+{"timestamp":"2025-10-31T08:41:31.375Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"4ebd7010","message":"GET /api/v1/orders -> 200 en 227 ms"}
+{"timestamp":"2025-10-31T08:41:32.186Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"b57f9e5d","message":"GET /actuator/health -> 200 en 443 ms"}
+{"timestamp":"2025-10-31T08:41:32.989Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"084be531","message":"POST /api/v1/orders -> 200 en 306 ms"}
+{"timestamp":"2025-10-31T08:41:32.835Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"4d295246","message":"GET /api/v1/orders -> 200 en 532 ms"}
+{"timestamp":"2025-10-31T08:41:34.514Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"39fb4fd6","message":"POST /api/v1/orders -> 200 en 846 ms"}
+{"timestamp":"2025-10-31T08:41:35.391Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"e993e592","message":"Latencia alta en GET /api/v1/orders: 1013 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:36.373Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"6a01d7f6","message":"GET /actuator/health -> 200 en 749 ms"}
+{"timestamp":"2025-10-31T08:41:37.010Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"2443ecf3","message":"PUT /api/v1/orders/{id}/status -> 200 en 756 ms"}
+{"timestamp":"2025-10-31T08:41:37.557Z","level":"ERROR","logger":"co.com.paymentsworker.OrderService","trace_id":"a6f482f1","message":"Fallo procesando GET /api/v1/orders: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:41:37.218Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"8b048e3f","message":"GET /actuator/health -> 200 en 265 ms"}
+{"timestamp":"2025-10-31T08:41:37.746Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"ffcb76ba","message":"GET /actuator/health -> 200 en 403 ms"}
+{"timestamp":"2025-10-31T08:41:37.047Z","level":"ERROR","logger":"co.com.paymentsworker.OrderController","trace_id":"4a417cbf","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a ordercontroller-svc"}
+{"timestamp":"2025-10-31T08:41:38.484Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"28cb2dc7","message":"GET /api/v1/orders/{id} -> 200 en 681 ms"}
+{"timestamp":"2025-10-31T08:41:38.438Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"c0c218d8","message":"GET /api/v1/orders -> 200 en 157 ms"}
+{"timestamp":"2025-10-31T08:41:39.403Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"c5c7af39","message":"Latencia alta en POST /api/v1/orders: 818 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:41.009Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"90a5c224","message":"PUT /api/v1/orders/{id}/status -> 200 en 647 ms"}
+{"timestamp":"2025-10-31T08:41:43.376Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"2d9c03df","message":"PUT /api/v1/orders/{id}/status -> 200 en 175 ms"}
+{"timestamp":"2025-10-31T08:41:43.092Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"3078ffb7","message":"PUT /api/v1/orders/{id}/status -> 200 en 788 ms"}
+{"timestamp":"2025-10-31T08:41:45.907Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"28d8de72","message":"GET /api/v1/orders/{id} -> 200 en 527 ms"}
+{"timestamp":"2025-10-31T08:41:45.970Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"8d49c19b","message":"POST /api/v1/orders -> 200 en 535 ms"}
+{"timestamp":"2025-10-31T08:41:47.133Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"4722521c","message":"POST /api/v1/orders -> 200 en 90 ms"}
+{"timestamp":"2025-10-31T08:41:47.298Z","level":"WARN","logger":"co.com.paymentsworker.OrderController","trace_id":"4c8ee8b5","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 1184 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:47.246Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"ea7d646c","message":"GET /api/v1/orders/{id} -> 200 en 67 ms"}
+{"timestamp":"2025-10-31T08:41:49.017Z","level":"WARN","logger":"co.com.paymentsworker.OrderController","trace_id":"15fddb0e","message":"Latencia alta en GET /api/v1/orders/{id}: 1365 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:49.413Z","level":"WARN","logger":"co.com.paymentsworker.HikariPool","trace_id":"feb0355d","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 749 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:41:51.343Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"de63011f","message":"GET /api/v1/orders -> 200 en 328 ms"}
+{"timestamp":"2025-10-31T08:41:51.648Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"15149752","message":"POST /api/v1/orders -> 200 en 186 ms"}
+{"timestamp":"2025-10-31T08:41:52.306Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"7c08e319","message":"GET /api/v1/orders/{id} -> 200 en 142 ms"}
+{"timestamp":"2025-10-31T08:41:54.516Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"bbd8544c","message":"GET /actuator/health -> 200 en 838 ms"}
+{"timestamp":"2025-10-31T08:41:56.665Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"1ad3a12a","message":"GET /api/v1/orders -> 200 en 90 ms"}
+{"timestamp":"2025-10-31T08:41:58.442Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"eeb916c1","message":"GET /api/v1/orders/{id} -> 200 en 875 ms"}
+{"timestamp":"2025-10-31T08:41:58.410Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"4e913a20","message":"GET /api/v1/orders -> 200 en 383 ms"}
+{"timestamp":"2025-10-31T08:41:58.200Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"43f7df50","message":"GET /api/v1/orders/{id} -> 200 en 238 ms"}
+{"timestamp":"2025-10-31T08:41:59.705Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"bc8f10fb","message":"PUT /api/v1/orders/{id}/status -> 200 en 431 ms"}
+{"timestamp":"2025-10-31T08:42:00.739Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"f5bedeb2","message":"PUT /api/v1/orders/{id}/status -> 200 en 881 ms"}
+{"timestamp":"2025-10-31T08:42:01.598Z","level":"ERROR","logger":"co.com.paymentsworker.OrderService","trace_id":"f6bb98a4","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:42:01.064Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"7711e933","message":"GET /api/v1/orders/{id} -> 200 en 190 ms"}
+{"timestamp":"2025-10-31T08:42:01.120Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"4df220ae","message":"Latencia alta en POST /api/v1/orders: 783 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:02.935Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"582a0448","message":"PUT /api/v1/orders/{id}/status -> 200 en 634 ms"}
+{"timestamp":"2025-10-31T08:42:04.290Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"e277ee77","message":"GET /api/v1/orders -> 200 en 292 ms"}
+{"timestamp":"2025-10-31T08:42:05.016Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"d4a6afb3","message":"GET /actuator/health -> 200 en 117 ms"}
+{"timestamp":"2025-10-31T08:42:07.820Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"07c8ef5a","message":"GET /actuator/health -> 200 en 71 ms"}
+{"timestamp":"2025-10-31T08:42:09.354Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"a5bf70d2","message":"GET /api/v1/orders/{id} -> 200 en 33 ms"}
+{"timestamp":"2025-10-31T08:42:09.350Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"6c13d0b8","message":"GET /actuator/health -> 200 en 295 ms"}
+{"timestamp":"2025-10-31T08:42:11.386Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"10fd718e","message":"POST /api/v1/orders -> 200 en 709 ms"}
+{"timestamp":"2025-10-31T08:42:13.320Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"44c3d005","message":"GET /actuator/health -> 200 en 21 ms"}
+{"timestamp":"2025-10-31T08:42:14.265Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"9bffca87","message":"GET /api/v1/orders/{id} -> 200 en 386 ms"}
+{"timestamp":"2025-10-31T08:42:14.680Z","level":"WARN","logger":"co.com.paymentsworker.HikariPool","trace_id":"9ccbc657","message":"Latencia alta en POST /api/v1/orders: 1183 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:15.308Z","level":"ERROR","logger":"co.com.paymentsworker.OrderService","trace_id":"6cbee49d","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:42:15.199Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"5b2d9fef","message":"PUT /api/v1/orders/{id}/status -> 200 en 807 ms"}
+{"timestamp":"2025-10-31T08:42:17.744Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"a70d8405","message":"GET /api/v1/orders/{id} -> 200 en 552 ms"}
+{"timestamp":"2025-10-31T08:42:19.846Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"2918f9f3","message":"GET /api/v1/orders -> 200 en 89 ms"}
+{"timestamp":"2025-10-31T08:42:19.912Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"3b5cbcea","message":"GET /api/v1/orders -> 200 en 172 ms"}
+{"timestamp":"2025-10-31T08:42:21.903Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"db829de8","message":"POST /api/v1/orders -> 200 en 716 ms"}
+{"timestamp":"2025-10-31T08:42:23.657Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"abe9ab3d","message":"GET /api/v1/orders/{id} -> 200 en 387 ms"}
+{"timestamp":"2025-10-31T08:42:23.386Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"549bf429","message":"GET /actuator/health -> 200 en 752 ms"}
+{"timestamp":"2025-10-31T08:42:23.868Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"10e0a34e","message":"POST /api/v1/orders -> 200 en 501 ms"}
+{"timestamp":"2025-10-31T08:42:23.789Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"fec1209d","message":"GET /actuator/health -> 200 en 344 ms"}
+{"timestamp":"2025-10-31T08:42:23.790Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"74393c5d","message":"PUT /api/v1/orders/{id}/status -> 200 en 900 ms"}
+{"timestamp":"2025-10-31T08:42:23.121Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"6fc6d80a","message":"POST /api/v1/orders -> 200 en 365 ms"}
+{"timestamp":"2025-10-31T08:42:23.735Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"6f0d20f7","message":"GET /api/v1/orders -> 200 en 673 ms"}
+{"timestamp":"2025-10-31T08:42:25.193Z","level":"ERROR","logger":"co.com.paymentsworker.HikariPool","trace_id":"510a7dc5","message":"Fallo procesando POST /api/v1/orders: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:42:27.852Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"48fc61bf","message":"POST /api/v1/orders -> 200 en 517 ms"}
+{"timestamp":"2025-10-31T08:42:27.643Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"233834e4","message":"Latencia alta en POST /api/v1/orders: 761 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:28.754Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"a5e4c350","message":"GET /api/v1/orders -> 200 en 534 ms"}
+{"timestamp":"2025-10-31T08:42:30.097Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"43483bb6","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 726 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:31.670Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"5157c8a3","message":"POST /api/v1/orders -> 200 en 100 ms"}
+{"timestamp":"2025-10-31T08:42:31.242Z","level":"WARN","logger":"co.com.paymentsworker.InventoryClient","trace_id":"fe04f72f","message":"Latencia alta en PUT /api/v1/orders/{id}/status: 683 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:31.886Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"356f1d0a","message":"POST /api/v1/orders -> 200 en 764 ms"}
+{"timestamp":"2025-10-31T08:42:32.321Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"baeb7494","message":"GET /api/v1/orders -> 200 en 631 ms"}
+{"timestamp":"2025-10-31T08:42:33.880Z","level":"ERROR","logger":"co.com.paymentsworker.OrderService","trace_id":"be46f4d9","message":"Fallo procesando PUT /api/v1/orders/{id}/status: timeout llamando a orderservice-svc"}
+{"timestamp":"2025-10-31T08:42:33.657Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"c4a3cc30","message":"POST /api/v1/orders -> 200 en 888 ms"}
+{"timestamp":"2025-10-31T08:42:35.710Z","level":"ERROR","logger":"co.com.paymentsworker.HikariPool","trace_id":"5e01f011","message":"Fallo procesando POST /api/v1/orders: timeout llamando a hikaripool-svc"}
+{"timestamp":"2025-10-31T08:42:35.585Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"a3966724","message":"GET /actuator/health -> 200 en 351 ms"}
+{"timestamp":"2025-10-31T08:42:35.387Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"c651a2e2","message":"PUT /api/v1/orders/{id}/status -> 200 en 848 ms"}
+{"timestamp":"2025-10-31T08:42:35.386Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"5a6a55da","message":"POST /api/v1/orders -> 200 en 671 ms"}
+{"timestamp":"2025-10-31T08:42:36.602Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"7f96bf51","message":"PUT /api/v1/orders/{id}/status -> 200 en 322 ms"}
+{"timestamp":"2025-10-31T08:42:38.164Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"29a7683c","message":"PUT /api/v1/orders/{id}/status -> 200 en 898 ms"}
+{"timestamp":"2025-10-31T08:42:40.727Z","level":"WARN","logger":"co.com.paymentsworker.InventoryClient","trace_id":"6e8eb7eb","message":"Latencia alta en GET /api/v1/orders: 777 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:41.096Z","level":"ERROR","logger":"co.com.paymentsworker.InventoryClient","trace_id":"25883a18","message":"Fallo procesando GET /actuator/health: timeout llamando a inventoryclient-svc"}
+{"timestamp":"2025-10-31T08:42:41.638Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"90c6c68c","message":"GET /api/v1/orders -> 200 en 417 ms"}
+{"timestamp":"2025-10-31T08:42:41.795Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"721c3d1d","message":"GET /api/v1/orders -> 200 en 657 ms"}
+{"timestamp":"2025-10-31T08:42:43.089Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"bb128852","message":"GET /api/v1/orders -> 200 en 640 ms"}
+{"timestamp":"2025-10-31T08:42:45.332Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"8db858b2","message":"POST /api/v1/orders -> 200 en 451 ms"}
+{"timestamp":"2025-10-31T08:42:46.715Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"4dd428f9","message":"GET /actuator/health -> 200 en 299 ms"}
+{"timestamp":"2025-10-31T08:42:46.458Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"16df18bc","message":"Latencia alta en GET /api/v1/orders: 750 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:42:46.870Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"bcae1c58","message":"POST /api/v1/orders -> 200 en 719 ms"}
+{"timestamp":"2025-10-31T08:42:46.471Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"95896803","message":"POST /api/v1/orders -> 200 en 457 ms"}
+{"timestamp":"2025-10-31T08:42:48.600Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"56b363c5","message":"GET /actuator/health -> 200 en 637 ms"}
+{"timestamp":"2025-10-31T08:42:49.850Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"8f529037","message":"GET /api/v1/orders -> 200 en 223 ms"}
+{"timestamp":"2025-10-31T08:42:51.034Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"897f489e","message":"POST /api/v1/orders -> 200 en 98 ms"}
+{"timestamp":"2025-10-31T08:42:51.369Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"d2397f5f","message":"GET /actuator/health -> 200 en 428 ms"}
+{"timestamp":"2025-10-31T08:42:51.170Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"f217b3c5","message":"POST /api/v1/orders -> 200 en 826 ms"}
+{"timestamp":"2025-10-31T08:42:51.060Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"7c17aa72","message":"GET /actuator/health -> 200 en 170 ms"}
+{"timestamp":"2025-10-31T08:42:52.603Z","level":"ERROR","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"383a2cec","message":"Fallo procesando GET /actuator/health: timeout llamando a kafkaproducer-svc"}
+{"timestamp":"2025-10-31T08:42:53.142Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"4d8d8e1a","message":"PUT /api/v1/orders/{id}/status -> 200 en 16 ms"}
+{"timestamp":"2025-10-31T08:42:55.760Z","level":"ERROR","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"ea2a8c16","message":"Fallo procesando GET /api/v1/orders/{id}: timeout llamando a kafkaproducer-svc"}
+{"timestamp":"2025-10-31T08:42:56.990Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"7596de8d","message":"GET /api/v1/orders -> 200 en 256 ms"}
+{"timestamp":"2025-10-31T08:42:57.954Z","level":"INFO","logger":"co.com.paymentsworker.KafkaProducer","trace_id":"59b62c7f","message":"POST /api/v1/orders -> 200 en 605 ms"}
+{"timestamp":"2025-10-31T08:42:59.791Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"9f88ad38","message":"GET /actuator/health -> 200 en 88 ms"}
+{"timestamp":"2025-10-31T08:43:00.832Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"83e22307","message":"Latencia alta en GET /api/v1/orders/{id}: 1348 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:01.922Z","level":"INFO","logger":"co.com.paymentsworker.HikariPool","trace_id":"0d222b15","message":"PUT /api/v1/orders/{id}/status -> 200 en 286 ms"}
+{"timestamp":"2025-10-31T08:43:02.526Z","level":"INFO","logger":"co.com.paymentsworker.OrderController","trace_id":"8bc3aae0","message":"PUT /api/v1/orders/{id}/status -> 200 en 466 ms"}
+{"timestamp":"2025-10-31T08:43:03.159Z","level":"INFO","logger":"co.com.paymentsworker.InventoryClient","trace_id":"1aab858a","message":"PUT /api/v1/orders/{id}/status -> 200 en 185 ms"}
+{"timestamp":"2025-10-31T08:43:04.852Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"44ad432e","message":"GET /api/v1/orders -> 200 en 35 ms"}
+{"timestamp":"2025-10-31T08:43:06.184Z","level":"WARN","logger":"co.com.paymentsworker.OrderService","trace_id":"efd6e3c7","message":"Latencia alta en POST /api/v1/orders: 532 ms (umbral 500 ms)"}
+{"timestamp":"2025-10-31T08:43:06.617Z","level":"INFO","logger":"co.com.paymentsworker.OrderService","trace_id":"05736b8e","message":"PUT /api/v1/orders/{id}/status -> 200 en 61 ms"}

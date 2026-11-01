@@ -16,6 +16,7 @@ module co.com.bancolombia.kabrilla {
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires spring.core;
+    requires spring.beans;
 
     // Paquete raíz (si tienes clases principales)
     exports co.com.bancolombia.kabrilla.startup;

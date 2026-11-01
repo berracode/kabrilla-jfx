@@ -12,7 +12,15 @@ import io.kubernetes.client.util.KubeConfig;
 
 public class KubeconfigAdapter implements KubeconfigRepository {
 
-    private static final String KUBE_COFIG_PATH = System.getProperty("user.home") + "/.kube/config";
+    private final String kubeConfigPath;
+
+    public KubeconfigAdapter() {
+        this(System.getProperty("user.home") + "/.kube/config");
+    }
+
+    public KubeconfigAdapter(String kubeConfigPath) {
+        this.kubeConfigPath = kubeConfigPath;
+    }
 
 
     @Override
@@ -20,7 +28,7 @@ public class KubeconfigAdapter implements KubeconfigRepository {
         FileReader reader = null;
         KubeConfig config;
         try {
-            reader = new FileReader(KUBE_COFIG_PATH);
+            reader = new FileReader(kubeConfigPath);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -307,8 +307,22 @@ public class SidebarStateViewModel {
 
     //private void loadPodsByNamespace
 
+    /**
+     * Un nodo es deployment si cuelga de cluster/namespace y existe en el estado cargado desde el cluster
+     * (así no se confunde con placeholders como "Cargando..." ni depende del nombre del deployment).
+     */
     public boolean isDeploymentItem(TreeItem<String> selected) {
-        return selected.getValue().contains("deploy") && !selected.getValue().contains(" ");
+        TreeItem<String> nsItem = selected.getParent();
+        TreeItem<String> clusterItem = nsItem != null ? nsItem.getParent() : null;
+        if (clusterItem == null) {
+            return false;
+        }
+        return clusterNamespaceStateViewModel.getObservableClusters().stream()
+                .filter(c -> c.getName().equals(clusterItem.getValue()))
+                .flatMap(c -> c.getNamespaces().stream())
+                .filter(ns -> ns.getName().equals(nsItem.getValue()))
+                .flatMap(ns -> ns.getDeployments().stream())
+                .anyMatch(d -> d.getName().equals(selected.getValue()));
     }
 
     public Deployment resolveDeployment(TreeItem<String> selected) {

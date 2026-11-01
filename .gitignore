@@ -38,3 +38,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+### Kabrilla: estado local y secretos (nunca versionar) ###
+/credentials*.json
+/clusters.json
+/namespaces.json
+.claude/settings.local.json
+CLAUDE.local.md

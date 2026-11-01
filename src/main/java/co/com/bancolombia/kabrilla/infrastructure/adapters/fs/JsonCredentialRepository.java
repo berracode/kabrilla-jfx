@@ -17,8 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JsonCredentialRepository implements CredentialRepository {
 
-    private static final String FILE_PATH = "credentials.2.json";
+    private final String filePath;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public JsonCredentialRepository() {
+        this("credentials.2.json");
+    }
+
+    public JsonCredentialRepository(String filePath) {
+        this.filePath = filePath;
+    }
 
     @Override
     public void save(AwsCredentials credentials) {
@@ -28,7 +36,7 @@ public class JsonCredentialRepository implements CredentialRepository {
         all.removeIf(c -> c.getClusterName().equals(credentials.getClusterName())); // Reemplaza si ya existe
         all.add(credentials);
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), all);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), all);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,7 +50,7 @@ public class JsonCredentialRepository implements CredentialRepository {
     }
 
     public List<AwsCredentials> findAll() {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         if (!file.exists()) {
             return new ArrayList<>();
         }
