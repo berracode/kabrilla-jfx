@@ -6,93 +6,74 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
-<?import org.fxmisc.richtext.InlineCssTextArea?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="6" style="-fx-background-color: #2B2B2B;"
-      stylesheets="@../../../css/demo.css"
-      prefHeight="650.0" prefWidth="1000.0"
-      VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1"
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1"
+      styleClass="kb-page" prefHeight="650.0" prefWidth="1000.0" VBox.vgrow="ALWAYS"
       fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController">
 
-    <!-- Stream: pod y controles -->
-    <HBox spacing="8" alignment="CENTER_LEFT">
-        <children>
-            <Label style="-fx-text-fill: #DDDDDD;" text="Pod:"/>
-            <ComboBox fx:id="podCombo" prefWidth="400.0"/>
-            <Label style="-fx-text-fill: #DDDDDD;" text="Container:"/>
-            <ComboBox fx:id="containerCombo" prefWidth="220.0"/>
-            <Button onAction="#onRefreshPodsClicked" text="Refrescar pods"/>
+    <!-- Barra de herramientas: stream, rango y filtro -->
+    <VBox spacing="8" styleClass="kb-toolbar">
+        <padding>
+            <Insets top="10" right="12" bottom="10" left="12"/>
+        </padding>
 
-            <Separator orientation="VERTICAL"/>
-
-            <Button fx:id="btnToggleStream" onAction="#onToggleStreamClicked" prefWidth="90.0"/>
-            <Button onAction="#onClearClicked" text="Limpiar"/>
-            <CheckBox fx:id="autoScrollCheck" selected="true" style="-fx-text-fill: #DDDDDD;" text="Auto-scroll"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label styleClass="kb-field-label" text="Pod"/>
+            <ComboBox fx:id="podCombo" prefWidth="380.0"/>
+            <Label styleClass="kb-field-label" text="Container"/>
+            <ComboBox fx:id="containerCombo" prefWidth="200.0"/>
+            <Button onAction="#onRefreshPodsClicked" text="Refrescar pods" styleClass="kb-ghost"/>
 
             <Pane HBox.hgrow="ALWAYS"/>
             <ProgressIndicator fx:id="progressFollowing" prefHeight="18" prefWidth="18" visible="false"/>
-        </children>
-        <padding>
-            <Insets left="10" right="10" top="8"/>
-        </padding>
-    </HBox>
+            <Button fx:id="btnToggleStream" onAction="#onToggleStreamClicked" prefWidth="95.0" styleClass="kb-primary"/>
+            <Button onAction="#onClearClicked" text="Limpiar"/>
+            <CheckBox fx:id="autoScrollCheck" selected="true" text="Auto-scroll"/>
+        </HBox>
 
-    <!-- Rango de tiempo: en vivo o consulta histórica -->
-    <HBox spacing="8" alignment="CENTER_LEFT">
-        <children>
-            <Label style="-fx-text-fill: #DDDDDD;" text="Rango:"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label styleClass="kb-field-label" text="Rango"/>
             <ComboBox fx:id="rangeCombo" prefWidth="160.0"/>
             <HBox fx:id="customRangeBox" spacing="6" alignment="CENTER_LEFT">
-                <Label style="-fx-text-fill: #DDDDDD;" text="Desde"/>
+                <Label styleClass="kb-field-label" text="Desde"/>
                 <DatePicker fx:id="fromDate" prefWidth="125.0"/>
                 <TextField fx:id="fromTime" prefColumnCount="4" promptText="HH:mm"/>
-                <Label style="-fx-text-fill: #DDDDDD;" text="Hasta"/>
+                <Label styleClass="kb-field-label" text="Hasta"/>
                 <DatePicker fx:id="toDate" prefWidth="125.0"/>
                 <TextField fx:id="toTime" prefColumnCount="4" promptText="HH:mm"/>
             </HBox>
-            <CheckBox fx:id="previousCheck" style="-fx-text-fill: #DDDDDD;" text="Container anterior"/>
-            <Button fx:id="queryButton" onAction="#onQueryClicked" text="Consultar"/>
-        </children>
-        <padding>
-            <Insets left="10" right="10"/>
-        </padding>
-    </HBox>
+            <CheckBox fx:id="previousCheck" text="Container anterior"/>
+            <Button fx:id="queryButton" onAction="#onQueryClicked" text="Consultar" styleClass="kb-primary"/>
+        </HBox>
 
-    <!-- Filtro -->
-    <HBox spacing="8" alignment="CENTER_LEFT">
-        <children>
-            <Label style="-fx-text-fill: #DDDDDD;" text="Buscar:"/>
-            <TextField fx:id="txtSearch" promptText="Texto a buscar (filtra y resalta)" HBox.hgrow="ALWAYS"
-                       style="-fx-background-color: white; -fx-text-fill: #2B2B2B; -fx-prompt-text-fill: #888888;"/>
-            <CheckBox fx:id="regexCheck" style="-fx-text-fill: #DDDDDD;" text="Regex"/>
-            <CheckBox fx:id="caseSensitiveCheck" style="-fx-text-fill: #DDDDDD;" text="Mayús/minús"/>
-
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label styleClass="kb-field-label" text="Buscar"/>
+            <TextField fx:id="txtSearch" promptText="Texto a buscar (filtra y resalta)" HBox.hgrow="ALWAYS"/>
+            <CheckBox fx:id="regexCheck" text="Regex"/>
+            <CheckBox fx:id="caseSensitiveCheck" text="Mayús/minús"/>
             <Separator orientation="VERTICAL"/>
-
-            <Label style="-fx-text-fill: #DDDDDD;" text="Nivel mínimo:"/>
+            <Label styleClass="kb-field-label" text="Nivel mínimo"/>
             <ComboBox fx:id="levelCombo" prefWidth="100.0"/>
-            <Label fx:id="matchCountLabel" minWidth="170" style="-fx-text-fill: #BBBBBB;"/>
-        </children>
-        <padding>
-            <Insets bottom="4" left="10" right="10"/>
-        </padding>
-    </HBox>
+            <Label fx:id="matchCountLabel" minWidth="170" styleClass="kb-muted"/>
+        </HBox>
+    </VBox>
 
     <VirtualizedScrollPane VBox.vgrow="ALWAYS" minWidth="800">
         <content>
-            <InlineCssTextArea prefHeight="650.0" prefWidth="1000.0" fx:id="txtLogArea"
-                               style="-fx-font-family: 'Consolas', 'monospace'; -fx-font-size: 12px; -fx-background-color: #DED9D9;"/>
+            <StyleClassedTextArea fx:id="txtLogArea" styleClass="kb-log-area" prefHeight="650.0" prefWidth="1000.0">
+                <padding>
+                    <Insets top="6" right="8" bottom="6" left="8"/>
+                </padding>
+            </StyleClassedTextArea>
         </content>
     </VirtualizedScrollPane>
 
-    <!-- Barra de estado / errores -->
-    <HBox spacing="8">
-        <children>
-            <Label style="-fx-text-fill: #BBBBBB;" text="Estado:"/>
-            <Label fx:id="errorLabel" text="" textFill="#FF6B6B"/>
-            <Label fx:id="infoLabel" text="" wrapText="true" style="-fx-text-fill: #BBBBBB;"/>
-        </children>
+    <!-- Barra de estado: errores e información de la consulta -->
+    <HBox spacing="12" alignment="CENTER_LEFT" styleClass="kb-statusbar">
         <padding>
-            <Insets bottom="8" left="10" right="10"/>
+            <Insets top="6" right="12" bottom="6" left="12"/>
         </padding>
+        <Label fx:id="errorLabel" styleClass="kb-error"/>
+        <Label fx:id="infoLabel" wrapText="true" styleClass="kb-muted"/>
     </HBox>
 </VBox>

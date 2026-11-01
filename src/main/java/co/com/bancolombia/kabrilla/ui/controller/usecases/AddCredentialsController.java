@@ -57,10 +57,6 @@ public class AddCredentialsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
 
-        var alertPane = alert.getDialogPane();
-        alertPane.getStylesheets().add(getClass().getResource("/css/demo.css").toExternalForm());
-        alertPane.setStyle("-fx-background-color: #2B2B2B;");
-        alertPane.lookup(".content.label").setStyle("-fx-text-fill: white;");
 
         alert.showAndWait();
     }

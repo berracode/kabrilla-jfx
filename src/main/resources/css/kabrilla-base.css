@@ -1,0 +1,30 @@
+/*
+ * Kabrilla · estilos BASE (siempre cargados, con o sin tema).
+ * Solo lo funcional: fuente monoespaciada donde se lee código/logs, resaltado de búsqueda y énfasis mínimo.
+ * Sobre el tema base de JavaFX (Modena). El tema oscuro (kabrilla-dark.css) se carga después y redefine colores.
+ */
+
+/* Logs, YAML y valores de configuración */
+.kb-mono,
+.kb-log-area .text {
+    -fx-font-family: "Consolas";
+    -fx-font-size: 12px;
+}
+
+/* Coincidencias de la búsqueda en el área de logs (RichTextFX) */
+.kb-search-match {
+    -rtfx-background-color: #FFE066;
+}
+
+.kb-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.kb-key {
+    -fx-font-weight: bold;
+}
+
+.kb-error {
+    -fx-text-fill: #C62828;
+}

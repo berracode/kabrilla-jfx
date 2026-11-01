@@ -16,9 +16,9 @@ Qué sigue y estado de bugs conocidos: [docs/ROADMAP.md](docs/ROADMAP.md) — ac
 ./mvnw test                    # tests (JUnit vía BOM de Spring Boot, corren en classpath)
 ./mvnw javafx:run -Pmock       # app con datos de mock-data/ (sin AWS)
 ./mvnw javafx:run              # app real: ~/.kube/config + credentials.2.json + aws CLI
-./mvnw javafx:run -Pmock,styles  # con estilos personalizados (por defecto desactivados)
+./mvnw javafx:run -Pmock,no-styles  # sin tema oscuro (tema base de JavaFX)
 ```
-Desde IntelliJ: ejecutar `MainApplication` con `--spring.profiles.active=mock` y/o `--kabrilla.ui.styles-enabled=true`.
+Desde IntelliJ: ejecutar `MainApplication` con `--spring.profiles.active=mock` y/o `--kabrilla.ui.styles-enabled=false`.
 Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabrilla.args.*`) de `javafx.args`.
 
 ## Arquitectura (hexagonal + MVVM)
@@ -55,13 +55,15 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
   `UiLogFeederService` (lotes de hasta 1000 cada 150 ms) → `InlineCssTextArea` (máx. 5000 párrafos).
   Cada `startFollowing`/`stop` incrementa una sesión: callbacks de streams anteriores se descartan.
   Al cerrar la pestaña: `MainTabController` → `DeploymentTabController.dispose()` → `LogsContentController.dispose()`.
-- Estilos: `kabrilla.ui.styles-enabled=false` (default en `application.properties`) activa `ui/theme/StyleToggle`,
-  que vacía en runtime hojas CSS y `style=` de todas las ventanas. Los CSS/FXML siguen intactos; no borrar estilos
-  "porque no se ven". Para verificar la UI con estilos, correr con `-Pstyles`.
+- Estilos: `ThemeManager` agrega a TODA ventana `css/kabrilla-base.css` (siempre: monoespaciada, resaltado) y
+  `css/kabrilla-dark.css` si `kabrilla.ui.styles-enabled=true` (default). Paleta = looked-up colors en `.root` del
+  tema (`-kb-*`); reutilizarlas, nunca colores literales. FXML/Java sin `style=` ni `setStyle`: solo clases `kb-*`
+  (lista en README, "Tema y estilos"). El área de logs es `StyleClassedTextArea` (resaltado por clase
+  `kb-search-match`). `-Pno-styles` para ver el tema base de JavaFX.
 - Filtro de logs: `LogsViewModel` guarda un `LogHistory` (50k líneas agrupadas en `LogEntry`: línea + su stack
   trace) y aplica un `LogFilter` inmutable (texto/regex + `LogLevel` mínimo). Habla con la vista por `LogView`
-  (`append`/`reset`); `LogsContentController` la implementa sobre RichTextFX y resalta con `setStyle(par, from, to)`.
-  El área de logs usa `StyleToggle.preserve(...)` para conservar fuente y resaltado sin estilos.
+  (`append`/`reset`); `LogsContentController` la implementa sobre RichTextFX y resalta con
+  `setStyle(par, from, to, List.of("kb-search-match"))`.
 - Logs por rango: `LogsRepository.fetchPodLogs(..., LogRange, maxLines)` → `LogFetchResult`. La API de pod logs no
   tiene `sinceTime` ni "hasta": se pide `sinceSeconds` y `LogRangeCollector` (dominio, compartido real/mock) recorta
   por timestamp. Real: `timestamps=true` y `LogsAdapter.parseTimestamped` lee el prefijo RFC3339 del kubelet.

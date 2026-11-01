@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.SplitPane?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.20" styleClass="main-split-pane"
-           stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1">
-    <fx:include source="sidebar/sidebar-view.fxml"/>
-    <fx:include source="tabs/content.fxml"/>
-</SplitPane>

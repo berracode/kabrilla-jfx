@@ -8,7 +8,7 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [x] Migración a Spring Boot (beans en `bootstrap/`, sin singleton `AppBootstrap`)
 - [x] Perfil `mock` con datos en `mock-data/` (deployments, pods y logs desde archivos)
 - [x] Credenciales y estado local fuera de git (`.gitignore`)
-- [x] Interruptor de estilos (`-Pstyles`); por defecto desactivados, tema base de JavaFX
+- [x] Interruptor de estilos: tema oscuro por defecto, `-Pno-styles` = tema base de JavaFX
 
 ## Alfa (uso propio + 2–3 compañeros)
 - [x] Streaming de logs robusto
@@ -52,5 +52,6 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [ ] Exportar logs a archivo
 - [ ] Instalador con `jpackage` (.msi con JRE embebido) + README de instalación para el equipo
 - [ ] CI (GitHub Actions) con build + tests
-- [ ] Rediseño visual y volver a activar estilos por defecto (`kabrilla.ui.styles-enabled=true`)
+- [x] Rediseño visual: tema oscuro negro + morados con paleta centralizada (`kabrilla-dark.css`), sin estilos en línea
+- [ ] Colorear líneas de log por nivel (ERROR/WARN) con clases del tema
 - [ ] Evaluar quitar `module-info.java` (complica Spring y tests; jpackage no lo necesita)

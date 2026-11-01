@@ -1,0 +1,623 @@
+/*
+ * Kabrilla · tema oscuro (negro + morados).
+ *
+ * Cómo está organizado:
+ *   1. Paleta: variables de color (looked-up colors) definidas una sola vez en .root. Para ajustar un tono,
+ *      cambiar solo aquí; el resto del archivo usa las variables.
+ *   2. Variables de Modena apuntando a la paleta: todos los controles estándar heredan el tema oscuro.
+ *   3. Ajustes por control (botones, campos, pestañas, tablas...).
+ *   4. Clases semánticas de Kabrilla (kb-*) que usan las vistas en vez de estilos en línea.
+ *
+ * Se carga solo con kabrilla.ui.styles-enabled=true (ver README). Sin este archivo la app usa Modena + kabrilla-base.css.
+ */
+
+/* ===================================================================== 1. Paleta */
+.root {
+    -kb-bg: #0D0A12;
+    -kb-surface: #15111C;
+    -kb-surface-raised: #1D1726;
+    -kb-surface-hover: #271F33;
+    -kb-border: #2E2540;
+    -kb-border-strong: #44385C;
+
+    -kb-text: #EDE9F5;
+    -kb-text-muted: #A99FBD;
+    -kb-text-subtle: #6E6582;
+    -kb-text-on-primary: #FFFFFF;
+
+    -kb-primary: #8B5CF6;
+    -kb-primary-hover: #A78BFA;
+    -kb-primary-pressed: #7C3AED;
+    -kb-primary-light: #C4B5FD;
+    -kb-primary-dark: #5B21B6;
+    -kb-primary-deep: #2E1065;
+
+    -kb-success: #34D399;
+    -kb-warning: #FBBF24;
+    -kb-danger: #F87171;
+
+    /* ================================================================= 2. Modena */
+    -fx-base: -kb-surface-raised;
+    -fx-background: -kb-bg;
+    -fx-control-inner-background: -kb-surface;
+    -fx-control-inner-background-alt: -kb-surface;
+    -fx-accent: -kb-primary;
+    -fx-default-button: -kb-primary;
+    -fx-focus-color: -kb-primary;
+    -fx-faint-focus-color: transparent;
+    -fx-selection-bar: -kb-primary-dark;
+    -fx-selection-bar-non-focused: -kb-primary-deep;
+    -fx-light-text-color: -kb-text;
+    -fx-mid-text-color: -kb-text-muted;
+    -fx-prompt-text-fill: -kb-text-subtle;
+
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-background-color: -kb-bg;
+}
+
+/* ===================================================================== 3. Controles */
+
+.label {
+    -fx-text-fill: -kb-text;
+}
+
+/* --- Botones */
+.button {
+    -fx-background-color: -kb-surface-raised;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+    -fx-border-color: -kb-border;
+    -fx-border-radius: 8;
+    -fx-text-fill: -kb-text;
+    -fx-padding: 6 14 6 14;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -kb-surface-hover;
+    -fx-border-color: -kb-border-strong;
+}
+
+.button:pressed {
+    -fx-background-color: -kb-primary-deep;
+}
+
+.button:focused {
+    -fx-border-color: -kb-primary;
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
+}
+
+/* Acción principal (y botón por defecto de los diálogos) */
+.button.kb-primary,
+.button:default {
+    -fx-background-color: -kb-primary;
+    -fx-border-color: -kb-primary;
+    -fx-text-fill: -kb-text-on-primary;
+    -fx-font-weight: bold;
+}
+
+.button.kb-primary:hover,
+.button:default:hover {
+    -fx-background-color: -kb-primary-hover;
+    -fx-border-color: -kb-primary-hover;
+}
+
+.button.kb-primary:pressed,
+.button:default:pressed {
+    -fx-background-color: -kb-primary-pressed;
+}
+
+/* Acción secundaria discreta (p. ej. "Refresh") */
+.button.kb-ghost {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -kb-primary-light;
+}
+
+.button.kb-ghost:hover {
+    -fx-background-color: -kb-surface-hover;
+}
+
+/* --- Campos de texto, combos y date pickers */
+.text-field,
+.text-area,
+.combo-box-base {
+    -fx-background-color: -kb-surface;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+    -fx-border-color: -kb-border;
+    -fx-border-radius: 6;
+    -fx-text-fill: -kb-text;
+    -fx-prompt-text-fill: -kb-text-subtle;
+    -fx-highlight-fill: -kb-primary-dark;
+    -fx-highlight-text-fill: -kb-text-on-primary;
+}
+
+.text-field:hover,
+.text-area:hover,
+.combo-box-base:hover {
+    -fx-border-color: -kb-border-strong;
+}
+
+.text-field:focused,
+.text-area:focused,
+.combo-box-base:focused,
+.combo-box-base:showing {
+    -fx-border-color: -kb-primary;
+}
+
+.text-area .content {
+    -fx-background-color: -kb-surface;
+    -fx-background-radius: 6;
+}
+
+.text-area .scroll-pane,
+.text-area .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.combo-box-base > .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: -kb-text-muted;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -kb-text;
+}
+
+.combo-box-popup > .list-view {
+    -fx-background-color: -kb-surface-raised;
+    -fx-background-radius: 6;
+    -fx-border-color: -kb-border;
+    -fx-border-radius: 6;
+    -fx-padding: 4;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background-color: transparent;
+    -fx-background-radius: 4;
+    -fx-text-fill: -kb-text;
+    -fx-padding: 6 10 6 10;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:hover {
+    -fx-background-color: -kb-surface-hover;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: -kb-primary-dark;
+    -fx-text-fill: -kb-text-on-primary;
+}
+
+.date-picker-popup {
+    -fx-background-color: -kb-border, -kb-surface-raised;
+}
+
+/* --- Checkbox */
+.check-box {
+    -fx-text-fill: -kb-text;
+}
+
+.check-box > .box {
+    -fx-background-color: -kb-surface;
+    -fx-background-radius: 4;
+    -fx-border-color: -kb-border-strong;
+    -fx-border-radius: 4;
+}
+
+.check-box:hover > .box {
+    -fx-border-color: -kb-primary-light;
+}
+
+.check-box:selected > .box {
+    -fx-background-color: -kb-primary;
+    -fx-border-color: -kb-primary;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: -kb-text-on-primary;
+}
+
+/* --- Pestañas: subrayado morado en la activa */
+.tab-pane > .tab-header-area {
+    -fx-padding: 4 8 0 8;
+}
+
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: -kb-bg;
+    -fx-border-color: transparent transparent -kb-border transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6 6 0 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 6 14 6 14;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover {
+    -fx-background-color: -kb-surface-hover;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-border-color: -kb-primary;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab .tab-label {
+    -fx-text-fill: -kb-text-muted;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .tab-label {
+    -fx-text-fill: -kb-text;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-close-button {
+    -fx-background-color: -kb-text-subtle;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-close-button:hover {
+    -fx-background-color: -kb-danger;
+}
+
+.tab-pane > .tab-content-area {
+    -fx-background-color: -kb-bg;
+}
+
+.tab-pane > .tab-header-area > .control-buttons-tab > .container > .tab-down-button {
+    -fx-background-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .control-buttons-tab > .container > .tab-down-button > .arrow {
+    -fx-background-color: -kb-text-muted;
+}
+
+/* Pestañas de deployments (nivel superior): estilo "navegador" sobre la superficie */
+.kb-deployment-tabs > .tab-header-area > .tab-header-background {
+    -fx-background-color: -kb-surface;
+}
+
+.kb-deployment-tabs > .tab-header-area > .headers-region > .tab {
+    -fx-border-width: 2 0 0 0;
+}
+
+.kb-deployment-tabs > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: -kb-bg;
+}
+
+/* --- Árbol del sidebar */
+.tree-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.tree-cell {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-text-fill: -kb-text;
+    -fx-padding: 5 8 5 8;
+}
+
+.tree-cell:hover {
+    -fx-background-color: -kb-surface-hover;
+}
+
+.tree-cell:filled:selected,
+.tree-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected {
+    -fx-background-color: -kb-primary-deep;
+    -fx-text-fill: -kb-primary-light;
+}
+
+.tree-cell > .tree-disclosure-node > .arrow {
+    -fx-background-color: -kb-text-subtle;
+}
+
+.tree-cell:selected > .tree-disclosure-node > .arrow {
+    -fx-background-color: -kb-primary-light;
+}
+
+/* --- Tablas */
+.table-view {
+    -fx-background-color: -kb-surface;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+    -fx-border-color: -kb-border;
+    -fx-border-radius: 8;
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -kb-surface-raised;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -kb-border transparent;
+    -fx-size: 34;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -kb-text-muted;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 0 10 0 10;
+}
+
+.table-row-cell {
+    -fx-background-color: -kb-surface;
+    -fx-border-color: transparent transparent -kb-border transparent;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: -kb-surface-hover;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: -kb-primary-deep;
+}
+
+.table-cell {
+    -fx-text-fill: -kb-text;
+    -fx-border-color: transparent;
+    -fx-padding: 0 10 0 10;
+    -fx-alignment: center-left;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: -kb-text-subtle;
+}
+
+/* --- Paneles desplegables (recursos) */
+.titled-pane {
+    -fx-text-fill: -kb-text;
+}
+
+.titled-pane > .title {
+    -fx-background-color: -kb-surface-raised;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+    -fx-border-color: -kb-border;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12 8 12;
+}
+
+.titled-pane:expanded > .title {
+    -fx-background-radius: 8 8 0 0;
+    -fx-border-radius: 8 8 0 0;
+}
+
+.titled-pane > .title:hover {
+    -fx-background-color: -kb-surface-hover;
+}
+
+.titled-pane > .title > .text {
+    -fx-font-weight: bold;
+}
+
+.titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: -kb-primary-light;
+}
+
+.titled-pane > .content {
+    -fx-background-color: -kb-surface;
+    -fx-border-color: -kb-border;
+    -fx-border-width: 0 1 1 1;
+    -fx-background-radius: 0 0 8 8;
+    -fx-border-radius: 0 0 8 8;
+}
+
+/* --- Scrollbars delgadas */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 10;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 10;
+}
+
+.scroll-bar > .thumb {
+    -fx-background-color: -kb-border-strong;
+    -fx-background-radius: 5;
+    -fx-background-insets: 2;
+}
+
+.scroll-bar > .thumb:hover,
+.scroll-bar > .thumb:pressed {
+    -fx-background-color: -kb-primary-dark;
+}
+
+.scroll-bar > .increment-button,
+.scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.scroll-pane > .corner,
+.virtualized-scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+
+/* --- Split panes, separadores, progreso */
+.split-pane {
+    -fx-background-color: -kb-bg;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: -kb-border;
+    -fx-padding: 0 0.5 0 0.5;
+}
+
+.split-pane > .split-pane-divider:hover {
+    -fx-background-color: -kb-primary-dark;
+}
+
+.separator > .line {
+    -fx-border-color: -kb-border;
+    -fx-border-width: 1 0 0 0;
+}
+
+.separator:vertical > .line {
+    -fx-border-width: 0 0 0 1;
+}
+
+.progress-indicator {
+    -fx-progress-color: -kb-primary-light;
+}
+
+/* --- Popups y diálogos */
+.tooltip {
+    -fx-background-color: -kb-surface-raised;
+    -fx-background-radius: 6;
+    -fx-text-fill: -kb-text;
+}
+
+.context-menu {
+    -fx-background-color: -kb-surface-raised;
+    -fx-background-radius: 6;
+    -fx-border-color: -kb-border;
+    -fx-border-radius: 6;
+}
+
+.menu-item:focused {
+    -fx-background-color: -kb-primary-dark;
+}
+
+.menu-item .label {
+    -fx-text-fill: -kb-text;
+}
+
+.dialog-pane {
+    -fx-background-color: -kb-surface;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: -kb-surface-raised;
+}
+
+.dialog-pane > .header-panel .label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane > .content.label {
+    -fx-text-fill: -kb-text;
+}
+
+.dialog-pane > .button-bar > .container {
+    -fx-background-color: transparent;
+}
+
+/* ===================================================================== 4. Clases de Kabrilla */
+
+.kb-page {
+    -fx-background-color: -kb-bg;
+}
+
+.kb-sidebar {
+    -fx-background-color: -kb-surface;
+    -fx-border-color: transparent -kb-border transparent transparent;
+}
+
+.kb-brand {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -kb-primary-light;
+}
+
+.kb-title {
+    -fx-font-size: 16px;
+    -fx-text-fill: -kb-text;
+}
+
+.kb-section-title {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -kb-text-subtle;
+}
+
+.kb-muted,
+.kb-field-label,
+.kb-key {
+    -fx-text-fill: -kb-text-muted;
+}
+
+.kb-error {
+    -fx-text-fill: -kb-danger;
+}
+
+/* Barra de herramientas y barra de estado (Logs) */
+.kb-toolbar {
+    -fx-background-color: -kb-surface;
+    -fx-border-color: transparent transparent -kb-border transparent;
+}
+
+.kb-statusbar {
+    -fx-background-color: -kb-surface;
+    -fx-border-color: -kb-border transparent transparent transparent;
+}
+
+/* Scroll sin fondo propio (listas de tarjetas) */
+.kb-plain-scroll,
+.kb-plain-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Área de logs (RichTextFX) */
+.kb-log-area {
+    -fx-background-color: -kb-bg;
+    -fx-highlight-fill: -kb-primary-dark;
+}
+
+.kb-log-area .text {
+    -fx-fill: -kb-text;
+}
+
+.kb-log-area .caret {
+    -fx-stroke: -kb-primary-light;
+}
+
+.kb-log-area .kb-search-match {
+    -rtfx-background-color: -kb-primary;
+    -fx-fill: -kb-text-on-primary;
+}
+
+/* Estado de pods */
+.table-cell.kb-status-ok {
+    -fx-text-fill: -kb-success;
+}
+
+.table-cell.kb-status-warn {
+    -fx-text-fill: -kb-warning;
+}
+
+.table-cell.kb-status-error {
+    -fx-text-fill: -kb-danger;
+}

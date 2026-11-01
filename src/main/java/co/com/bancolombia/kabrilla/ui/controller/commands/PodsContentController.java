@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Font;
@@ -43,6 +44,7 @@ public class PodsContentController implements DeploymentTab {
 
         TableColumn<Pod, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus()));
+        statusCol.setCellFactory(column -> new StatusCell());
 
         TableColumn<Pod, String> restartsCol = new TableColumn<>("Restarts");
         restartsCol.setCellValueFactory(
@@ -55,6 +57,9 @@ public class PodsContentController implements DeploymentTab {
         nodeCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNode()));
 
         podsTable.getColumns().setAll(nameCol, statusCol, restartsCol, ageCol, nodeCol);
+        // Las columnas ocupan todo el ancho; el nombre conserva el ancho calculado por autoResizeNameColumn
+        podsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        restartsCol.setMinWidth(90);
 
         podsTable.setItems(viewModel.pods());
 
@@ -141,6 +146,27 @@ public class PodsContentController implements DeploymentTab {
     private void onRefreshClicked() {
         if (currentCtx != null) {
             viewModel.loadPods(currentCtx);
+        }
+    }
+
+    /**
+     * Colorea la fase del pod con clases del tema (kb-status-ok / warn / error).
+     */
+    private static final class StatusCell extends TableCell<Pod, String> {
+        private static final List<String> STATUS_CLASSES = List.of("kb-status-ok", "kb-status-warn", "kb-status-error");
+
+        @Override
+        protected void updateItem(String status, boolean empty) {
+            super.updateItem(status, empty);
+            getStyleClass().removeAll(STATUS_CLASSES);
+            setText(empty ? null : status);
+            if (!empty && status != null) {
+                getStyleClass().add(switch (status) {
+                    case "Running", "Succeeded" -> "kb-status-ok";
+                    case "Pending", "Unknown" -> "kb-status-warn";
+                    default -> "kb-status-error"; // Failed, CrashLoopBackOff...
+                });
+            }
         }
     }
 }

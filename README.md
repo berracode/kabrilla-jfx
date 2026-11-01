@@ -37,8 +37,8 @@ en lugar de `./mvnw` (en Git Bash sirve `./mvnw`).
 |---|---|
 | `./mvnw javafx:run` | App contra clusters reales (EKS) |
 | `./mvnw javafx:run -Pmock` | App con datos simulados de `mock-data/`, sin AWS ni cluster |
-| `./mvnw javafx:run -Pstyles` | Con los estilos personalizados (tema oscuro) |
-| `./mvnw javafx:run -Pmock,styles` | Los perfiles se combinan |
+| `./mvnw javafx:run -Pno-styles` | Sin el tema oscuro: tema base de JavaFX |
+| `./mvnw javafx:run -Pmock,no-styles` | Los perfiles se combinan |
 | `./mvnw javafx:run -o -Pmock` | Igual, sin red (`-o` = offline, si ya descargaste las dependencias) |
 
 **Desde IntelliJ:** ejecuta `co.com.bancolombia.kabrilla.startup.MainApplication`. En *Program arguments*
@@ -47,7 +47,7 @@ agrega lo que necesites:
 | Argumento | Equivale a |
 |---|---|
 | `--spring.profiles.active=mock` | `-Pmock` |
-| `--kabrilla.ui.styles-enabled=true` | `-Pstyles` |
+| `--kabrilla.ui.styles-enabled=false` | `-Pno-styles` |
 | `--kabrilla.mock.line-delay-ms=20` | cambiar la velocidad de los logs mock (ver Configuración) |
 
 El *Working directory* debe ser la raíz del proyecto (ahí busca `mock-data/` y los archivos locales).
@@ -58,7 +58,7 @@ El *Working directory* debe ser la raíz del proyecto (ahí busca `mock-data/` y
 |---|---|
 | **Real** (sin perfil) | Usar contra EKS. Lee `~/.kube/config`, y `clusters.json` / `credentials.2.json` de la carpeta de ejecución. |
 | **Mock** (`-Pmock`) | Desarrollar y probar sin acceso al cluster. Todo sale de [mock-data/](mock-data/README.md): deployments y pods son carpetas y archivos de logs; los recursos (Service, HPA...) son manifiestos YAML. |
-| **Estilos** (`-Pstyles`) | Por ahora los estilos propios están **desactivados** y la app usa el tema base de JavaFX. Este perfil los activa sin tocar CSS ni FXML. El área de logs y los bloques YAML conservan siempre su fuente monoespaciada y el resaltado. |
+| **Tema** (`-Pno-styles` / `-Pstyles`) | Por defecto la app usa el **tema oscuro** de Kabrilla (negro + morados). `-Pno-styles` lo apaga y queda el tema base de JavaFX; `-Pstyles` lo fuerza si cambiaste el default. En ambos casos se conservan la fuente monoespaciada de logs/YAML y el resaltado de búsqueda. Ver "Tema y estilos". |
 
 ## Configuración
 
@@ -66,7 +66,7 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 
 | Propiedad | Default | Archivo | Descripción |
 |---|---|---|---|
-| `kabrilla.ui.styles-enabled` | `false` | `src/main/resources/application.properties` | Estilos personalizados on/off |
+| `kabrilla.ui.styles-enabled` | `true` | `src/main/resources/application.properties` | Tema oscuro on/off (off = tema base de JavaFX) |
 | `kabrilla.mock.dir` | `mock-data` | `src/main/resources/application-mock.properties` | Carpeta de datos del modo mock |
 | `kabrilla.mock.line-delay-ms` | `100` | `src/main/resources/application-mock.properties` | Pausa entre líneas al reproducir logs mock. No bajar de ~20 |
 | `kabrilla.mock.history-step-ms` | `2000` | `src/main/resources/application-mock.properties` | Separación en el tiempo entre líneas de un archivo mock para las consultas por **Rango** |
@@ -136,6 +136,18 @@ En modo real la app guarda su estado en la carpeta desde donde se ejecuta. **No 
 | `./mvnw test -Dtest=LogFilterTest` | Correr un solo test |
 | `./mvnw clean` | Borrar `target/` |
 | `cd mock-data && ./generar-logs.sh <archivo> <líneas>` | Generar logs sintéticos para el modo mock (Git Bash). Ver [mock-data/README.md](mock-data/README.md) |
+
+### Tema y estilos
+
+| Archivo | Qué contiene |
+|---|---|
+| `src/main/resources/css/kabrilla-dark.css` | El tema oscuro. Arriba está la **paleta** (`-kb-bg`, `-kb-primary`, `-kb-text`...): para cambiar un color se edita solo ahí. Luego, ajustes de controles y las clases `kb-*` |
+| `src/main/resources/css/kabrilla-base.css` | Lo que se carga siempre, con o sin tema: fuente monoespaciada (`kb-mono`, área de logs) y resaltado de búsqueda (`kb-search-match`) |
+| `ui/theme/ThemeManager.java` | Aplica esas hojas a todas las ventanas (principal, diálogos, alertas) según `kabrilla.ui.styles-enabled` |
+
+Reglas: en FXML y Java **no** se escriben colores ni `style="..."`; se usan clases (`styleClass="kb-title"`,
+`kb-primary` para la acción principal, `kb-ghost` para acciones discretas, `kb-muted`, `kb-field-label`, `kb-error`...).
+Si hace falta un estilo nuevo, se agrega una clase en `kabrilla-dark.css` usando las variables de la paleta.
 
 Arquitectura hexagonal + MVVM:
 

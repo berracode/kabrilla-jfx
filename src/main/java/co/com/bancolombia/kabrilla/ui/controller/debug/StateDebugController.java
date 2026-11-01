@@ -13,7 +13,7 @@ import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,11 +25,11 @@ public class StateDebugController {
     private final DeploymentStateViewModel deploymentStateViewModel;
     private final AppContext context;
     @FXML
-    private Text clusterText;
+    private Label clusterText;
     @FXML
-    private Text namespaceText;
+    private Label namespaceText;
     @FXML
-    private Text deploymentText;
+    private Label deploymentText;
 
     @FXML
     private ListView<String> credentialsListView;

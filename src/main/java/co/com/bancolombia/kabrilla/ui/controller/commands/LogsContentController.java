@@ -14,7 +14,6 @@ import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLevel;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRange;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.tabs.DeploymentTab;
-import co.com.bancolombia.kabrilla.ui.theme.StyleToggle;
 import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogFilter;
 import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogView;
 import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogsViewModel;
@@ -35,13 +34,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
-import org.fxmisc.richtext.InlineCssTextArea;
+import org.fxmisc.richtext.StyleClassedTextArea;
 
 
 @Slf4j
 public class LogsContentController implements DeploymentTab, LogView {
 
-    private static final String HIGHLIGHT_STYLE = "-rtfx-background-color: #FFE066;";
+    // Clase CSS de las coincidencias (color en kabrilla-base.css y kabrilla-dark.css)
+    private static final List<String> HIGHLIGHT_CLASSES = List.of("kb-search-match");
     private static final String ALL_LEVELS = "Todos";
     // Espera a que el usuario deje de escribir antes de refiltrar todo el historial
     private static final Duration SEARCH_DEBOUNCE = Duration.millis(250);
@@ -70,7 +70,7 @@ public class LogsContentController implements DeploymentTab, LogView {
     @FXML
     private Button btnToggleStream;
     @FXML
-    private InlineCssTextArea txtLogArea;
+    private StyleClassedTextArea txtLogArea;
     @FXML
     private TextField txtSearch;
     @FXML
@@ -115,8 +115,6 @@ public class LogsContentController implements DeploymentTab, LogView {
     @FXML
     public void initialize() {
         txtLogArea.setEditable(false);
-        // Fuente monoespaciada y resaltado son funcionales: se conservan aunque los estilos estén desactivados
-        StyleToggle.preserve(txtLogArea);
         logsVM.setView(this);
 
         initializeRangeControls();
@@ -267,7 +265,7 @@ public class LogsContentController implements DeploymentTab, LogView {
         LogFilter filter = logsVM.getFilter();
         for (int i = 0; i < lines.size(); i++) {
             for (int[] range : filter.highlights(lines.get(i))) {
-                txtLogArea.setStyle(firstParagraph + i, range[0], range[1], HIGHLIGHT_STYLE);
+                txtLogArea.setStyle(firstParagraph + i, range[0], range[1], HIGHLIGHT_CLASSES);
             }
         }
     }

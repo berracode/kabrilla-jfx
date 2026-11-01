@@ -7,7 +7,6 @@ import co.com.bancolombia.kabrilla.domain.model.k8s.resources.ResourceKind;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.tabs.DeploymentTab;
 import co.com.bancolombia.kabrilla.ui.services.ClipboardSupport;
-import co.com.bancolombia.kabrilla.ui.theme.StyleToggle;
 import co.com.bancolombia.kabrilla.ui.viewmodel.resources.ResourcesViewModel;
 
 import javafx.collections.ListChangeListener;
@@ -33,7 +32,6 @@ import javafx.scene.layout.VBox;
  */
 public class ResourcesContentController implements DeploymentTab {
 
-    private static final String MONOSPACE = "-fx-font-family: 'Consolas', 'monospace'; -fx-font-size: 12px;";
     private static final int MAX_TEXT_ROWS = 25;
 
     private static final Map<ResourceKind, String> TITLES = Map.of(
@@ -186,7 +184,7 @@ public class ResourcesContentController implements DeploymentTab {
 
     private static Label keyLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-weight: bold;");
+        label.getStyleClass().add("kb-key");
         label.setAlignment(Pos.TOP_LEFT);
         return label;
     }
@@ -210,9 +208,7 @@ public class ResourcesContentController implements DeploymentTab {
         area.setEditable(false);
         area.setWrapText(false);
         area.setPrefRowCount((int) Math.min(MAX_TEXT_ROWS, text.lines().count() + 1));
-        area.setStyle(MONOSPACE);
-        // La fuente monoespaciada es funcional (YAML, archivos de configuración): se conserva sin estilos
-        StyleToggle.preserve(area);
+        area.getStyleClass().add("kb-mono");
         return area;
     }
 }

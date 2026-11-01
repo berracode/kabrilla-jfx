@@ -382,11 +382,6 @@ public class SidebarStateViewModel {
                         alert.setHeaderText(null);
                         alert.setContentText("Debes seleccionar un cluster y escribir un namespace.");
 
-                        DialogPane alertPane = alert.getDialogPane();
-                        alertPane.getStylesheets()
-                                .add(getClass().getResource("/css/demo.css").toExternalForm());
-                        alertPane.setStyle("-fx-background-color: #2B2B2B;");
-                        alertPane.lookup(".content.label").setStyle("-fx-text-fill: white;");
 
                         alert.showAndWait();
                         return null;

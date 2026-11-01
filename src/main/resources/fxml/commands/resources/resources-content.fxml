@@ -6,24 +6,23 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1"
-      spacing="8" style="-fx-background-color: #2B2B2B;"
-      stylesheets="@../../../css/demo.css"
+      spacing="10" styleClass="kb-page"
       fx:controller="co.com.bancolombia.kabrilla.ui.controller.commands.ResourcesContentController">
     <padding>
-        <Insets top="8" right="10" bottom="8" left="10"/>
+        <Insets top="12" right="12" bottom="12" left="12"/>
     </padding>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label fx:id="titleLabel" style="-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;"/>
-        <Label fx:id="countLabel" style="-fx-text-fill: #BBBBBB;"/>
+        <Label fx:id="titleLabel" styleClass="kb-title"/>
+        <Label fx:id="countLabel" styleClass="kb-muted"/>
         <Pane HBox.hgrow="ALWAYS"/>
         <ProgressIndicator fx:id="loadingIndicator" prefHeight="18" prefWidth="18" visible="false"/>
-        <Button onAction="#onReloadClicked" text="Recargar"/>
+        <Button onAction="#onReloadClicked" text="Recargar" styleClass="kb-ghost"/>
     </HBox>
 
-    <Label fx:id="messageLabel" wrapText="true" style="-fx-text-fill: #DDDDDD;"/>
+    <Label fx:id="messageLabel" wrapText="true" styleClass="kb-muted"/>
 
-    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
-        <VBox fx:id="resourcesBox" spacing="8"/>
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="kb-plain-scroll">
+        <VBox fx:id="resourcesBox" spacing="10"/>
     </ScrollPane>
 </VBox>

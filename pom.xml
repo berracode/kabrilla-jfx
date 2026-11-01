@@ -14,7 +14,7 @@
         <spring.boot.version>4.1.0</spring.boot.version>
         <lombok.version>1.18.42</lombok.version>
 
-        <!-- Argumentos para javafx:run, combinables por perfil: -Pmock, -Pstyles o -Pmock,styles -->
+        <!-- Argumentos para javafx:run, combinables por perfil: -Pmock, -Pno-styles, -Pstyles (p. ej. -Pmock,no-styles) -->
         <kabrilla.args.profile></kabrilla.args.profile>
         <kabrilla.args.styles></kabrilla.args.styles>
         <javafx.args>${kabrilla.args.profile} ${kabrilla.args.styles}</javafx.args>
@@ -162,7 +162,14 @@
                 <kabrilla.args.profile>--spring.profiles.active=mock</kabrilla.args.profile>
             </properties>
         </profile>
-        <!-- ./mvnw javafx:run -Pstyles : activa los estilos personalizados (por defecto solo tema base) -->
+        <!-- ./mvnw javafx:run -Pno-styles : sin el tema oscuro, solo el tema base de JavaFX -->
+        <profile>
+            <id>no-styles</id>
+            <properties>
+                <kabrilla.args.styles>--kabrilla.ui.styles-enabled=false</kabrilla.args.styles>
+            </properties>
+        </profile>
+        <!-- ./mvnw javafx:run -Pstyles : fuerza el tema oscuro (útil si se cambió el default en application.properties) -->
         <profile>
             <id>styles</id>
             <properties>
