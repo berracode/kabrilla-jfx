@@ -89,6 +89,16 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
    pestaña; **Recargar** vuelve a consultar.
 7. Al cerrar la pestaña del deployment se cierra su stream de logs.
 
+## Problemas comunes
+
+| Síntoma | Causa / solución |
+|---|---|
+| `NoClassDefFoundError: java/sql/...` u otra clase `java/...` al expandir un namespace | Falta un módulo del JDK en `module-info.java` (`requires java.sql;`). Ver la sección "Trampas conocidas" de [CLAUDE.md](CLAUDE.md). |
+| `Error K8s (401)` | Credenciales AWS vencidas: vuelve a pegarlas con **Agregar credenciales**. |
+| `Error K8s (403)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
+| `Illegal base64 character` al arrancar | El `certificate-authority-data` de `~/.kube/config` no es válido; regenera con `aws eks update-kubeconfig`. |
+| Pestañas de Istio vacías | El cluster no tiene Istio instalado o no hay políticas para ese deployment. |
+
 ## Archivos locales
 
 En modo real la app guarda su estado en la carpeta desde donde se ejecuta. **No los subas a git**

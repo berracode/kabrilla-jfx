@@ -18,6 +18,12 @@ module co.com.bancolombia.kabrilla {
     requires spring.core;
     requires spring.beans;
 
+    // Módulos del JDK que usan las dependencias pero nadie declara: con module-info solo se cargan los requeridos.
+    // Verificar con: jdeps --print-module-deps --ignore-missing-deps --multi-release 21 <jars>
+    requires java.sql;         // client-java (JSON usa java.sql.Date) y BouncyCastle
+    requires java.naming;      // BouncyCastle (cert stores)
+    requires jdk.unsupported;  // protobuf (sun.misc.Unsafe)
+
     // Paquete raíz (si tienes clases principales)
     exports co.com.bancolombia.kabrilla.startup;
     opens co.com.bancolombia.kabrilla.startup to javafx.fxml, com.fasterxml.jackson.databind;

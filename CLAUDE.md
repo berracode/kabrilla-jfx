@@ -43,6 +43,11 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
   instancia o inspecciona necesita `exports` (y `opens` si usa reflexión privada). Cada paquete con FXML
   controllers necesita `opens ... to javafx.fxml`. Si aparece `IllegalAccessException ... does not export`,
   falta un `exports`.
+- **Módulos del JDK**: con `module-info` solo se cargan los módulos del JDK declarados con `requires`. Si aparece
+  `NoClassDefFoundError: java/...` (p. ej. `java/sql/Date` del cliente de Kubernetes) falta un `requires`.
+  Al agregar o actualizar dependencias, revisar con
+  `jdeps --print-module-deps --ignore-missing-deps --multi-release 21 <jars>`. El modo mock NO ejercita el
+  cliente de Kubernetes, así que estos errores solo aparecen contra EKS.
 - Nombres de cluster: el kubeconfig usa ARN (`arn:aws:eks:...:cluster/<nombre>`); el resto de la app usa
   `<nombre>` (`split("/")[1]`). Credenciales y `clusters.json` se buscan por nombre corto.
 - El IDE (VS Code) marca errores falsos de Lombok; la fuente de verdad es `./mvnw compile`.
