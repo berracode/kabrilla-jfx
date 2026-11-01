@@ -53,5 +53,22 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [ ] Instalador con `jpackage` (.msi con JRE embebido) + README de instalación para el equipo
 - [ ] CI (GitHub Actions) con build + tests
 - [x] Rediseño visual: tema oscuro negro + morados con paleta centralizada (`kabrilla-dark.css`), sin estilos en línea
+- [x] Fondo negro mate (variante A) en vez de negro violáceo
 - [ ] Colorear líneas de log por nivel (ERROR/WARN) con clases del tema
+- [ ] **Selector de tema en tiempo de ejecución** (menú o ajustes, sin reiniciar), recordando la elección del usuario.
+      Opciones, en orden de preferencia: *Negro mate* (default, actual `kabrilla-dark.css`), *Grafito*, *Negro puro*,
+      *Spotify*, *Violáceo* (el primer diseño) y *Sin estilos* (tema base de JavaFX).
+      Paletas ya probadas (solo cambian las variables neutras `-kb-bg`, `-kb-surface*`, `-kb-border*`, `-kb-text*`):
+
+      | Tema | bg | surface | raised | hover | border | border-strong | text-muted | text-subtle |
+      |---|---|---|---|---|---|---|---|---|
+      | Negro mate | `#0F0F10` | `#161617` | `#1E1E20` | `#28282B` | `#2C2C30` | `#3D3D42` | `#A7A7AD` | `#6B6B72` |
+      | Grafito | `#17171A` | `#1E1E22` | `#26262B` | `#303036` | `#34343B` | `#47474F` | `#A7A7AD` | `#6B6B72` |
+      | Negro puro | `#000000` | `#0B0B0C` | `#141416` | `#1E1E21` | `#232326` | `#333338` | `#A7A7AD` | `#6B6B72` |
+      | Spotify | `#121212` | `#181818` | `#212121` | `#2A2A2A` | `#2E2E2E` | `#404040` | `#A7A7AD` | `#6B6B72` |
+      | Violáceo | `#0D0A12` | `#15111C` | `#1D1726` | `#271F33` | `#2E2540` | `#44385C` | `#A99FBD` | `#6E6582` |
+
+      Diseño sugerido: cada variante como una hoja pequeña (`theme-graphite.css`...) que solo redefine esas variables
+      en `.root` y se carga después de `kabrilla-dark.css`; `ThemeManager` reemplaza las hojas de las escenas abiertas
+      al cambiar. Reemplazaría `kabrilla.ui.styles-enabled` por algo como `kabrilla.ui.theme=matte|graphite|...|none`
 - [ ] Evaluar quitar `module-info.java` (complica Spring y tests; jpackage no lo necesita)

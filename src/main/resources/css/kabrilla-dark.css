@@ -1,5 +1,5 @@
 /*
- * Kabrilla · tema oscuro (negro + morados).
+ * Kabrilla · tema oscuro (negro mate + acentos morados).
  *
  * Cómo está organizado:
  *   1. Paleta: variables de color (looked-up colors) definidas una sola vez en .root. Para ajustar un tono,
@@ -13,16 +13,17 @@
 
 /* ===================================================================== 1. Paleta */
 .root {
-    -kb-bg: #0D0A12;
-    -kb-surface: #15111C;
-    -kb-surface-raised: #1D1726;
-    -kb-surface-hover: #271F33;
-    -kb-border: #2E2540;
-    -kb-border-strong: #44385C;
+    /* Neutros: negro mate (sin tinte violeta; el morado queda solo en los acentos) */
+    -kb-bg: #0F0F10;
+    -kb-surface: #161617;
+    -kb-surface-raised: #1E1E20;
+    -kb-surface-hover: #28282B;
+    -kb-border: #2C2C30;
+    -kb-border-strong: #3D3D42;
 
-    -kb-text: #EDE9F5;
-    -kb-text-muted: #A99FBD;
-    -kb-text-subtle: #6E6582;
+    -kb-text: #EDEDF0;
+    -kb-text-muted: #A7A7AD;
+    -kb-text-subtle: #6B6B72;
     -kb-text-on-primary: #FFFFFF;
 
     -kb-primary: #8B5CF6;
