@@ -17,6 +17,10 @@ public class UiLogFeederService extends Service<Void> {
     private final BlockingQueue<LogLine> buffer;
     private final Consumer<String> onLinesBatchProcessed;
 
+    // ~150 ms se percibe como tiempo real; 1000 líneas por lote da ~6.000 líneas/s de capacidad
+    private static final long BATCH_INTERVAL_MS = 150;
+    private static final int MAX_BATCH_LINES = 1000;
+
     // Pasamos el buffer y el callback explícitamente en el constructor
     public UiLogFeederService(BlockingQueue<LogLine> buffer, Consumer<String> onLinesBatchProcessed) {
         this.buffer = buffer;
@@ -37,24 +41,25 @@ public class UiLogFeederService extends Service<Void> {
                     drainList.add(firstLog);
 
                     // Extrae ráfagas acumuladas para armar el lote (batch)
-                    buffer.drainTo(drainList, 200);
+                    buffer.drainTo(drainList, MAX_BATCH_LINES - 1);
 
                     // Construcción del bloque de texto plano
                     StringBuilder sb = new StringBuilder();
                     for (LogLine logLine : drainList) {
-                        sb.append(String.format("%s - %s \n", logLine.timestamp(), logLine.text()));
+                        sb.append(logLine.timestamp()).append(" - ").append(logLine.text()).append(" \n");
                     }
                     String textBatch = sb.toString();
 
                     // Despachamos el bloque al hilo de JavaFX de forma segura
                     Platform.runLater(() -> {
-                        if (onLinesBatchProcessed != null) {
+                        // Si se detuvo mientras el lote esperaba, no se pinta
+                        if (onLinesBatchProcessed != null && !isCancelled()) {
                             onLinesBatchProcessed.accept(textBatch);
                         }
                     });
 
                     drainList.clear();
-                    Thread.sleep(2000); // Pequeña tregua para acumular el siguiente lote
+                    Thread.sleep(BATCH_INTERVAL_MS); // Pequeña tregua para acumular el siguiente lote
                 }
                 return null;
             }

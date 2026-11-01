@@ -52,7 +52,6 @@ public class MainTabController {
     public void initialize() {
         mainTabViewModel.deploymentStateViewModel().selectedDeploymentProperty()
                 .addListener((obs, old, selected) -> {
-                    log.info("selected deployment para deployment tab: {}", selected.getName());
                     if (selected != null) {
                         log.info("Abriendo el deploymentStateView model con el nuevo deployment seleccionado: " +
                                          "{}", selected.getName());
@@ -122,6 +121,8 @@ public class MainTabController {
             AnchorPane content = loader.load();
             Tab tab = new Tab(suffix + "/" + deployment.getName(), content);
             tab.setUserData(deployment); // ✅ guardar el deployment real
+            DeploymentTabController tabController = loader.getController();
+            tab.setOnClosed(e -> tabController.dispose());
 
             deploymentTabPane.getTabs().add(tab);
             deploymentTabPane.getSelectionModel().select(tab);

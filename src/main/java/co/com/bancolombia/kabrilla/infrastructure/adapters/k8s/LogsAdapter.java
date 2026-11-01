@@ -31,7 +31,12 @@ public class LogsAdapter implements LogsRepository {
 
     public LogsAdapter(KubeClientFactory kubeClientFactory) {
         this.kubeClientFactory = kubeClientFactory;
-        this.executor = Executors.newCachedThreadPool();
+        // Hilos daemon: un stream abierto no debe impedir que la JVM termine al cerrar la app
+        this.executor = Executors.newCachedThreadPool(r -> {
+            Thread t = new Thread(r, "k8s-logs");
+            t.setDaemon(true);
+            return t;
+        });
     }
 
 
@@ -83,8 +88,10 @@ public class LogsAdapter implements LogsRepository {
                     }
                 }
             } catch (Throwable t) {
-                // Si fue cancelado, OkHttp lanza IOException por cancelación
-                onError.accept(t);
+                // Si fue cancelado, OkHttp lanza IOException por cancelación: no es un error
+                if (!okCall.isCanceled()) {
+                    onError.accept(t);
+                }
             }
         });
 

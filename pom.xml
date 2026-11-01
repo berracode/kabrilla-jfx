@@ -14,6 +14,11 @@
         <spring.boot.version>4.1.0</spring.boot.version>
         <lombok.version>1.18.42</lombok.version>
 
+        <!-- Argumentos para javafx:run, combinables por perfil: -Pmock, -Pstyles o -Pmock,styles -->
+        <kabrilla.args.profile></kabrilla.args.profile>
+        <kabrilla.args.styles></kabrilla.args.styles>
+        <javafx.args>${kabrilla.args.profile} ${kabrilla.args.styles}</javafx.args>
+
     </properties>
 
     <dependencies>
@@ -154,7 +159,14 @@
         <profile>
             <id>mock</id>
             <properties>
-                <javafx.args>--spring.profiles.active=mock</javafx.args>
+                <kabrilla.args.profile>--spring.profiles.active=mock</kabrilla.args.profile>
+            </properties>
+        </profile>
+        <!-- ./mvnw javafx:run -Pstyles : activa los estilos personalizados (por defecto solo tema base) -->
+        <profile>
+            <id>styles</id>
+            <properties>
+                <kabrilla.args.styles>--kabrilla.ui.styles-enabled=true</kabrilla.args.styles>
             </properties>
         </profile>
     </profiles>

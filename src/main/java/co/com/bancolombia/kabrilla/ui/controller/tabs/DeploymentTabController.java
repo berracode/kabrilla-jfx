@@ -30,6 +30,7 @@ public class DeploymentTabController {
     private final PodService podService;
     private final LogsService logsService;
     private PodsViewModel podsViewModel;
+    private LogsContentController logsController;
     @FXML
     private TabPane commandTabPane;
     @FXML
@@ -48,7 +49,6 @@ public class DeploymentTabController {
     public void initialize() {
         log.info("INITIALIZE DEPLOYMENT TAB CONTROLLER");
         commandTabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
-            log.info("tab: {}", newTab.getText());
             if (newTab != null) {
                 log.info("tab {}", newTab.getText());
                 //handleTabSelection(newTab);
@@ -102,6 +102,10 @@ public class DeploymentTabController {
             if (controller instanceof PodsContentController podsCtrl) {
                 podsCtrl.setDeploymentContext(ctx);
             } else if (controller instanceof LogsContentController logsContentController) {
+                if (logsController != null && logsController != logsContentController) {
+                    logsController.dispose(); // la vista de logs se recargó: cerrar el stream anterior
+                }
+                logsController = logsContentController;
                 logsContentController.setDeploymentContext(ctx);
 
             }
@@ -123,6 +127,18 @@ public class DeploymentTabController {
 //            AnchorPane.setRightAnchor(view, 0.0);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Llamado al cerrar la pestaña del deployment: libera el stream de logs y su hilo consumidor.
+     */
+    public void dispose() {
+        if (logsController != null) {
+            log.info("Cerrando stream de logs de {}", deploymentTabItemViewModel.deploymentName());
+            logsController.dispose();
+            logsController = null;
         }
     }
 

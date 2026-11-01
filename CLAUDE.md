@@ -16,8 +16,10 @@ Qué sigue y estado de bugs conocidos: [docs/ROADMAP.md](docs/ROADMAP.md) — ac
 ./mvnw test                    # tests (JUnit vía BOM de Spring Boot, corren en classpath)
 ./mvnw javafx:run -Pmock       # app con datos de mock-data/ (sin AWS)
 ./mvnw javafx:run              # app real: ~/.kube/config + credentials.2.json + aws CLI
+./mvnw javafx:run -Pmock,styles  # con estilos personalizados (por defecto desactivados)
 ```
-Desde IntelliJ: ejecutar `MainApplication` con `--spring.profiles.active=mock`.
+Desde IntelliJ: ejecutar `MainApplication` con `--spring.profiles.active=mock` y/o `--kabrilla.ui.styles-enabled=true`.
+Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabrilla.args.*`) de `javafx.args`.
 
 ## Arquitectura (hexagonal + MVVM)
 `co.com.bancolombia.kabrilla`:
@@ -43,8 +45,14 @@ Desde IntelliJ: ejecutar `MainApplication` con `--spring.profiles.active=mock`.
 - Nombres de cluster: el kubeconfig usa ARN (`arn:aws:eks:...:cluster/<nombre>`); el resto de la app usa
   `<nombre>` (`split("/")[1]`). Credenciales y `clusters.json` se buscan por nombre corto.
 - El IDE (VS Code) marca errores falsos de Lombok; la fuente de verdad es `./mvnw compile`.
-- Flujo de logs: `LogsAdapter` (hilo lector) → `LogsViewModel.logBuffer` (cola 5000) → `UiLogFeederService`
-  (lotes) → `InlineCssTextArea` (máx. 5000 párrafos). Ver bugs pendientes en el roadmap.
+- Flujo de logs: `LogsAdapter` (hilo lector) → `LogsViewModel.logBuffer` (cola 5000, `put` bloqueante) →
+  `UiLogFeederService` (lotes de hasta 1000 cada 150 ms) → `InlineCssTextArea` (máx. 5000 párrafos).
+  Cada `startFollowing`/`stop` incrementa una sesión: callbacks de streams anteriores se descartan.
+  Al cerrar la pestaña: `MainTabController` → `DeploymentTabController.dispose()` → `LogsContentController.dispose()`.
+- Estilos: `kabrilla.ui.styles-enabled=false` (default en `application.properties`) activa `ui/theme/StyleToggle`,
+  que vacía en runtime hojas CSS y `style=` de todas las ventanas. Los CSS/FXML siguen intactos; no borrar estilos
+  "porque no se ven". Para verificar la UI con estilos, correr con `-Pstyles`.
+- Tests de UI: `FxTestSupport` (src/test) arranca el toolkit JavaFX; usar `onFx(...)` para código en el hilo FX.
 
 ## Convenciones
 - Código, comentarios, logs y mensajes de UI en español.

@@ -74,6 +74,8 @@ public class LogsContentController implements DeploymentTab {
         txtLogArea.setEditable(false);
 
 
+        logsVM.setOnCleared(txtLogArea::clear);
+
         // 3. Registrar el Consumer (callback) en el ViewModel
         logsVM.setOnLinesAppended(textBatch -> {
             // 1. Insertar el nuevo lote de logs al final
@@ -82,11 +84,11 @@ public class LogsContentController implements DeploymentTab {
             // 2. Verificar si excedimos el límite máximo de párrafos permitidos
             LiveList<Paragraph<String, String, String>> currentParagraphsLiveList = txtLogArea.getParagraphs();
             var currentParagraphs = (long) currentParagraphsLiveList.size();
-            log.info("Cantidad de lineas {}", currentParagraphs);
+            log.debug("Cantidad de lineas {}", currentParagraphs);
 
             if (currentParagraphs > MAX_VISIBLE_PARAGRAPHS) {
                 int linesToRemove = Math.toIntExact(currentParagraphs - MAX_VISIBLE_PARAGRAPHS);
-                log.info("Se procede a limpiar lineas de UI {}", linesToRemove);
+                log.debug("Se procede a limpiar lineas de UI {}", linesToRemove);
 
                 int endPosition = 0;
                 for (int i = 0; i < linesToRemove; i++) {
