@@ -35,9 +35,10 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [x] **Estado local en `~/.kabrilla/`** con migración automática de los archivos del directorio de trabajo
 
 ## 1.0.0 (de `v1.0.0-rc.1` a final)
-- [ ] Publicar `v1.0.0-rc.1` y verificar el primer run del workflow (Release + ZIP + notas)
+- [x] Publicar `v1.0.0-rc.1` y verificar el primer run del workflow (Release + ZIP + notas)
+- [ ] Publicar `v1.0.0-rc.2` (sin consola, logs a archivo) y usarla para el piloto
 - [ ] Piloto de 1–2 semanas con 3–5 personas de distintos squads/clusters, con la app portable en sus equipos
-- [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar `v1.0.0-rc.2`, repetir)
+- [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar la siguiente `v1.0.0-rc.N`, repetir)
 - [ ] Validado en equipos "limpios": AWS CLI, kubeconfig, antivirus/SmartScreen, proxy corporativo
 - [ ] Mismo código que la última RC → tag `v1.0.0` y anuncio al equipo completo
 - [ ] Después de 1.0: cifrar credenciales con la cuenta de Windows (DPAPI) o usar perfiles SSO de AWS
@@ -62,7 +63,7 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [x] Versión portable con `jpackage` (app-image + JRE, ZIP) y README de instalación
 - [x] Release por tag semver `vX.Y.Z` (GitHub Actions: tests + jpackage + Release con ZIP; `-beta`/`-rc` = pre-release)
 - [ ] Instalador `.msi` (jpackage `--type msi`, requiere WiX en el runner) con accesos directos y actualización
-- [ ] Logs de la app a archivo (`~/.kabrilla/logs`) y quitar `--win-console`
+- [x] Logs de la app a archivo (`~/.kabrilla/logs`, con rotación), sin consola; `Kabrilla-console.exe` para soporte
 - [ ] Reducir tamaño del runtime con `--add-modules` explícitos (hoy ~105 MB el ZIP)
 - [ ] CI en cada push/PR (build + tests) además del release; probar si los tests `@Tag("ui")` corren en `windows-latest`
 - [x] Rediseño visual: tema oscuro negro + morados con paleta centralizada (`kabrilla-dark.css`), sin estilos en línea

@@ -104,3 +104,6 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
   filtra porque usa `${...}` de Spring) → `kabrilla.version` en el título. Notas de release: `docs/releases/<tag>.md`.
 - Seguridad: nunca loguear headers HTTP (token Bearer), credenciales ni `toString` con secretos (`AwsCredentials`
   y `CredentialsItemViewModel` los excluyen; hay test). La consola de la app portable es visible para el usuario.
+- jpackage genera `Kabrilla.exe` (sin consola) y `Kabrilla-console.exe` (`--add-launcher` con
+  `src/main/jpackage/kabrilla-console.properties`). Sin consola, todo diagnóstico va al log: no usar `System.out`
+  ni `printStackTrace`; `JavaFxApplication` registra errores no controlados y muestra un diálogo si Spring no arranca.

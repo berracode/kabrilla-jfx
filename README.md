@@ -10,8 +10,9 @@ sin depender de Grafana. Se conecta directo a los clusters (AWS EKS) con la API 
 
 1. Descarga `kabrilla-X.Y.Z-win-portable.zip` de la página **Releases** del repositorio.
 2. Descomprímelo donde quieras (p. ej. `C:\Tools\Kabrilla`). No necesita instalar Java: trae su propio runtime.
-3. Abre `Kabrilla\Kabrilla.exe`. Se abre también una consola con los logs de la app (útil si algo falla; nunca
-   muestra tokens ni credenciales). La versión aparece en el título de la ventana.
+3. Abre `Kabrilla\Kabrilla.exe`. La versión aparece en el título de la ventana. Los logs de la app se guardan en
+   `%USERPROFILE%\.kabrilla\logs\kabrilla.log` (nunca incluyen tokens ni credenciales). Para soporte existe
+   `Kabrilla-console.exe`: la misma app con una consola que muestra los logs en vivo.
    - Si Windows muestra "Windows protegió su PC" (el ejecutable aún no está firmado): *Más información* →
      *Ejecutar de todas formas*.
 4. Requisitos para conectarte a EKS: ver [Requisitos](#requisitos) (AWS CLI y `~/.kube/config`).
@@ -128,7 +129,7 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | Logs vacíos o `a container name must be specified` | Elige el container correcto en el combo **Container** de la pestaña Logs. |
 | `Error K8s (401)` | Credenciales AWS vencidas: vuelve a pegarlas con **Agregar credenciales**. |
 | `Error K8s (403)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
-| Falta un cluster en el panel | Solo se muestran clusters **EKS** (nombre `arn:aws:eks:...:cluster/<nombre>`) con `certificate-authority-data` válido; los demás se omiten y la consola dice por qué. Regenera con `aws eks update-kubeconfig`. |
+| Falta un cluster en el panel | Solo se muestran clusters **EKS** (nombre `arn:aws:eks:...:cluster/<nombre>`) con `certificate-authority-data` válido; los demás se omiten y el log (`~/.kabrilla/logs/kabrilla.log`) dice por qué. Regenera con `aws eks update-kubeconfig`. |
 | "No se pudo leer ~/.kube/config" | No existe el kubeconfig: `aws eks update-kubeconfig --name <cluster> --region <region>`, o usa `KUBECONFIG` / `--kabrilla.kubeconfig=<ruta>`. |
 | "No se pudo ejecutar AWS CLI" / "AWS CLI no devolvió token" | Instala AWS CLI v2 y verifica que `aws` esté en el PATH; si dice `ExpiredToken`, vuelve a pegar las credenciales. |
 | Rango con "Kubernetes conserva logs de este container solo desde ..." | Normal: Kubernetes ya rotó o perdió lo anterior. Para más historia hará falta Loki (ver roadmap). |
@@ -145,6 +146,7 @@ usuario puede leerla y sobrevive a las actualizaciones de la app.
 |---|---|
 | `clusters.json` | namespaces registrados por cluster |
 | `credentials.json` | credenciales AWS temporales por cluster (**secretos**, en texto plano como `~/.aws/credentials`) |
+| `logs/kabrilla.log` | logs de la app (rotan: 10 MB por archivo, 7 días, máx. 100 MB). Adjúntalo al reportar un problema |
 
 Versiones anteriores guardaban `clusters.json` y `credentials.2.json` en la carpeta desde donde se ejecutaba la app:
 en el primer arranque se **copian** a `~/.kabrilla/` (sin sobrescribir nada) y el log lo indica. Después puedes

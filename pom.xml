@@ -290,8 +290,10 @@
                                         <argument>--dest</argument>
                                         <argument>${project.build.directory}/dist</argument>
 
-                                        <!-- Beta: consola visible para ver logs y errores (aún no hay log a archivo) -->
-                                        <argument>--win-console</argument>
+                                        <!-- Kabrilla.exe sin consola (logs en ~/.kabrilla/logs). Kabrilla-console.exe
+                                             = mismo programa con consola, para diagnóstico/soporte -->
+                                        <argument>--add-launcher</argument>
+                                        <argument>${app.name}-console=${project.basedir}/src/main/jpackage/kabrilla-console.properties</argument>
                                         <argument>--java-options</argument>
                                         <argument>-Xms64m -Xmx768m -XX:+UseSerialGC -Dfile.encoding=UTF-8</argument>
                                     </arguments>
