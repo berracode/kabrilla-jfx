@@ -36,6 +36,27 @@
         </padding>
     </HBox>
 
+    <!-- Rango de tiempo: en vivo o consulta histórica -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <children>
+            <Label style="-fx-text-fill: #DDDDDD;" text="Rango:"/>
+            <ComboBox fx:id="rangeCombo" prefWidth="160.0"/>
+            <HBox fx:id="customRangeBox" spacing="6" alignment="CENTER_LEFT">
+                <Label style="-fx-text-fill: #DDDDDD;" text="Desde"/>
+                <DatePicker fx:id="fromDate" prefWidth="125.0"/>
+                <TextField fx:id="fromTime" prefColumnCount="4" promptText="HH:mm"/>
+                <Label style="-fx-text-fill: #DDDDDD;" text="Hasta"/>
+                <DatePicker fx:id="toDate" prefWidth="125.0"/>
+                <TextField fx:id="toTime" prefColumnCount="4" promptText="HH:mm"/>
+            </HBox>
+            <CheckBox fx:id="previousCheck" style="-fx-text-fill: #DDDDDD;" text="Container anterior"/>
+            <Button fx:id="queryButton" onAction="#onQueryClicked" text="Consultar"/>
+        </children>
+        <padding>
+            <Insets left="10" right="10"/>
+        </padding>
+    </HBox>
+
     <!-- Filtro -->
     <HBox spacing="8" alignment="CENTER_LEFT">
         <children>
@@ -68,6 +89,7 @@
         <children>
             <Label style="-fx-text-fill: #BBBBBB;" text="Estado:"/>
             <Label fx:id="errorLabel" text="" textFill="#FF6B6B"/>
+            <Label fx:id="infoLabel" text="" wrapText="true" style="-fx-text-fill: #BBBBBB;"/>
         </children>
         <padding>
             <Insets bottom="8" left="10" right="10"/>

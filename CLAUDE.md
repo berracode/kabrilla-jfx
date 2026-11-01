@@ -62,6 +62,14 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
   trace) y aplica un `LogFilter` inmutable (texto/regex + `LogLevel` mínimo). Habla con la vista por `LogView`
   (`append`/`reset`); `LogsContentController` la implementa sobre RichTextFX y resalta con `setStyle(par, from, to)`.
   El área de logs usa `StyleToggle.preserve(...)` para conservar fuente y resaltado sin estilos.
+- Logs por rango: `LogsRepository.fetchPodLogs(..., LogRange, maxLines)` → `LogFetchResult`. La API de pod logs no
+  tiene `sinceTime` ni "hasta": se pide `sinceSeconds` y `LogRangeCollector` (dominio, compartido real/mock) recorta
+  por timestamp. Real: `timestamps=true` y `LogsAdapter.parseTimestamped` lee el prefijo RFC3339 del kubelet.
+  `LogsViewModel.loadRange` usa la misma sesión que el stream (cambiar de pod/rango descarta resultados viejos).
+  Mock: el archivo del pod se fecha hacia atrás desde el arranque (`history-step-ms`); `<pod>.previous.log` = previous.
+  `LogsRepository` ya no es interfaz funcional: en tests usar clase anónima.
+- Ojo con builds incrementales: tras cambiar interfaces, verificar con `./mvnw clean test` (Maven puede reusar
+  clases de test viejas y dar falsos verdes).
 - Recursos (pestañas HPA/ConfigMap/Service/AuthorizationPolicy/RequestAuthentication): una sola vista genérica
   (`ResourcesContentController` + `resources-content.fxml`), carga perezosa al seleccionar la pestaña.
   `ManifestResourceRepository` (abstracta) decide qué recursos pertenecen al deployment y `ManifestMapper` arma el

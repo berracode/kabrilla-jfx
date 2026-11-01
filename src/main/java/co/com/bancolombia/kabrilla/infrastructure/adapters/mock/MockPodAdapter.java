@@ -36,7 +36,11 @@ public class MockPodAdapter implements PodsRepository {
 
         // Como en un cluster con Istio: container de la app + sidecar istio-proxy
         List<String> containers = List.of(deploymentName, "istio-proxy");
-        List<Path> files = MockFiles.list(deploymentDir).stream().filter(MockFiles::isLogFile).toList();
+        // <pod>.previous.log es el container anterior de <pod>, no un pod aparte
+        List<Path> files = MockFiles.list(deploymentDir).stream()
+                .filter(MockFiles::isLogFile)
+                .filter(file -> !MockFiles.podName(file).endsWith(".previous"))
+                .toList();
         return files.stream()
                 .map(file -> Pod.builder()
                         .name(MockFiles.podName(file))

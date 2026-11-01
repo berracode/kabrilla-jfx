@@ -1,6 +1,10 @@
 package co.com.bancolombia.kabrilla.ui.viewmodel.logs;
 
 import java.io.Closeable;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +15,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
+import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogFetchResult;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLine;
+import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRange;
 import co.com.bancolombia.kabrilla.ui.services.UiLogFeederService;
 
 import javafx.application.Platform;
@@ -24,6 +30,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.Task;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +45,11 @@ public class LogsViewModel {
     // Lo que se puede volver a filtrar. La vista muestra como máximo MAX_RENDERED_LINES.
     private static final int MAX_HISTORY_LINES = 50_000;
     public static final int MAX_RENDERED_LINES = 5000;
+    // Hora del pod (o de recepción en mock en vivo) en la zona horaria del equipo
+    private static final DateTimeFormatter DISPLAY_TIME =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withZone(ZoneId.systemDefault());
+    // Diferencia aceptable entre el "desde" pedido y la primera línea antes de avisar que falta historia
+    private static final Duration COVERAGE_TOLERANCE = Duration.ofMinutes(1);
 
     private final LogsService service;
     private final LogHistory history = new LogHistory(MAX_HISTORY_LINES);
@@ -51,6 +63,8 @@ public class LogsViewModel {
     private final BlockingQueue<LogLine> logBuffer = new LinkedBlockingQueue<>(BUFFER_CAPACITY);
     private final BooleanProperty following = new SimpleBooleanProperty(false);
     private final StringProperty error = new SimpleStringProperty();
+    private final StringProperty info = new SimpleStringProperty();
+    private final BooleanProperty loading = new SimpleBooleanProperty(false);
 
     // Identifica el stream vigente: líneas y errores de streams ya cancelados se ignoran
     private final AtomicLong currentSession = new AtomicLong();
@@ -110,7 +124,7 @@ public class LogsViewModel {
     private void onBatch(List<LogLine> batch) {
         List<String> toAppend = new ArrayList<>();
         for (LogLine line : batch) {
-            String display = line.timestamp() + " - " + line.text();
+            String display = display(line);
             LogEntry entry = history.add(line.text(), display);
             if (entry.isVisible()) {
                 toAppend.add(display); // continuación de una entrada ya visible
@@ -126,6 +140,79 @@ public class LogsViewModel {
         updateCounts();
     }
 
+    /**
+     * Consulta un rango de tiempo (sin follow) y reemplaza el historial con el resultado. Detiene el stream en vivo.
+     */
+    public synchronized void loadRange(KubeConfig kubeConfig, AwsCredentials creds, String namespace, String podName,
+                                       String container, LogRange range) {
+        stop();
+        clear();
+        long session = currentSession.get();
+        error.set(null);
+        info.set(null);
+        loading.set(true);
+
+        Task<LogFetchResult> task = new Task<>() {
+            @Override
+            protected LogFetchResult call() throws Exception {
+                return service.fetchPodLogs(kubeConfig, creds, namespace, podName, container, range,
+                                            MAX_HISTORY_LINES);
+            }
+        };
+        task.setOnSucceeded(e -> {
+            if (currentSession.get() != session) {
+                return; // el usuario cambió de pod/rango mientras se consultaba
+            }
+            LogFetchResult result = task.getValue();
+            history.clear();
+            for (LogLine line : result.lines()) {
+                history.add(line.text(), display(line));
+            }
+            setFilter(filter); // redibuja aplicando el filtro actual
+            info.set(describe(range, result));
+            loading.set(false);
+        });
+        task.setOnFailed(e -> {
+            if (currentSession.get() != session) {
+                return;
+            }
+            Throwable ex = task.getException();
+            log.error("Falló la consulta de logs por rango", ex);
+            error.set("No se pudo consultar el rango: " + (ex.getMessage() != null ? ex.getMessage()
+                    : ex.getClass().getSimpleName()));
+            loading.set(false);
+        });
+        Thread thread = new Thread(task, "logs-range");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    /**
+     * Resumen para el usuario: cuántas líneas, y si Kubernetes no tenía todo el rango o se recortó el resultado.
+     */
+    static String describe(LogRange range, LogFetchResult result) {
+        List<LogLine> lines = result.lines();
+        if (lines.isEmpty()) {
+            return "Sin logs en el rango. Kubernetes solo conserva el archivo actual del container"
+                    + (range.previous() ? " anterior." : "; prueba \"Todo lo disponible\" o \"Container anterior\".");
+        }
+        List<String> parts = new ArrayList<>();
+        parts.add(lines.size() + " líneas entre " + DISPLAY_TIME.format(lines.getFirst().timestamp())
+                          + " y " + DISPLAY_TIME.format(lines.getLast().timestamp()));
+        Instant first = lines.getFirst().timestamp();
+        if (range.since() != null && first.isAfter(range.since().plus(COVERAGE_TOLERANCE))) {
+            parts.add("Kubernetes conserva logs de este container solo desde " + DISPLAY_TIME.format(first));
+        }
+        if (result.truncated()) {
+            parts.add("se muestran las primeras " + MAX_HISTORY_LINES + " líneas, acota el rango para ver el resto");
+        }
+        return String.join(" · ", parts);
+    }
+
+    private static String display(LogLine line) {
+        return DISPLAY_TIME.format(line.timestamp()) + "  " + line.text();
+    }
+
     private void updateCounts() {
         totalLines.set(history.lineCount());
         visibleLines.set(history.visibleLineCount());
@@ -137,6 +224,28 @@ public class LogsViewModel {
 
     public ReadOnlyStringProperty errorProperty() {
         return error;
+    }
+
+    /**
+     * Limpia error e info (p. ej. antes de mostrar una validación de la vista).
+     */
+    public void clearMessages() {
+        error.set(null);
+        info.set(null);
+    }
+
+    /**
+     * Mensaje informativo de la última consulta por rango (cobertura, recorte).
+     */
+    public ReadOnlyStringProperty infoProperty() {
+        return info;
+    }
+
+    /**
+     * true mientras corre una consulta por rango.
+     */
+    public ReadOnlyBooleanProperty loadingProperty() {
+        return loading;
     }
 
     /**
@@ -179,6 +288,7 @@ public class LogsViewModel {
         stop();                // cierra stream previo si había
         logBuffer.clear();     // no mezclar líneas del pod anterior
         error.set(null);
+        info.set(null);
         following.set(true);
 
         lastCluster = cluster;
@@ -239,5 +349,6 @@ public class LogsViewModel {
             uiLogFeederService.cancel();
         }
         following.set(false);
+        loading.set(false); // una consulta por rango en curso queda descartada por la sesión
     }
 }

@@ -7,7 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.Closeable;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +19,11 @@ import java.util.function.Consumer;
 
 import co.com.bancolombia.kabrilla.application.service.LogsService;
 import co.com.bancolombia.kabrilla.domain.gateway.k8s.LogsRepository;
+import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
+import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
+import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogFetchResult;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLine;
+import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRange;
 import co.com.bancolombia.kabrilla.ui.FxTestSupport;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,16 +37,28 @@ class LogsViewModelTest {
     private final Map<String, Consumer<LogLine>> onLineByPod = new HashMap<>();
     private final Map<String, Consumer<Throwable>> onErrorByPod = new HashMap<>();
     private final List<String> shown = new CopyOnWriteArrayList<>();
+    private volatile LogFetchResult rangeResult = new LogFetchResult(List.of(), false);
     private LogsViewModel vm;
 
     @BeforeEach
     void setUp() throws Exception {
         FxTestSupport.startToolkit();
-        LogsRepository repo = (kc, creds, ns, pod, container, ts, tail, since, onLine, onError) -> {
-            onLineByPod.put(pod, onLine);
-            onErrorByPod.put(pod, onError);
-            return () -> {
-            };
+        LogsRepository repo = new LogsRepository() {
+            @Override
+            public Closeable streamPodLogs(KubeConfig kc, AwsCredentials creds, String ns, String pod,
+                                           String container, boolean ts, Integer tail, Integer since,
+                                           Consumer<LogLine> onLine, Consumer<Throwable> onError) {
+                onLineByPod.put(pod, onLine);
+                onErrorByPod.put(pod, onError);
+                return () -> {
+                };
+            }
+
+            @Override
+            public LogFetchResult fetchPodLogs(KubeConfig kc, AwsCredentials creds, String ns, String pod,
+                                               String container, LogRange range, int maxLines) {
+                return rangeResult;
+            }
         };
         vm = new LogsViewModel(new LogsService(repo));
         vm.setView(new LogView() {
@@ -101,5 +120,23 @@ class LogsViewModelTest {
 
         onFx(vm::clear);
         assertTrue(shown.isEmpty());
+    }
+
+    @Test
+    void rangeQueryReplacesViewAndWarnsWhenKubernetesHasLessHistory() throws Exception {
+        Instant firstAvailable = Instant.now().minus(Duration.ofMinutes(10));
+        rangeResult = new LogFetchResult(List.of(new LogLine(firstAvailable, "ERROR viejo"),
+                                                 new LogLine(firstAvailable.plusSeconds(5), "INFO nuevo")), false);
+        follow("pod-a");
+
+        LogRange lastHour = new LogRange(Instant.now().minus(Duration.ofHours(1)), null, false);
+        onFx(() -> vm.loadRange(null, null, "ns", "pod-a", null, lastHour));
+        waitUntil(() -> shown.size() == 2);
+
+        assertFalse(onFx(() -> vm.followingProperty().get()), "Consultar un rango detiene el stream en vivo");
+        assertTrue(shown.getFirst().endsWith("ERROR viejo"));
+        String info = onFx(() -> vm.infoProperty().get());
+        assertTrue(info.startsWith("2 líneas"), info);
+        assertTrue(info.contains("Kubernetes conserva logs de este container solo desde"), info);
     }
 }

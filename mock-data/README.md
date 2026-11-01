@@ -24,8 +24,14 @@ mock-data/
 - **Pod** = cada archivo `.log` o `.txt` dentro de la carpeta del deployment (nombre sin extensión). Cada pod
   simula Istio con dos containers: `<deployment>` (preseleccionado) e `istio-proxy`. El mock muestra el mismo
   archivo para ambos containers; sirve para probar el selector, no el contenido.
-- **Logs** = el contenido del archivo. Se reproduce línea a línea (`kabrilla.mock.line-delay-ms`, 100 ms por defecto)
-  y después queda "siguiendo" el archivo: lo que agregues aparece en la app, como `kubectl logs -f`.
+- **Logs en vivo** = el contenido del archivo. Se reproduce línea a línea (`kabrilla.mock.line-delay-ms`, 100 ms por
+  defecto) y después queda "siguiendo" el archivo: lo que agregues aparece en la app, como `kubectl logs -f`.
+- **Logs por rango** (selector *Rango*) = el archivo hace de "lo que conserva Kubernetes": la última línea tiene la
+  hora en que arrancó la app y cada línea anterior `kabrilla.mock.history-step-ms` (2 s) antes. Un archivo de ~450
+  líneas cubre ~15 min, así que *Última hora* muestra el aviso de cobertura incompleta.
+- **Container anterior** = `<pod>.previous.log` junto al archivo del pod (no aparece como pod aparte). Incluido:
+  `payments-api-66f8d9c7b-aa01b.previous.log`, que termina en `OutOfMemoryError`. Sin ese archivo, la consulta
+  falla como en Kubernetes ("previous terminated container ... not found").
 
 - **Recursos** (pestañas HPA, ConfigMap, Service, AuthorizationPolicy, RequestAuthentication) = manifiestos YAML
   en `resources/<cluster>/<namespace>/`, en el mismo formato de `kubectl get <recurso> -o yaml` (un archivo puede

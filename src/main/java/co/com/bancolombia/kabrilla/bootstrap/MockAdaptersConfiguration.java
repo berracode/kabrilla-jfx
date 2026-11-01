@@ -72,7 +72,8 @@ public class MockAdaptersConfiguration {
     }
 
     @Bean
-    public LogsRepository logsRepository(@Value("${kabrilla.mock.line-delay-ms}") long lineDelayMs) {
-        return new MockLogsAdapter(mockDir.resolve("logs"), lineDelayMs);
+    public LogsRepository logsRepository(@Value("${kabrilla.mock.line-delay-ms}") long lineDelayMs,
+                                         @Value("${kabrilla.mock.history-step-ms}") long historyStepMs) {
+        return new MockLogsAdapter(mockDir.resolve("logs"), lineDelayMs, historyStepMs);
     }
 }

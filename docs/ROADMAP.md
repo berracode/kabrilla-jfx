@@ -24,7 +24,7 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
       K8s + mock YAML), vista legible y copiable (antes datos inventados en código)
   - [ ] Probar en EKS real: permisos RBAC, Istio v1 vs v1beta1, clusters sin Istio
 - [ ] Navegar entre coincidencias (anterior/siguiente) y copiar selección del área de logs con atajo
-- [ ] Timestamps reales del pod (`timestamps=true` y parsear) en vez de `LogLine.now`
+- [x] Timestamps reales del pod (`timestamps=true` y parsear) en vez de `LogLine.now`, mostrados en hora local
 - [x] Selector de container: default por anotación `default-container` o primer no-sidecar (antes había un
       container escrito a mano y solo funcionaban los logs de un deployment)
   - [ ] Confirmar en EKS con varios deployments e Istio
@@ -35,9 +35,20 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [ ] Estado local en `~/.kabrilla/` en vez de `user.dir`
 
 ## Beta (equipo completo)
+- [x] Historial por fecha desde la API de Kubernetes: rangos rápidos, personalizado desde/hasta, todo lo
+      disponible y container anterior (`previous`); aviso de cobertura y de recorte (máx. 50.000 líneas).
+      La API no tiene `sinceTime` ni "hasta": se usa `sinceSeconds` y se recorta por timestamp (`LogRangeCollector`)
+  - [ ] Probar en EKS: cobertura real según rotación del kubelet, `previous` tras un crash
+- [ ] **Loki para dev y QA**: historial de días y de pods ya borrados, consultando la API de Loki directamente
+      (`/loki/api/v1/query_range` con LogQL) sin pasar por la UI de Grafana. Pendiente averiguar internamente
+      URL, autenticación y labels (namespace/pod/container). Encajaría como otro `LogsRepository.fetchPodLogs`
+      (mismo `LogRange`/`LogFetchResult`), elegible por ambiente
+- [ ] Búsqueda entre pods/deployments por `trace_id` (depende de Loki)
 - [ ] Autenticación vía perfiles AWS SSO / `aws eks get-token` sin pegar claves
-- [ ] Logs combinados de todos los pods de un deployment (color por pod)
-- [ ] Logs del container anterior (`previous=true`) para crashes; `sinceTime`
+- [ ] (Baja prioridad) Logs combinados de todos los pods de un deployment (color por pod)
+- [x] Logs del container anterior (`previous=true`) para crashes; búsqueda por fecha (ver arriba)
+- [ ] (Evaluado, en pausa) Grabar logs en SQLite local: solo como copia paralela opcional, no en el camino en vivo;
+      validar antes política de seguridad sobre logs de QA en disco y si 50.000 líneas se quedan cortas
 - [ ] Exportar logs a archivo
 - [ ] Instalador con `jpackage` (.msi con JRE embebido) + README de instalación para el equipo
 - [ ] CI (GitHub Actions) con build + tests

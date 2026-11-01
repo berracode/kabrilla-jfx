@@ -69,6 +69,7 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | `kabrilla.ui.styles-enabled` | `false` | `src/main/resources/application.properties` | Estilos personalizados on/off |
 | `kabrilla.mock.dir` | `mock-data` | `src/main/resources/application-mock.properties` | Carpeta de datos del modo mock |
 | `kabrilla.mock.line-delay-ms` | `100` | `src/main/resources/application-mock.properties` | Pausa entre líneas al reproducir logs mock. No bajar de ~20 |
+| `kabrilla.mock.history-step-ms` | `2000` | `src/main/resources/application-mock.properties` | Separación en el tiempo entre líneas de un archivo mock para las consultas por **Rango** |
 
 ## Uso rápido
 
@@ -87,6 +88,17 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
    - **Nivel mínimo** WARN muestra WARN y ERROR. Las líneas sin nivel reconocible solo se ven con "Todos".
    - Se puede refiltrar hasta las últimas 50.000 líneas recibidas; en pantalla se muestran las últimas 5.000.
    - **Detener / Reanudar** corta o vuelve a abrir el stream. **Limpiar** borra lo recibido.
+   - Las horas que se muestran son las **del pod** (las pone el kubelet), en la zona horaria de tu equipo.
+   - **Rango** consulta historial en vez de seguir en vivo: *Últimos 15 min*, *Última hora*, *Últimas 6 h*,
+     *Todo lo disponible* o *Personalizado* (desde/hasta, fecha y hora `HH:mm` locales, luego **Consultar**).
+     Los filtros de búsqueda y nivel se aplican igual sobre el resultado. **Consultar** repite la consulta; volver
+     a *En vivo* reabre el stream.
+   - **Container anterior** (solo en modo rango): logs del container que murió antes del último reinicio, útil
+     para ver por qué crasheó (p. ej. un `OutOfMemoryError`).
+   - Límites del historial de Kubernetes: solo conserva el archivo de log **actual** de cada container (el kubelet
+     lo rota por tamaño; en pods con mucho tráfico pueden ser pocos minutos) y nada de pods que ya no existen
+     (p. ej. tras un despliegue). Si el rango pedido empieza antes de lo que hay, la app avisa desde cuándo
+     tiene datos. Un rango trae como máximo 50.000 líneas; si hay más, se avisa y conviene acotarlo.
 6. En **HPA, ConfigMap, Service, AuthorizationPolicy y RequestAuthentication** se muestran solo los recursos
    asociados al deployment (por selector, `scaleTargetRef` o referencias del pod). Se consultan al abrir la
    pestaña; **Recargar** vuelve a consultar.
@@ -101,6 +113,8 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | `Error K8s (401)` | Credenciales AWS vencidas: vuelve a pegarlas con **Agregar credenciales**. |
 | `Error K8s (403)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
 | `Illegal base64 character` al arrancar | El `certificate-authority-data` de `~/.kube/config` no es válido; regenera con `aws eks update-kubeconfig`. |
+| Rango con "Kubernetes conserva logs de este container solo desde ..." | Normal: Kubernetes ya rotó o perdió lo anterior. Para más historia hará falta Loki (ver roadmap). |
+| `HTTP 400: previous terminated container ... not found` | El container no ha reiniciado: no hay "container anterior". |
 | Pestañas de Istio vacías | El cluster no tiene Istio instalado o no hay políticas para ese deployment. |
 
 ## Archivos locales
