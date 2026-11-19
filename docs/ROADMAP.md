@@ -37,13 +37,14 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [x] Kubeconfig tolerante: solo clusters EKS, omite entradas inválidas o locales; soporta `KUBECONFIG`
 - [x] **Estado local en `~/.kabrilla/`** con migración automática de los archivos del directorio de trabajo
 
-## 1.0.0 (de `v1.0.0-rc.1` a final)
+## 1.0.0 (de `v1.0.0-rc.1` a final) — publicada
 - [x] Publicar `v1.0.0-rc.1` y verificar el primer run del workflow (Release + ZIP + notas)
 - [x] Publicar `v1.0.0-rc.2` (sin consola, logs a archivo)
 - [x] Publicar `v1.0.0-rc.3` (errores con detalle en `kabrilla.log`)
 - [x] Publicar `v1.0.0-rc.4` (credenciales renovadas sin reiniciar). Notas agregadas después del release: copiar
       `docs/releases/v1.0.0-rc.4.md` al release de GitHub a mano
-- [ ] Publicar `v1.0.0-rc.5` (renombrar/quitar namespaces, pestañas VirtualService y Gateway) y usarla para el piloto
+- [x] Publicar `v1.0.0-rc.5` (renombrar/quitar namespaces, pestañas VirtualService y Gateway)
+- [x] Publicar `v1.0.0`: mismo código que la rc.5, solo se agregan notas (`docs/releases/v1.0.0.md`)
 - [ ] Antes de cada tag: `docs/releases/<tag>.md` en el mismo commit (el workflow lo usa como cuerpo del release)
 - [ ] Piloto de 1–2 semanas con 3–5 personas de distintos squads/clusters, con la app portable en sus equipos
 - [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar la siguiente `v1.0.0-rc.N`, repetir)
@@ -61,9 +62,17 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
         con el motivo
     - [ ] Probar en EKS: RBAC para leer Gateways en `istio-ingress`/`istio-system`, versión de Istio
 - [ ] Validado en equipos "limpios": AWS CLI, kubeconfig, antivirus/SmartScreen, proxy corporativo
-- [ ] Mismo código que la última RC → tag `v1.0.0` y anuncio al equipo completo
+- [x] Mismo código que la última RC → tag `v1.0.0`
+- [ ] Anuncio al equipo completo
 - [ ] Después de 1.0: cifrar credenciales con la cuenta de Windows (DPAPI) o usar perfiles SSO de AWS
       (sin pegar claves); firmar el `.exe` para evitar el aviso de SmartScreen
+
+## 1.1.0 (siguiente minor: funciones nuevas sin romper nada)
+Bugs de la 1.0.0 se publican como `v1.0.x` aunque la 1.1.0 esté en desarrollo. Pre-releases: `v1.1.0-beta.N` / `-rc.N`.
+- [ ] Terminal integrada (estilo VS Code). Por definir: librería de PTY en Windows, shell (PowerShell/cmd) y si se
+      abre con el contexto del cluster (`KUBECONFIG`, credenciales AWS en el entorno)
+- [ ] Mostrar en la app quién la abrió: `System.getProperty("user.name")` (no el nombre de la carpeta home); no
+      repetirlo en cada línea de `kabrilla.log`
 
 ## Beta (equipo completo)
 - [x] Historial por fecha desde la API de Kubernetes: rangos rápidos, personalizado desde/hasta, todo lo
