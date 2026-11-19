@@ -3,6 +3,7 @@ package co.com.bancolombia.kabrilla.ui.viewmodel.resources;
 import java.util.List;
 
 import co.com.bancolombia.kabrilla.application.service.KubeResourceService;
+import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.k8s.resources.KubeResource;
 import co.com.bancolombia.kabrilla.domain.model.k8s.resources.ResourceKind;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
@@ -66,10 +67,11 @@ public class ResourcesViewModel {
         loading.set(true);
         error.set(null);
 
+        AwsCredentials credentials = ctx.awsCredentials(); // en el hilo FX: lee el estado de la UI
         Task<List<KubeResource>> task = new Task<>() {
             @Override
             protected List<KubeResource> call() throws Exception {
-                return service.findByDeployment(ctx.kubeConfig(), ctx.awsCredentials(), ctx.namespace(),
+                return service.findByDeployment(ctx.kubeConfig(), credentials, ctx.namespace(),
                                                 ctx.deploymentName(), kind);
             }
         };

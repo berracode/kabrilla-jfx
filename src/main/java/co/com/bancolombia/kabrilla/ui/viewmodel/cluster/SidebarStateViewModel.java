@@ -15,6 +15,7 @@ import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
 import co.com.bancolombia.kabrilla.ui.enums.TabCommand;
 import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
+import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
@@ -42,6 +43,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SidebarStateViewModel {
+    private static final String DEPLOYMENTS_ERROR = "Error al cargar deployments";
     private final AppState appState;
     private final ClusterNamespaceStateViewModel clusterNamespaceStateViewModel;
     private final ClusterService clusterService;
@@ -110,6 +112,14 @@ public class SidebarStateViewModel {
 
     public void bindTreeViewToState(TreeItem<String> root) {
         root.setExpanded(true);
+
+        appState.getCredentials().addListener((ListChangeListener<CredentialsItemViewModel>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    change.getAddedSubList().forEach(c -> retryFailedNamespaces(c.clusterName()));
+                }
+            }
+        });
 
         root.getChildren().add(new TreeItem<>("Cargando clusters..."));
         log.info("2.4: clusterNamespaceState {}", clusterNamespaceStateViewModel.getObservableClusters().size());
@@ -231,18 +241,44 @@ public class SidebarStateViewModel {
         TreeItem<String> nsItem = new TreeItem<>(ns.getName());
         nsItem.getChildren().add(new TreeItem<>("")); // placeholder
 
+        // Carga perezosa al expandir; si la carga anterior falló, expandir de nuevo reintenta
         nsItem.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
-            log.info("Lo expandieron ns: {}", ns.getName());
-            if (isNowExpanded && nsItem.getChildren().size() == 1 &&
-                    nsItem.getChildren().getFirst().getValue().isEmpty() || (nsItem.getChildren().getFirst().getValue()
-                    .contains("Error"))) {
-                log.info("Lo expandieron ns y este es el if para cargar deployments: {}",
-                         nsItem.getChildren().getFirst().getValue());
+            if (isNowExpanded && (isPending(nsItem) || hasFailed(nsItem))) {
                 loadDeploymentsAsync(nsItem);
             }
         });
 
         return nsItem;
+    }
+
+    private static boolean isPending(TreeItem<String> nsItem) {
+        return nsItem.getChildren().size() == 1 && nsItem.getChildren().getFirst().getValue().isEmpty();
+    }
+
+    private static boolean hasFailed(TreeItem<String> nsItem) {
+        return nsItem.getChildren().size() == 1
+                && nsItem.getChildren().getFirst().getValue().startsWith(DEPLOYMENTS_ERROR);
+    }
+
+    /**
+     * Al guardar credenciales de un cluster, sus namespaces que fallaron se recargan: los expandidos de inmediato,
+     * los colapsados al expandirlos.
+     */
+    private void retryFailedNamespaces(String clusterName) {
+        getRoot().getChildren().stream()
+                .filter(clusterItem -> clusterName.equals(clusterItem.getValue()))
+                .flatMap(clusterItem -> clusterItem.getChildren().stream())
+                .filter(SidebarStateViewModel::hasFailed)
+                .toList()
+                .forEach(nsItem -> {
+                    if (nsItem.isExpanded()) {
+                        log.info("Credenciales nuevas para {}: recargando deployments de {}", clusterName,
+                                 nsItem.getValue());
+                        loadDeploymentsAsync(nsItem);
+                    } else {
+                        nsItem.getChildren().setAll(new TreeItem<>(""));
+                    }
+                });
     }
 
     private void loadDeploymentsAsync(TreeItem<String> nsItem) {
@@ -302,7 +338,7 @@ public class SidebarStateViewModel {
         task.setOnFailed(e -> {
             Throwable ex = task.getException();
             log.error("No se pudieron cargar los deployments de {}/{}", clusterName, namespaceName, ex);
-            nsItem.getChildren().setAll(new TreeItem<>("Error al cargar deployments: " + ErrorMessages.describe(ex)));
+            nsItem.getChildren().setAll(new TreeItem<>(DEPLOYMENTS_ERROR + ": " + ErrorMessages.describe(ex)));
         });
 
         Thread thread = new Thread(task, "load-deployments");

@@ -122,12 +122,6 @@ public class KubeResourceAdapter extends ManifestResourceRepository {
     }
 
     private static RuntimeException describe(ApiException e, String what) {
-        String reason = switch (e.getCode()) {
-            case 401 -> "credenciales vencidas o inválidas";
-            case 403 -> "sin permisos (RBAC) para leer " + what;
-            case 404 -> what + " no existe";
-            default -> e.getResponseBody();
-        };
-        return new RuntimeException("Error K8s (" + e.getCode() + ") leyendo " + what + ": " + reason, e);
+        return K8sErrors.from(e, "leer " + what);
     }
 }

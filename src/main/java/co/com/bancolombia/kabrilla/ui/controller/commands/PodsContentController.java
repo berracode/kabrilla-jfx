@@ -121,13 +121,7 @@ public class PodsContentController implements DeploymentTab {
     public void setDeploymentName(String deploymentName) {
         log.info("Deployment name: {}", deploymentName);
         if (currentCtx != null && !Objects.equals(currentCtx.deploymentName(), deploymentName)) {
-            currentCtx = new DeploymentContext(
-                    currentCtx.clusterName(),
-                    currentCtx.namespace(),
-                    deploymentName,
-                    currentCtx.credentials(),
-                    currentCtx.kubeConfig()
-            );
+            currentCtx = currentCtx.withDeploymentName(deploymentName);
         }
         if (currentCtx != null) {
             viewModel.loadPods(currentCtx);

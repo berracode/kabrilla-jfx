@@ -127,13 +127,13 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 |---|---|
 | `NoClassDefFoundError: java/sql/...` u otra clase `java/...` al expandir un namespace | Falta un módulo del JDK en `module-info.java` (`requires java.sql;`). Ver la sección "Trampas conocidas" de [CLAUDE.md](CLAUDE.md). |
 | Logs vacíos o `a container name must be specified` | Elige el container correcto en el combo **Container** de la pestaña Logs. |
-| `Error K8s (401)` | Credenciales AWS vencidas: vuelve a pegarlas con **Agregar credenciales**. |
-| `Error K8s (403)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
+| `(HTTP 401): credenciales AWS vencidas o inválidas` | Vuelve a pegarlas con **Agregar credenciales** (no hace falta reiniciar). Los namespaces del sidebar que fallaron se recargan solos; en una pestaña ya abierta presiona **Refrescar** (Pods) o reanuda el stream (Logs). |
+| `(HTTP 403): sin permisos (RBAC)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
 | Falta un cluster en el panel | Solo se muestran clusters **EKS** (nombre `arn:aws:eks:...:cluster/<nombre>`) con `certificate-authority-data` válido; los demás se omiten y el log (`~/.kabrilla/logs/kabrilla.log`) dice por qué. Regenera con `aws eks update-kubeconfig`. |
 | "No se pudo leer ~/.kube/config" | No existe el kubeconfig: `aws eks update-kubeconfig --name <cluster> --region <region>`, o usa `KUBECONFIG` / `--kabrilla.kubeconfig=<ruta>`. |
 | "No se pudo ejecutar AWS CLI" / "AWS CLI no devolvió token" | Instala AWS CLI v2 y verifica que `aws` esté en el PATH; si dice `ExpiredToken`, vuelve a pegar las credenciales. |
 | Rango con "Kubernetes conserva logs de este container solo desde ..." | Normal: Kubernetes ya rotó o perdió lo anterior. Para más historia hará falta Loki (ver roadmap). |
-| `HTTP 400: previous terminated container ... not found` | El container no ha reiniciado: no hay "container anterior". |
+| `(HTTP 400): previous terminated container ... not found` | El container no ha reiniciado: no hay "container anterior". |
 | Pestañas de Istio vacías | El cluster no tiene Istio instalado o no hay políticas para ese deployment. |
 
 ## Archivos locales

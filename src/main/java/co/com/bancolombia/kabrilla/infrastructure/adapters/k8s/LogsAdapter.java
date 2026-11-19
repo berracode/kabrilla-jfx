@@ -24,7 +24,6 @@ import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRange;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRangeCollector;
 import co.com.bancolombia.kabrilla.infrastructure.config.k8s.KubeClientFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,6 @@ import okhttp3.Response;
 @Slf4j
 public class LogsAdapter implements LogsRepository {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private final KubeClientFactory kubeClientFactory;
     private final ExecutorService executor;
@@ -80,7 +78,7 @@ public class LogsAdapter implements LogsRepository {
         // Tarea que abre y lee el stream
         Future<?> f = executor.submit(() -> {
             try (Response response = okCall.execute()) {
-                ensureSuccess(response);
+                ensureSuccess(response, podName);
                 try (BufferedReader reader = reader(response)) {
                     String line;
                     while ((line = reader.readLine()) != null) {
@@ -127,7 +125,7 @@ public class LogsAdapter implements LogsRepository {
         okhttp3.Call okCall = client.getHttpClient().newCall(reqBuilder.buildCall(null).request());
         // Cerrar la respuesta a mitad de lectura corta la descarga (al pasar el "hasta" o llenar el máximo)
         try (Response response = okCall.execute()) {
-            ensureSuccess(response);
+            ensureSuccess(response, podName);
             try (BufferedReader reader = reader(response)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -170,20 +168,11 @@ public class LogsAdapter implements LogsRepository {
         return LogLine.now(raw);
     }
 
-    /**
-     * Kubernetes explica el error en el body (JSON Status), p. ej. "previous terminated container ... not found".
-     */
-    private static void ensureSuccess(Response response) throws IOException {
+    private static void ensureSuccess(Response response, String podName) throws IOException {
         if (response.isSuccessful()) {
             return;
         }
         String body = response.body() != null ? response.body().string() : "";
-        String message = body;
-        try {
-            message = MAPPER.readTree(body).path("message").asText(body);
-        } catch (Exception ignored) {
-            // body no es JSON: se muestra tal cual
-        }
-        throw new IOException("HTTP " + response.code() + ": " + message);
+        throw new IOException(K8sErrors.message(response.code(), body, "leer los logs del pod " + podName));
     }
 }

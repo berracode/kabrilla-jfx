@@ -50,13 +50,10 @@ public class PodsViewModel {
         error.set(null);
 
 
+        AwsCredentials credentials = ctx.awsCredentials(); // en el hilo FX: lee el estado de la UI
         Task<List<Pod>> task = new Task<>() {
             @Override
             protected List<Pod> call() throws Exception {
-                var credentials = AwsCredentials.builder().accessKey(ctx.credentials().accessKey())
-                        .secretKey(ctx.credentials().secretKey())
-                        .clusterName(ctx.credentials().clusterName())
-                        .sessionToken(ctx.credentials().sessionToken()).build();
                 return podService.getPods(ctx.kubeConfig(), credentials, ctx.namespace(), ctx.deploymentName());
             }
         };

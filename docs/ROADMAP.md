@@ -44,8 +44,12 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 - [ ] Piloto de 1–2 semanas con 3–5 personas de distintos squads/clusters, con la app portable en sus equipos
 - [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar la siguiente `v1.0.0-rc.N`, repetir)
   - [x] Errores sin detalle en `kabrilla.log` (se perdían por stderr en el `.exe` sin consola)
-  - [ ] Credenciales renovadas no aplican hasta reiniciar (`KubeClientFactory` cachea el token por cluster 14 min
-        sin mirar con qué credenciales se generó; `aws eks get-token` firma localmente aunque estén vencidas)
+  - [x] Credenciales renovadas no aplicaban hasta reiniciar. Dos causas: `KubeClientFactory` cacheaba el token por
+        cluster 14 min sin mirar con qué credenciales se generó (`aws eks get-token` firma localmente aunque estén
+        vencidas) y `DeploymentContext` copiaba las credenciales al abrir la pestaña. Ahora: cliente nuevo si cambia
+        la huella de las credenciales, token regenerado tras un 401, contexto con credenciales vigentes (`Supplier`),
+        sidebar reintenta los namespaces fallidos al guardar credenciales y mensajes HTTP uniformes (`K8sErrors`)
+    - [ ] Confirmar en EKS: credenciales vencidas → pegar nuevas → sidebar y "Refrescar" funcionan sin reiniciar
   - [ ] Renombrar/eliminar namespaces registrados
   - [ ] Pestañas Gateway y VirtualService (Istio `networking.istio.io`), asociadas vía VirtualService → Service
 - [ ] Validado en equipos "limpios": AWS CLI, kubeconfig, antivirus/SmartScreen, proxy corporativo

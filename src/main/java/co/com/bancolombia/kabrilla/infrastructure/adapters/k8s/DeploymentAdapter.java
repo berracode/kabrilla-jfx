@@ -46,9 +46,7 @@ public class DeploymentAdapter implements DeploymentRepository {
             return deployments;
 
         } catch (io.kubernetes.client.openapi.ApiException apiEx) {
-            throw new RuntimeException("Error K8s (" + apiEx.getCode() + "): " + apiEx.getResponseBody(), apiEx);
-        } catch (Exception e) {
-            throw new RuntimeException("Error listando deployments en ns=" + namespace, e);
+            throw K8sErrors.from(apiEx, "listar los deployments de " + namespace);
         }
     }
 }

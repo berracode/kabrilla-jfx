@@ -3,6 +3,7 @@ package co.com.bancolombia.kabrilla.ui.controller.tabs;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import co.com.bancolombia.kabrilla.application.service.KubeResourceService;
 import co.com.bancolombia.kabrilla.application.service.LogsService;
@@ -13,6 +14,7 @@ import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
 import co.com.bancolombia.kabrilla.ui.controller.commands.LogsContentController;
 import co.com.bancolombia.kabrilla.ui.controller.commands.PodsContentController;
 import co.com.bancolombia.kabrilla.ui.controller.commands.ResourcesContentController;
+import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.logs.LogsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.pods.PodsViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.resources.ResourcesViewModel;
@@ -156,8 +158,10 @@ public class DeploymentTabController {
     private DeploymentContext buildContextFromAppState(DeploymentTabItemViewModel vm) {
         var clusterName = vm.clusterName();
         var namespace = vm.namespace();
-        var creds = context.getAppState().getCredentials().stream()
-                .filter(c -> c.clusterName().equals(clusterName.substring(clusterName.lastIndexOf('/') + 1)))
+        String shortName = clusterName.substring(clusterName.lastIndexOf('/') + 1);
+        // Se buscan en cada uso: si el usuario renueva las credenciales, la pestaña abierta usa las nuevas
+        Supplier<CredentialsItemViewModel> creds = () -> context.getAppState().getCredentials().stream()
+                .filter(c -> c.clusterName().equals(shortName))
                 .findFirst().orElse(null);
 
         KubeConfig kubeConfig = context.getAppState().getKubeConfig().stream()

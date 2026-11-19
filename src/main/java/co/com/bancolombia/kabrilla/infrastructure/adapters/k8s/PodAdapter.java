@@ -27,7 +27,12 @@ public class PodAdapter implements PodsRepository {
         ApiClient client = kubeClientFactory.forCluster(kubeConfig, credentials);
         var core = new io.kubernetes.client.openapi.apis.CoreV1Api(client);
 
-        var podList = core.listNamespacedPod(namespace).execute();
+        io.kubernetes.client.openapi.models.V1PodList podList;
+        try {
+            podList = core.listNamespacedPod(namespace).execute();
+        } catch (io.kubernetes.client.openapi.ApiException e) {
+            throw K8sErrors.from(e, "listar los pods de " + namespace);
+        }
 
         return podList.getItems().stream().filter(p -> p.getMetadata().getName().startsWith(deploymentName))
                 .map(p -> {
