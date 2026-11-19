@@ -57,6 +57,51 @@ class MockKubeResourceAdapterTest {
                      names(find("orders-api", ResourceKind.AUTHORIZATION_POLICY)));
     }
 
+    @Test
+    void virtualServicesAreMatchedByRoutesToDeploymentServices() throws Exception {
+        // orders-api: su VS (host FQDN). catalog-api: el suyo y el de orders (ruta /api/v1/catalog). inventory: ninguno
+        assertEquals(List.of("orders-api"), names(find("orders-api", ResourceKind.VIRTUAL_SERVICE)));
+        List<KubeResource> catalog = find("catalog-api", ResourceKind.VIRTUAL_SERVICE);
+        assertEquals(List.of("catalog-api", "orders-api"), names(catalog));
+
+        KubeResource shared = catalog.get(1);
+        assertEquals("catalog-api", shared.summary().get("Services del deployment"));
+        assertEquals("istio-ingress/public-gateway", shared.summary().get("Gateways"));
+        String ordersRoute = shared.entries().get(0).value();
+        String catalogRoute = shared.entries().get(1).value();
+        assertTrue(catalogRoute.contains("→ catalog-api:80   ← este deployment"), catalogRoute);
+        assertTrue(!ordersRoute.contains("este deployment"), "la ruta a otro deployment no se marca: " + ordersRoute);
+        assertTrue(catalogRoute.startsWith("Si: uri prefix=/api/v1/catalog"), catalogRoute);
+
+        String canary = catalog.getFirst().entries().getFirst().value();
+        assertTrue(canary.contains("(subset v2) · peso 90%"), canary);
+    }
+
+    @Test
+    void gatewaysComeFromVirtualServicesIncludingOtherNamespaces() throws Exception {
+        List<KubeResource> gateways = find("catalog-api", ResourceKind.GATEWAY);
+
+        // "mesh" no es un Gateway; public-gateway vive en istio-ingress
+        assertEquals(List.of("public-gateway", "ventas-internal"), names(gateways));
+        KubeResource publicGateway = gateways.getFirst();
+        assertEquals("istio-ingress", publicGateway.summary().get("Namespace"));
+        assertEquals("istio=ingressgateway", publicGateway.summary().get("Pods de entrada"));
+        assertEquals("orders-api", publicGateway.summary().get("Usado por"));
+        assertTrue(publicGateway.entries().getFirst().value().startsWith("HTTPS 443 (https)\nHosts: *.qa.mock"),
+                   publicGateway.entries().getFirst().value());
+    }
+
+    @Test
+    void missingGatewayIsShownWithReason() throws Exception {
+        List<KubeResource> gateways = adapter.findByDeployment(MOCK_QA, null, "pagos-qa", "payments-api",
+                                                               ResourceKind.GATEWAY);
+
+        assertEquals(List.of("pagos-gateway"), names(gateways));
+        assertEquals("⚠ no existe en el namespace pagos-qa", gateways.getFirst().summary().get("Estado"));
+        assertTrue(adapter.findByDeployment(MOCK_QA, null, "pagos-qa", "payments-worker", ResourceKind.GATEWAY)
+                           .isEmpty(), "sin Service no hay ruta de Istio");
+    }
+
     private List<KubeResource> find(String deployment, ResourceKind kind) throws Exception {
         return adapter.findByDeployment(MOCK_QA, null, "ventas-qa", deployment, kind);
     }

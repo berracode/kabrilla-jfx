@@ -27,7 +27,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
- * Pestaña genérica para Service, HPA, ConfigMap, AuthorizationPolicy y RequestAuthentication.
+ * Pestaña genérica para Service, HPA, ConfigMap y recursos de Istio (AuthorizationPolicy, RequestAuthentication,
+ * VirtualService, Gateway).
  * Todo el texto es seleccionable/copiable; el YAML completo queda plegado con su botón de copiar.
  */
 public class ResourcesContentController implements DeploymentTab {
@@ -39,13 +40,24 @@ public class ResourcesContentController implements DeploymentTab {
             ResourceKind.HPA, "HorizontalPodAutoscalers",
             ResourceKind.CONFIG_MAP, "ConfigMaps",
             ResourceKind.AUTHORIZATION_POLICY, "AuthorizationPolicies (Istio)",
-            ResourceKind.REQUEST_AUTHENTICATION, "RequestAuthentications (Istio)");
+            ResourceKind.REQUEST_AUTHENTICATION, "RequestAuthentications (Istio)",
+            ResourceKind.VIRTUAL_SERVICE, "VirtualServices (Istio)",
+            ResourceKind.GATEWAY, "Gateways (Istio)");
 
     private static final Map<ResourceKind, String> ENTRIES_TITLES = Map.of(
             ResourceKind.HPA, "Métricas",
             ResourceKind.CONFIG_MAP, "Datos",
             ResourceKind.AUTHORIZATION_POLICY, "Reglas",
-            ResourceKind.REQUEST_AUTHENTICATION, "Reglas JWT");
+            ResourceKind.REQUEST_AUTHENTICATION, "Reglas JWT",
+            ResourceKind.VIRTUAL_SERVICE, "Rutas",
+            ResourceKind.GATEWAY, "Servidores");
+
+    // Cómo se asocian los recursos que no apuntan directo al deployment (se muestra si no hay resultados)
+    private static final Map<ResourceKind, String> EMPTY_HINTS = Map.of(
+            ResourceKind.VIRTUAL_SERVICE, " Se buscan los VirtualServices del namespace cuyas rutas apuntan a un "
+                    + "Service del deployment.",
+            ResourceKind.GATEWAY, " Se muestran los Gateways que usan sus VirtualServices (ver pestaña "
+                    + "VirtualService).");
 
     private final ResourcesViewModel viewModel;
     private DeploymentContext ctx;
@@ -112,7 +124,8 @@ public class ResourcesContentController implements DeploymentTab {
             messageLabel.setText("Cargando...");
         } else if (count == 0) {
             messageLabel.setText("No hay " + TITLES.get(viewModel.kind()) + " asociados a "
-                                         + (ctx != null ? ctx.deploymentName() : "este deployment") + ".");
+                                         + (ctx != null ? ctx.deploymentName() : "este deployment") + "."
+                                         + EMPTY_HINTS.getOrDefault(viewModel.kind(), ""));
         } else {
             messageLabel.setText("");
         }

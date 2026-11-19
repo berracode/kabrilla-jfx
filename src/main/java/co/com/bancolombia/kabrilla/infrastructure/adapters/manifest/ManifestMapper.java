@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import co.com.bancolombia.kabrilla.domain.model.k8s.resources.KubeResource;
@@ -40,8 +41,145 @@ class ManifestMapper {
             case CONFIG_MAP -> mapConfigMap(manifest, summary, entries);
             case AUTHORIZATION_POLICY -> mapAuthorizationPolicy(manifest, summary, entries);
             case REQUEST_AUTHENTICATION -> mapRequestAuthentication(manifest, summary, entries);
+            case VIRTUAL_SERVICE -> mapVirtualService(manifest, Set.of(), str(manifest, "metadata", "namespace"),
+                                                      summary, entries);
+            case GATEWAY -> mapGateway(manifest, List.of(), summary, entries);
         }
         return new KubeResource(kind, name(manifest), summary, entries, yaml.dump(clean(manifest)));
+    }
+
+    /**
+     * VirtualService marcando qué destinos son Services del deployment.
+     */
+    KubeResource toVirtualService(Map<String, Object> vs, Set<String> deploymentServices, String namespace) {
+        Map<String, String> summary = new LinkedHashMap<>();
+        List<Entry> entries = new ArrayList<>();
+        mapVirtualService(vs, deploymentServices, namespace, summary, entries);
+        return new KubeResource(ResourceKind.VIRTUAL_SERVICE, name(vs), summary, entries, yaml.dump(clean(vs)));
+    }
+
+    /**
+     * Gateway con los VirtualServices del deployment que entran por él.
+     */
+    KubeResource toGateway(Map<String, Object> gateway, List<String> usedBy) {
+        Map<String, String> summary = new LinkedHashMap<>();
+        List<Entry> entries = new ArrayList<>();
+        mapGateway(gateway, usedBy, summary, entries);
+        return new KubeResource(ResourceKind.GATEWAY, name(gateway), summary, entries, yaml.dump(clean(gateway)));
+    }
+
+    /**
+     * Gateway referenciado que no se pudo leer (otro namespace sin permisos) o que no existe.
+     */
+    KubeResource unavailableGateway(IstioRoutes.GatewayRef ref, List<String> usedBy, String reason) {
+        Map<String, String> summary = new LinkedHashMap<>();
+        summary.put("Namespace", ref.namespace());
+        summary.put("Usado por", String.join(", ", usedBy));
+        summary.put("Estado", "⚠ " + reason);
+        return new KubeResource(ResourceKind.GATEWAY, ref.name(), summary, List.of(),
+                                "# Gateway " + ref.qualifiedName() + ": " + reason + "\n");
+    }
+
+    private void mapVirtualService(Map<String, Object> vs, Set<String> deploymentServices, String namespace,
+                                   Map<String, String> summary, List<Entry> entries) {
+        summary.put("Hosts", joinList(list(vs, "spec", "hosts")));
+        List<Object> gateways = list(vs, "spec", "gateways");
+        summary.put("Gateways", gateways.isEmpty() ? "mesh (solo tráfico interno)" : joinList(gateways));
+        if (!deploymentServices.isEmpty()) {
+            summary.put("Services del deployment",
+                        String.join(", ", IstioRoutes.routedServices(vs, deploymentServices, namespace)));
+        }
+        put(summary, "Exporta a", joinList(list(vs, "spec", "exportTo")));
+
+        for (String type : IstioRoutes.ROUTE_TYPES) {
+            List<Object> routes = list(vs, "spec", type);
+            for (int i = 0; i < routes.size(); i++) {
+                Object route = routes.get(i);
+                String label = type.toUpperCase() + " " + (i + 1)
+                        + (str(route, "name") != null ? " · " + str(route, "name") : "");
+                entries.add(new Entry(label, describeRoute(route, deploymentServices, namespace)));
+            }
+        }
+    }
+
+    /**
+     * "Si: uri prefix=/api" + un destino por línea; los del deployment se marcan.
+     */
+    private String describeRoute(Object route, Set<String> deploymentServices, String namespace) {
+        List<String> lines = new ArrayList<>();
+        List<Object> matches = list(route, "match");
+        lines.add("Si: " + (matches.isEmpty() ? "cualquier request"
+                : matches.stream().map(ManifestMapper::describeMatch).collect(Collectors.joining(" | "))));
+        for (Object destination : list(route, "route")) {
+            String host = str(destination, "destination", "host");
+            StringBuilder line = new StringBuilder("→ ").append(host);
+            if (str(destination, "destination", "port", "number") != null) {
+                line.append(':').append(str(destination, "destination", "port", "number"));
+            }
+            if (str(destination, "destination", "subset") != null) {
+                line.append(" (subset ").append(str(destination, "destination", "subset")).append(')');
+            }
+            if (str(destination, "weight") != null) {
+                line.append(" · peso ").append(str(destination, "weight")).append('%');
+            }
+            if (deploymentServices.contains(IstioRoutes.serviceOfHost(host, namespace))) {
+                line.append("   ← este deployment");
+            }
+            lines.add(line.toString());
+        }
+        put(lines, "Redirige: ", map(route, "redirect"));
+        put(lines, "Reescribe: ", map(route, "rewrite"));
+        if (str(route, "timeout") != null) {
+            lines.add("Timeout: " + str(route, "timeout"));
+        }
+        put(lines, "Reintentos: ", map(route, "retries"));
+        return String.join("\n", lines);
+    }
+
+    /**
+     * {uri: {prefix: /api}, method: {exact: GET}} → "uri prefix=/api, method exact=GET".
+     */
+    private static String describeMatch(Object match) {
+        return map(match).entrySet().stream()
+                .map(e -> e.getValue() instanceof Map<?, ?> condition
+                        ? condition.entrySet().stream()
+                        .map(c -> e.getKey() + " " + c.getKey() + "=" + flatten(c.getValue()))
+                        .collect(Collectors.joining(", "))
+                        : e.getKey() + "=" + flatten(e.getValue()))
+                .collect(Collectors.joining(", "));
+    }
+
+    private void mapGateway(Map<String, Object> gateway, List<String> usedBy, Map<String, String> summary,
+                            List<Entry> entries) {
+        put(summary, "Namespace", str(gateway, "metadata", "namespace"));
+        Map<String, String> selector = stringMap(gateway, "spec", "selector");
+        summary.put("Pods de entrada", selector.isEmpty() ? "Sin selector" : joinLabels(selector));
+        if (!usedBy.isEmpty()) {
+            summary.put("Usado por", String.join(", ", usedBy));
+        }
+        List<Object> servers = list(gateway, "spec", "servers");
+        for (int i = 0; i < servers.size(); i++) {
+            Object server = servers.get(i);
+            List<String> lines = new ArrayList<>();
+            lines.add(Objects.requireNonNullElse(str(server, "port", "protocol"), "?") + " "
+                              + str(server, "port", "number")
+                              + (str(server, "port", "name") != null ? " (" + str(server, "port", "name") + ")" : ""));
+            lines.add("Hosts: " + joinList(list(server, "hosts")));
+            if (!map(server, "tls").isEmpty()) {
+                lines.add("TLS: " + flatten(map(server, "tls")));
+            }
+            entries.add(new Entry("Servidor " + (i + 1), String.join("\n", lines)));
+        }
+    }
+
+    private static String joinList(List<Object> values) {
+        return values.stream().map(String::valueOf).collect(Collectors.joining(", "));
+    }
+
+    private static void put(List<String> lines, String prefix, Map<String, Object> value) {
+        if (!value.isEmpty()) {
+            lines.add(prefix + flatten(value));
+        }
     }
 
     private void mapService(Map<String, Object> svc, Map<String, String> summary) {

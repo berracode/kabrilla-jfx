@@ -72,12 +72,19 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
   `LogsRepository` ya no es interfaz funcional: en tests usar clase anónima.
 - Ojo con builds incrementales: tras cambiar interfaces, verificar con `./mvnw clean test` (Maven puede reusar
   clases de test viejas y dar falsos verdes).
-- Recursos (pestañas HPA/ConfigMap/Service/AuthorizationPolicy/RequestAuthentication): una sola vista genérica
+- Recursos (pestañas HPA/ConfigMap/Service/AuthorizationPolicy/RequestAuthentication/VirtualService/Gateway): una sola vista genérica
   (`ResourcesContentController` + `resources-content.fxml`), carga perezosa al seleccionar la pestaña.
   `ManifestResourceRepository` (abstracta) decide qué recursos pertenecen al deployment y `ManifestMapper` arma el
   resumen + YAML, ambos sobre manifiestos como `Map`. `KubeResourceAdapter` (real, vía `JSON.serialize` del cliente
   → Map; Istio por `CustomObjectsApi` v1 → v1beta1) y `MockKubeResourceAdapter` (YAML de `mock-data/resources`)
   solo obtienen manifiestos. Un recurso nuevo: agregar a `ResourceKind`, a ambos `listManifests` y al mapper.
+  VirtualService/Gateway no seleccionan pods: se asocian vía Services del deployment → rutas del VS → `spec.gateways`
+  (`IstioRoutes`); los Gateways pueden estar en otro namespace y, si no se leen, se muestran con el motivo.
+- Credenciales: `KubeClientFactory` cachea un `ApiClient` por cluster con la huella (SHA-256) de las credenciales;
+  credenciales distintas → cliente nuevo, 401 → token regenerado (`aws eks get-token` firma localmente aunque estén
+  vencidas). `DeploymentContext` resuelve las credenciales en cada uso (`Supplier`, llamar en el hilo FX).
+- Errores: nada de `printStackTrace`; `log.error(contexto, e)` y en la UI `ErrorMessages.describe(e)` (qué + causa
+  raíz). `System.err` va al log (`StdErrToLog`). Errores HTTP de Kubernetes con `K8sErrors` (mensaje uniforme).
 - Tests de UI: `FxTestSupport` (src/test) arranca el toolkit JavaFX; usar `onFx(...)` para código en el hilo FX.
   Tests solo para lógica crítica (filtro, asociación de recursos, streaming), no uno por clase.
 

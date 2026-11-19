@@ -88,3 +88,21 @@ data:
   PSP_URL: https://sandbox.mock-psp.example.com
   RETRY_MAX: "3"
   QUEUE_NAME: payments-qa
+---
+# Referencia un Gateway que no existe: la pestaña Gateway lo muestra con aviso
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: payments-api
+  namespace: pagos-qa
+spec:
+  hosts:
+    - payments.qa.mock.example.com
+  gateways:
+    - pagos-gateway
+  http:
+    - route:
+        - destination:
+            host: payments-api.pagos-qa.svc.cluster.local
+            port:
+              number: 80

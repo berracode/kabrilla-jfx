@@ -18,6 +18,8 @@
             <Tab text="RequestAuthentication"/>
             <Tab text="AuthorizationPolicy"/>
             <Tab text="Service"/>
+            <Tab text="VirtualService"/>
+            <Tab text="Gateway"/>
         </TabPane>
     </VBox>
 </AnchorPane>

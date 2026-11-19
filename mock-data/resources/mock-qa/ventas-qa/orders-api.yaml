@@ -164,3 +164,40 @@ spec:
       jwksUri: https://login.mock-idp.example.com/.well-known/jwks.json
       audiences: [orders-api]
       forwardOriginalToken: true
+---
+# Entra por un Gateway compartido de otro namespace (istio-ingress); una ruta va a otro deployment (catalog-api)
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: orders-api
+  namespace: ventas-qa
+spec:
+  hosts:
+    - orders.qa.mock.example.com
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - name: orders-v1
+      match:
+        - uri:
+            prefix: /api/v1/orders
+      rewrite:
+        uri: /orders
+      timeout: 5s
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+      route:
+        - destination:
+            host: orders-api.ventas-qa.svc.cluster.local
+            port:
+              number: 80
+    - name: catalogo
+      match:
+        - uri:
+            prefix: /api/v1/catalog
+      route:
+        - destination:
+            host: catalog-api
+            port:
+              number: 80

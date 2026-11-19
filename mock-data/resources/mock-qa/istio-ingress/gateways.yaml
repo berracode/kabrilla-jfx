@@ -1,0 +1,27 @@
+# Gateways FALSOS compartidos por varios namespaces (en EKS suelen vivir en istio-ingress o istio-system)
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: public-gateway
+  namespace: istio-ingress
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "*.qa.mock.example.com"
+      tls:
+        mode: SIMPLE
+        credentialName: qa-wildcard-cert
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*.qa.mock.example.com"
+      tls:
+        httpsRedirect: true

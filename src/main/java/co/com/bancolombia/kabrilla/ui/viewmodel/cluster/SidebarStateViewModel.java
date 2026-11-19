@@ -2,7 +2,9 @@ package co.com.bancolombia.kabrilla.ui.viewmodel.cluster;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
@@ -64,6 +66,65 @@ public class SidebarStateViewModel {
         openTabRequest.set(null);
     }
 
+    // Namespace renombrado o quitado: sus pestañas de deployment abiertas deben cerrarse
+    private final ObjectProperty<NamespaceRef> closeNamespaceTabsRequest = new SimpleObjectProperty<>();
+
+    public record NamespaceRef(String clusterName, String namespace) {
+    }
+
+    public ReadOnlyObjectProperty<NamespaceRef> closeNamespaceTabsRequestProperty() {
+        return closeNamespaceTabsRequest;
+    }
+
+    public void clearCloseNamespaceTabsRequest() {
+        closeNamespaceTabsRequest.set(null);
+    }
+
+    /**
+     * Un nodo es namespace si cuelga directamente de un cluster y está registrado (no un placeholder).
+     */
+    public boolean isNamespaceItem(TreeItem<String> item) {
+        TreeItem<String> clusterItem = item == null ? null : item.getParent();
+        if (clusterItem == null || clusterItem.getParent() != getRoot()) {
+            return false;
+        }
+        ClusterStateViewModel cluster = findClusterState(clusterItem.getValue());
+        return cluster != null && cluster.getNamespaces().stream().anyMatch(ns -> ns.getName().equals(item.getValue()));
+    }
+
+    /**
+     * @throws IllegalArgumentException si el nombre nuevo no es válido o ya existe (mensaje para el usuario)
+     */
+    public void renameNamespace(TreeItem<String> nsItem, String newName) {
+        String clusterName = nsItem.getParent().getValue();
+        String oldName = nsItem.getValue();
+        String name = newName == null ? "" : newName.trim();
+        if (name.equals(oldName)) {
+            return;
+        }
+        clusterService.renameNamespace(clusterName, oldName, name);
+        findClusterState(clusterName).renameNamespace(oldName, name);
+        closeNamespaceTabsRequest.set(new NamespaceRef(clusterName, oldName));
+    }
+
+    /**
+     * Quita el namespace de la lista de Kabrilla (no toca el cluster).
+     */
+    public void removeNamespace(TreeItem<String> nsItem) {
+        String clusterName = nsItem.getParent().getValue();
+        String namespace = nsItem.getValue();
+        clusterService.removeNamespace(clusterName, namespace);
+        findClusterState(clusterName).removeNamespace(namespace);
+        closeNamespaceTabsRequest.set(new NamespaceRef(clusterName, namespace));
+    }
+
+    private ClusterStateViewModel findClusterState(String clusterName) {
+        return clusterNamespaceStateViewModel.getObservableClusters().stream()
+                .filter(c -> c.getName().equals(clusterName))
+                .findFirst()
+                .orElse(null);
+    }
+
 
     public TreeItem<String> getRoot() {
         return root.get();
@@ -122,69 +183,47 @@ public class SidebarStateViewModel {
         });
 
         root.getChildren().add(new TreeItem<>("Cargando clusters..."));
-        log.info("2.4: clusterNamespaceState {}", clusterNamespaceStateViewModel.getObservableClusters().size());
 
         for (ClusterStateViewModel clusterVM : clusterNamespaceStateViewModel.getObservableClusters()) {
-            TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
-
-
-            for (NamespaceStateViewModel ns : clusterVM.getNamespaces()) {
-                log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
-                clusterItem.getChildren().add(createNamespaceTreeItem(ns));
-            }
-
-            bindNamespaceListener(clusterVM, clusterItem);
-
-            root.getChildren().add(clusterItem);
+            root.getChildren().add(buildClusterTreeItem(clusterVM));
         }
-
 
         clusterNamespaceStateViewModel.getObservableClusters()
                 .addListener((ListChangeListener<ClusterStateViewModel>) change -> {
                     while (change.next()) {
                         if (change.wasAdded()) {
                             for (ClusterStateViewModel clusterVM : change.getAddedSubList()) {
-                                TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
-
-                                log.info("clusterVM.getNamespaces() size: {}", clusterVM.getNamespaces().size());
-                                for (NamespaceStateViewModel ns : clusterVM.getNamespaces()) {
-                                    log.info("ns {} para cluster: {}", ns.getName(), clusterVM.getName());
-                                    clusterItem.getChildren().add(createNamespaceTreeItem(ns));
-                                }
-                                bindNamespaceListener(clusterVM, clusterItem);
-
-                                root.getChildren().add(clusterItem);
+                                root.getChildren().add(buildClusterTreeItem(clusterVM));
                             }
                         }
                     }
                 });
     }
 
-    private void bindNamespaceListener(ClusterStateViewModel clusterVM, TreeItem<String> clusterItem) {
+    /**
+     * Nodo del cluster sincronizado con su lista de namespaces (agregar, renombrar, quitar). Los nodos de namespace
+     * que no cambian se reutilizan: conservan si estaban expandidos y sus deployments ya cargados.
+     */
+    private TreeItem<String> buildClusterTreeItem(ClusterStateViewModel clusterVM) {
+        TreeItem<String> clusterItem = createClusterTreeItem(clusterVM.getName());
         TreeItem<String> emptyItem = new TreeItem<>("No hay namespaces registrados");
+        Map<NamespaceStateViewModel, TreeItem<String>> nsItems = new IdentityHashMap<>();
 
-        if (clusterVM.getNamespaces().isEmpty()) {
-            clusterItem.getChildren().add(emptyItem);
-        }
-
-        clusterVM.getNamespaces().addListener((ListChangeListener<NamespaceStateViewModel>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    // Si estaba el mensaje de vacío, lo quitamos
-                    clusterItem.getChildren().remove(emptyItem);
-                    for (NamespaceStateViewModel ns : change.getAddedSubList()) {
-                        clusterItem.getChildren().add(createNamespaceTreeItem(ns));
-                    }
-                }
-                if (change.wasRemoved()) {
-                    // Si ya no hay namespaces, mostramos el mensaje
-                    if (clusterVM.getNamespaces().isEmpty()) {
-                        clusterItem.getChildren().clear();
-                        clusterItem.getChildren().add(emptyItem);
-                    }
-                }
+        Runnable sync = () -> {
+            List<NamespaceStateViewModel> namespaces = clusterVM.getNamespaces();
+            nsItems.keySet().removeIf(ns -> namespaces.stream().noneMatch(current -> current == ns));
+            if (namespaces.isEmpty()) {
+                clusterItem.getChildren().setAll(emptyItem);
+                return;
             }
-        });
+            clusterItem.getChildren().setAll(namespaces.stream()
+                                                     .map(ns -> nsItems.computeIfAbsent(ns,
+                                                                                        this::createNamespaceTreeItem))
+                                                     .toList());
+        };
+        sync.run();
+        clusterVM.getNamespaces().addListener((ListChangeListener<NamespaceStateViewModel>) change -> sync.run());
+        return clusterItem;
     }
 
     private void populateTreeWithClusters(TreeItem<String> root, ClusterInfo clusterInfo) {
@@ -430,6 +469,14 @@ public class SidebarStateViewModel {
 
                     try {
                         controller.saveCluster();
+                    } catch (IllegalArgumentException e) {
+                        // Nombre inválido o ya registrado: error del usuario, no de la app
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Namespaces");
+                        alert.setHeaderText("No se puede registrar el namespace");
+                        alert.setContentText(e.getMessage());
+                        alert.showAndWait();
+                        return null;
                     } catch (RuntimeException e) {
                         log.error("No se pudo registrar el namespace {} en {}", namespace, clusterName, e);
                         Alert alert = new Alert(Alert.AlertType.ERROR);

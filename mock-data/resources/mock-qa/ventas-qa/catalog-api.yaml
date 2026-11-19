@@ -36,3 +36,31 @@ status:
   loadBalancer:
     ingress:
       - hostname: a1b2c3-mock.elb.us-east-1.amazonaws.com
+---
+# Canary 90/10 por subsets, expuesto dentro del mesh y por un Gateway interno del mismo namespace
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: catalog-api
+  namespace: ventas-qa
+spec:
+  hosts:
+    - catalog-api
+    - catalog.internal.mock.example.com
+  gateways:
+    - mesh
+    - ventas-internal
+  http:
+    - route:
+        - destination:
+            host: catalog-api
+            subset: v2
+            port:
+              number: 80
+          weight: 90
+        - destination:
+            host: catalog-api
+            subset: v1
+            port:
+              number: 80
+          weight: 10

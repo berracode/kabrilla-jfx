@@ -1,6 +1,7 @@
 package co.com.bancolombia.kabrilla.ui.controller.tabs;
 
 import java.io.IOException;
+import java.util.List;
 
 import co.com.bancolombia.kabrilla.application.service.CredentialService;
 import co.com.bancolombia.kabrilla.application.service.KubeResourceService;
@@ -14,6 +15,7 @@ import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppContext;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.DeploymentTabItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -84,6 +86,13 @@ public class MainTabController {
             sidebarViewModel.clearOpenTabRequest();
         });
 
+        sidebarViewModel.closeNamespaceTabsRequestProperty().addListener((obs, old, ref) -> {
+            if (ref != null) {
+                closeNamespaceTabs(ref.clusterName(), ref.namespace());
+                sidebarViewModel.clearCloseNamespaceTabsRequest();
+            }
+        });
+
 
     }
 
@@ -134,6 +143,27 @@ public class MainTabController {
         } catch (IOException e) {
             throw new RuntimeException("Error cargando /fxml/tabs/deployment-tab-content.fxml", e);
         }
+    }
+
+    /**
+     * Cierra las pestañas de deployments de un namespace que se renombró o quitó (liberando sus streams de logs).
+     */
+    private void closeNamespaceTabs(String clusterName, String namespace) {
+        List<Tab> toClose = deploymentTabPane.getTabs().stream()
+                .filter(tab -> tab.getUserData() instanceof Deployment d
+                        && namespace.equals(d.getNamespace())
+                        && clusterName.equals(shortClusterName(d.getClusterName())))
+                .toList();
+        for (Tab tab : toClose) {
+            log.info("Cerrando la pestaña {}: su namespace {} ya no está registrado", tab.getText(), namespace);
+            deploymentTabPane.getTabs().remove(tab);
+            // Quitarla por código no dispara onClosed: se dispara a mano para que libere el stream
+            Event.fireEvent(tab, new Event(Tab.CLOSED_EVENT));
+        }
+    }
+
+    private static String shortClusterName(String clusterName) {
+        return clusterName == null ? null : clusterName.substring(clusterName.lastIndexOf('/') + 1);
     }
 
     private void openAddCredentialsTab() {

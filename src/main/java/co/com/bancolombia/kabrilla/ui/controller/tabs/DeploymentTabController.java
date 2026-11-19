@@ -213,6 +213,8 @@ public class DeploymentTabController {
             case "Service" -> loadResourceView(newTab, ResourceKind.SERVICE);
             case "AuthorizationPolicy" -> loadResourceView(newTab, ResourceKind.AUTHORIZATION_POLICY);
             case "RequestAuthentication" -> loadResourceView(newTab, ResourceKind.REQUEST_AUTHENTICATION);
+            case "VirtualService" -> loadResourceView(newTab, ResourceKind.VIRTUAL_SERVICE);
+            case "Gateway" -> loadResourceView(newTab, ResourceKind.GATEWAY);
             default -> log.warn("Pestaña sin vista: {}", newTab.getText());
         }
     }

@@ -23,15 +23,18 @@ import io.kubernetes.client.openapi.apis.CustomObjectsApi;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Lee Services, HPAs, ConfigMaps y políticas de Istio desde la API de Kubernetes (EKS).
+ * Lee Services, HPAs, ConfigMaps y recursos de Istio (políticas, VirtualServices, Gateways) desde la API de
+ * Kubernetes (EKS).
  * Requiere permisos RBAC de lectura (get/list) sobre esos recursos en el namespace.
  */
 @Slf4j
 public class KubeResourceAdapter extends ManifestResourceRepository {
 
     private static final String ISTIO_SECURITY_GROUP = "security.istio.io";
-    // Istio >= 1.22 expone v1; versiones anteriores solo v1beta1
-    private static final List<String> ISTIO_VERSIONS = List.of("v1", "v1beta1");
+    private static final String ISTIO_NETWORKING_GROUP = "networking.istio.io";
+    // Istio >= 1.22 expone v1; versiones anteriores v1beta1 (y networking, en las más viejas, v1alpha3)
+    private static final List<String> ISTIO_SECURITY_VERSIONS = List.of("v1", "v1beta1");
+    private static final List<String> ISTIO_NETWORKING_VERSIONS = List.of("v1", "v1beta1", "v1alpha3");
 
     private final KubeClientFactory kubeClientFactory;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -65,22 +68,28 @@ public class KubeResourceAdapter extends ManifestResourceRepository {
                 case HPA -> new AutoscalingV2Api(client).listNamespacedHorizontalPodAutoscaler(namespace).execute()
                         .getItems().stream().map(h -> toMap(h, "autoscaling/v2", "HorizontalPodAutoscaler"))
                         .toList();
-                case AUTHORIZATION_POLICY -> listIstio(client, namespace, "authorizationpolicies", kind);
-                case REQUEST_AUTHENTICATION -> listIstio(client, namespace, "requestauthentications", kind);
+                case AUTHORIZATION_POLICY -> listIstio(client, namespace, ISTIO_SECURITY_GROUP,
+                                                       ISTIO_SECURITY_VERSIONS, "authorizationpolicies", kind);
+                case REQUEST_AUTHENTICATION -> listIstio(client, namespace, ISTIO_SECURITY_GROUP,
+                                                         ISTIO_SECURITY_VERSIONS, "requestauthentications", kind);
+                case VIRTUAL_SERVICE -> listIstio(client, namespace, ISTIO_NETWORKING_GROUP,
+                                                  ISTIO_NETWORKING_VERSIONS, "virtualservices", kind);
+                case GATEWAY -> listIstio(client, namespace, ISTIO_NETWORKING_GROUP, ISTIO_NETWORKING_VERSIONS,
+                                          "gateways", kind);
             };
         } catch (ApiException e) {
             throw describe(e, kind.k8sKind());
         }
     }
 
-    private List<Map<String, Object>> listIstio(ApiClient client, String namespace, String plural,
-                                                ResourceKind kind) throws ApiException {
+    private List<Map<String, Object>> listIstio(ApiClient client, String namespace, String group,
+                                                List<String> versions, String plural, ResourceKind kind)
+            throws ApiException {
         CustomObjectsApi api = new CustomObjectsApi(client);
-        for (String version : ISTIO_VERSIONS) {
+        for (String version : versions) {
             try {
-                Object response = api.listNamespacedCustomObject(ISTIO_SECURITY_GROUP, version, namespace, plural)
-                        .execute();
-                String apiVersion = ISTIO_SECURITY_GROUP + "/" + version;
+                Object response = api.listNamespacedCustomObject(group, version, namespace, plural).execute();
+                String apiVersion = group + "/" + version;
                 return Manifests.list(toMap(response, null, null), "items").stream()
                         .map(item -> withTypeMeta(Manifests.map(item), apiVersion, kind.k8sKind()))
                         .toList();
@@ -88,7 +97,8 @@ public class KubeResourceAdapter extends ManifestResourceRepository {
                 if (e.getCode() != 404) {
                     throw e;
                 }
-                log.info("{}/{} no disponible en el cluster, probando la siguiente versión", plural, version);
+                log.info("{}.{}/{} no disponible en el cluster, probando la siguiente versión", plural, group,
+                         version);
             }
         }
         log.info("Istio ({}) no está instalado en el cluster", plural);

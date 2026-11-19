@@ -27,4 +27,20 @@ public class ClusterStateViewModel {
             namespaces.add(new NamespaceStateViewModel(ns));
         }
     }
+
+    /**
+     * Reemplaza el namespace en la misma posición (sus deployments cargados ya no aplican al nombre nuevo).
+     */
+    public void renameNamespace(String oldName, String newName) {
+        for (int i = 0; i < namespaces.size(); i++) {
+            if (namespaces.get(i).getName().equals(oldName)) {
+                namespaces.set(i, new NamespaceStateViewModel(new Namespace(newName)));
+                return;
+            }
+        }
+    }
+
+    public void removeNamespace(String namespaceName) {
+        namespaces.removeIf(vm -> vm.getName().equals(namespaceName));
+    }
 }

@@ -39,8 +39,12 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 
 ## 1.0.0 (de `v1.0.0-rc.1` a final)
 - [x] Publicar `v1.0.0-rc.1` y verificar el primer run del workflow (Release + ZIP + notas)
-- [ ] Publicar `v1.0.0-rc.2` (sin consola, logs a archivo) y usarla para el piloto
-- [ ] Publicar `v1.0.0-rc.3` (errores con detalle en `kabrilla.log`, notas en `docs/releases/v1.0.0-rc.3.md`)
+- [x] Publicar `v1.0.0-rc.2` (sin consola, logs a archivo)
+- [x] Publicar `v1.0.0-rc.3` (errores con detalle en `kabrilla.log`)
+- [x] Publicar `v1.0.0-rc.4` (credenciales renovadas sin reiniciar). Notas agregadas después del release: copiar
+      `docs/releases/v1.0.0-rc.4.md` al release de GitHub a mano
+- [ ] Publicar `v1.0.0-rc.5` (renombrar/quitar namespaces, pestañas VirtualService y Gateway) y usarla para el piloto
+- [ ] Antes de cada tag: `docs/releases/<tag>.md` en el mismo commit (el workflow lo usa como cuerpo del release)
 - [ ] Piloto de 1–2 semanas con 3–5 personas de distintos squads/clusters, con la app portable en sus equipos
 - [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar la siguiente `v1.0.0-rc.N`, repetir)
   - [x] Errores sin detalle en `kabrilla.log` (se perdían por stderr en el `.exe` sin consola)
@@ -50,8 +54,12 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
         la huella de las credenciales, token regenerado tras un 401, contexto con credenciales vigentes (`Supplier`),
         sidebar reintenta los namespaces fallidos al guardar credenciales y mensajes HTTP uniformes (`K8sErrors`)
     - [ ] Confirmar en EKS: credenciales vencidas → pegar nuevas → sidebar y "Refrescar" funcionan sin reiniciar
-  - [ ] Renombrar/eliminar namespaces registrados
-  - [ ] Pestañas Gateway y VirtualService (Istio `networking.istio.io`), asociadas vía VirtualService → Service
+  - [x] Renombrar/quitar namespaces registrados (clic derecho, F2/Supr), validados con la regla de Kubernetes y sin
+        duplicados; cierra las pestañas abiertas del namespace
+  - [x] Pestañas VirtualService y Gateway (Istio `networking.istio.io` v1 → v1beta1 → v1alpha3), asociadas vía
+        Service → rutas del VirtualService → `spec.gateways`; Gateways de otro namespace o sin permisos se muestran
+        con el motivo
+    - [ ] Probar en EKS: RBAC para leer Gateways en `istio-ingress`/`istio-system`, versión de Istio
 - [ ] Validado en equipos "limpios": AWS CLI, kubeconfig, antivirus/SmartScreen, proxy corporativo
 - [ ] Mismo código que la última RC → tag `v1.0.0` y anuncio al equipo completo
 - [ ] Después de 1.0: cifrar credenciales con la cuenta de Windows (DPAPI) o usar perfiles SSO de AWS

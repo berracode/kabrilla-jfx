@@ -33,7 +33,8 @@ mock-data/
   `payments-api-66f8d9c7b-aa01b.previous.log`, que termina en `OutOfMemoryError`. Sin ese archivo, la consulta
   falla como en Kubernetes ("previous terminated container ... not found").
 
-- **Recursos** (pestañas HPA, ConfigMap, Service, AuthorizationPolicy, RequestAuthentication) = manifiestos YAML
+- **Recursos** (pestañas HPA, ConfigMap, Service, AuthorizationPolicy, RequestAuthentication, VirtualService,
+  Gateway) = manifiestos YAML
   en `resources/<cluster>/<namespace>/`, en el mismo formato de `kubectl get <recurso> -o yaml` (un archivo puede
   traer varios documentos separados por `---`). La asociación con el deployment usa la misma lógica que contra
   EKS, así que **cada deployment necesita su manifiesto `Deployment`** (labels del pod template y ConfigMaps
@@ -43,9 +44,13 @@ mock-data/
   - ConfigMap: referenciado en `volumes`, `envFrom` o `env.valueFrom` del pod template.
   - AuthorizationPolicy / RequestAuthentication: `spec.selector.matchLabels` coincide, o no tiene selector
     (aplica a todo el namespace).
+  - VirtualService: alguna ruta (`http`/`tcp`/`tls`) tiene `destination.host` = un Service del deployment
+    (`svc`, `svc.ns` o `svc.ns.svc.cluster.local`).
+  - Gateway: referenciado en `spec.gateways` de esos VirtualServices; `ns/nombre` se busca en
+    `resources/<cluster>/<ns>/` (p. ej. `istio-ingress/`).
 
   Para copiar recursos reales al mock (en el PC con acceso, **quitando datos sensibles**):
-  `kubectl get deploy,svc,hpa,cm -n <ns> -o yaml > resources/<cluster>/<ns>/real.yaml`
+  `kubectl get deploy,svc,hpa,cm,virtualservices,gateways -n <ns> -o yaml > resources/<cluster>/<ns>/real.yaml`
 
 `<cluster>` es el nombre corto (lo que va después de `cluster/` en el kubeconfig) y debe coincidir en los 4 lugares:
 `kubeconfig.yaml`, `clusters.json`, `credentials.json` y la carpeta `logs/<cluster>`.
@@ -54,8 +59,9 @@ mock-data/
 
 | Cluster / namespace | Qué prueba |
 |---|---|
-| `mock-qa / ventas-qa` | `orders-api` con 2 pods (texto, stack traces) y todos los recursos (HPA con CPU y memoria, 3 ConfigMaps uno con archivo YAML, políticas Istio); `catalog-api` con logs JSON, Service LoadBalancer y sin HPA. `namespace.yaml` trae recursos que **no** deben aparecer (Service y ConfigMap de otros) y una política para todo el namespace |
-| `mock-qa / pagos-qa` | `payments-api` termina con un `OutOfMemoryError`; `payments-worker` usa `.txt` y su HPA escala por métrica externa |
+| `mock-qa / ventas-qa` | `orders-api` con 2 pods (texto, stack traces) y todos los recursos (HPA con CPU y memoria, 3 ConfigMaps uno con archivo YAML, políticas Istio); `catalog-api` con logs JSON, Service LoadBalancer y sin HPA. `namespace.yaml` trae recursos que **no** deben aparecer (Service y ConfigMap de otros) y una política para todo el namespace. Istio: `orders-api` entra por `istio-ingress/public-gateway` (otro namespace); `catalog-api` tiene canary 90/10, `mesh` + Gateway interno y además recibe una ruta del VirtualService de orders; el VirtualService de `inventory-svc` no debe aparecer |
+| `mock-qa / pagos-qa` | `payments-api` termina con un `OutOfMemoryError` y su VirtualService referencia un Gateway que no existe (aviso); `payments-worker` usa `.txt`, no tiene Service (sin VirtualService/Gateway) y su HPA escala por métrica externa |
+| `mock-qa / istio-ingress` | solo `resources/`: Gateway compartido `public-gateway` (HTTPS con TLS y redirección HTTP) |
 | `mock-qa / vacio-qa` | namespace sin deployments |
 | `mock-dev / ventas-dev` | segundo cluster |
 

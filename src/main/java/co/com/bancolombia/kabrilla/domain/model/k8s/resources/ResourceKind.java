@@ -8,7 +8,10 @@ public enum ResourceKind {
     HPA("HorizontalPodAutoscaler"),
     CONFIG_MAP("ConfigMap"),
     AUTHORIZATION_POLICY("AuthorizationPolicy"),
-    REQUEST_AUTHENTICATION("RequestAuthentication");
+    REQUEST_AUTHENTICATION("RequestAuthentication"),
+    // Istio networking: se asocian vía Services del deployment (VirtualService) y sus spec.gateways (Gateway)
+    VIRTUAL_SERVICE("VirtualService"),
+    GATEWAY("Gateway");
 
     private final String k8sKind;
 

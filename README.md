@@ -91,7 +91,10 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 ## Uso rápido
 
 1. Abre la app. En el panel izquierdo aparecen los clusters de tu kubeconfig.
-2. **Crear namespace**: registra el namespace que quieres ver en un cluster.
+2. **Crear namespace**: registra el namespace que quieres ver en un cluster (se valida con la regla de Kubernetes:
+   minúsculas, números y guiones). Si te equivocaste, clic derecho sobre el namespace → **Renombrar…** (F2) o
+   **Quitar de la lista…** (Supr). Quitarlo solo lo saca de Kabrilla, no borra nada en el cluster; las pestañas
+   abiertas de sus deployments se cierran.
 3. **Agregar credenciales**: elige el cluster y pega el bloque de credenciales temporales de AWS
    (`aws_access_key_id=...`, `aws_secret_access_key=...`, `aws_session_token=...`).
 4. Expande el namespace y selecciona un deployment: se abre una pestaña con sus pods, logs y recursos.
@@ -119,6 +122,13 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 6. En **HPA, ConfigMap, Service, AuthorizationPolicy y RequestAuthentication** se muestran solo los recursos
    asociados al deployment (por selector, `scaleTargetRef` o referencias del pod). Se consultan al abrir la
    pestaña; **Recargar** vuelve a consultar.
+   - **VirtualService** (Istio): los del namespace cuyas rutas (`http`, `tcp`, `tls`) apuntan a un Service del
+     deployment. Cada ruta muestra su condición (`Si: uri prefix=...`), sus destinos con puerto, subset y peso, y
+     marca con **← este deployment** los que llegan a él (un VirtualService puede enrutar también a otros).
+   - **Gateway** (Istio): los que usan esos VirtualServices en `spec.gateways` (sin `mesh`), aunque estén en otro
+     namespace como `istio-ingress`. Muestra los pods de entrada (`selector`), por qué VirtualService se usa y
+     cada servidor (protocolo, puerto, hosts, TLS). Si no se puede leer (sin permisos RBAC en ese namespace) o no
+     existe, aparece igual con el motivo.
 7. Al cerrar la pestaña del deployment se cierra su stream de logs.
 
 ## Problemas comunes
@@ -134,7 +144,8 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
 | "No se pudo ejecutar AWS CLI" / "AWS CLI no devolvió token" | Instala AWS CLI v2 y verifica que `aws` esté en el PATH; si dice `ExpiredToken`, vuelve a pegar las credenciales. |
 | Rango con "Kubernetes conserva logs de este container solo desde ..." | Normal: Kubernetes ya rotó o perdió lo anterior. Para más historia hará falta Loki (ver roadmap). |
 | `(HTTP 400): previous terminated container ... not found` | El container no ha reiniciado: no hay "container anterior". |
-| Pestañas de Istio vacías | El cluster no tiene Istio instalado o no hay políticas para ese deployment. |
+| Pestañas de Istio vacías | El cluster no tiene Istio instalado o no hay políticas para ese deployment. VirtualService y Gateway necesitan además un Service que seleccione los pods del deployment. |
+| Gateway con "⚠ No se pudo leer ... (HTTP 403)" | Tu rol no puede leer Gateways en el namespace donde vive (p. ej. `istio-ingress`). El VirtualService igual muestra su nombre en "Gateways". |
 
 ## Archivos locales
 
