@@ -83,6 +83,14 @@ public class TerminalPanelController implements DisposableBean {
                 });
             }
         });
+        viewModel.newTerminalRequestsProperty().addListener((obs, old, count) -> {
+            if (sessions.isEmpty()) {
+                viewModel.show(); // al mostrarse sin terminales ya abre una
+            } else {
+                viewModel.show();
+                openTerminal();
+            }
+        });
         terminalTabs.getSelectionModel().selectedItemProperty().addListener((obs, old, tab) -> focusSelected());
     }
 

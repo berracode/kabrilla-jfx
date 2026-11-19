@@ -53,6 +53,11 @@ public class CreateNamespaceController {
     }
 
 
+    public void preselectCluster(String clusterName) {
+        clusterComboBox.getSelectionModel().select(clusterName);
+        Platform.runLater(namespaceField::requestFocus);
+    }
+
     public String getClusterName() {
         return clusterComboBox.getValue();
     }

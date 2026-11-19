@@ -39,6 +39,8 @@ public class MainTabController {
 
     @FXML
     private TabPane deploymentTabPane;
+    // Estado de la pestaña "Credenciales AWS" abierta (para elegir el cluster si se pide de nuevo), o null
+    private CredentialsStateViewModel credentialsViewModel;
 
     public MainTabController(MainTabViewModel mainTabViewModel, SidebarStateViewModel sidebarViewModel,
                              AppContext context, ClusterNamespaceStateViewModel clusterNamespaceStateViewModel,
@@ -167,22 +169,26 @@ public class MainTabController {
     }
 
     private void openAddCredentialsTab() {
+        String cluster = sidebarViewModel.takeRequestedCredentialsCluster();
         // Evitar duplicados
         for (Tab tab : deploymentTabPane.getTabs()) {
             if ("Credenciales AWS".equals(tab.getText())) {
                 deploymentTabPane.getSelectionModel().select(tab);
+                if (cluster != null && credentialsViewModel != null) {
+                    credentialsViewModel.selectedClusterProperty().set(cluster);
+                }
                 return;
             }
         }
+        CredentialsStateViewModel viewModel = new CredentialsStateViewModel(
+                context.getAppState(), credentialService, clusterNamespaceStateViewModel);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/usecase/add-credentials/add-credentials" +
                                                                               ".fxml"));
             loader.setControllerFactory(type -> {
                 if (type == AddCredentialsController.class) {
-                    return new AddCredentialsController(
-                            new CredentialsStateViewModel(
-                                    context.getAppState(), credentialService, clusterNamespaceStateViewModel));
+                    return new AddCredentialsController(viewModel);
                 }
                 try {
                     return type.getDeclaredConstructor().newInstance();
@@ -195,6 +201,11 @@ public class MainTabController {
 
             Tab tab = new Tab("Credenciales AWS", content);
             tab.setClosable(true);
+            credentialsViewModel = viewModel;
+            tab.setOnClosed(e -> credentialsViewModel = null);
+            if (cluster != null) {
+                viewModel.selectedClusterProperty().set(cluster);
+            }
             deploymentTabPane.getTabs().add(tab);
             deploymentTabPane.getSelectionModel().select(tab);
         } catch (IOException e) {

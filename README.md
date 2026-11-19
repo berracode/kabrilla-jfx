@@ -91,6 +91,7 @@ Orden de prioridad (gana el primero): `--propiedad=valor` en la línea de comand
 | `kabrilla.ui.styles-enabled` | `true` | `src/main/resources/application.properties` | Tema oscuro on/off (off = tema base de JavaFX) |
 | `kabrilla.data-dir` | `${user.home}/.kabrilla` | `src/main/resources/application.properties` | Carpeta de datos local (namespaces y credenciales) |
 | `kabrilla.kubeconfig` | (vacío) | — | Kubeconfig a usar. Si está vacío: variable `KUBECONFIG` (primer archivo) y si no `~/.kube/config`. Si tiene valor, la terminal integrada también lo usa (`KUBECONFIG`) |
+| `kabrilla.releases-url` | `https://github.com/berracode/kabrilla-jfx/releases` | `src/main/resources/application.properties` | Página de releases que abre **Ayuda → Notas de la versión** (`<url>/tag/v<versión>`) |
 | `kabrilla.terminal.shell` | `powershell.exe -NoLogo` | `~/.kabrilla/application.properties` | Shell de la terminal integrada. Rutas con espacios entre comillas dobles: `"C:/Program Files/Git/bin/bash.exe" --login -i` |
 | `kabrilla.mock.dir` | `mock-data` | `src/main/resources/application-mock.properties` | Carpeta de datos del modo mock |
 | `kabrilla.mock.line-delay-ms` | `100` | `src/main/resources/application-mock.properties` | Pausa entre líneas al reproducir logs mock. No bajar de ~20 |
@@ -98,13 +99,15 @@ Orden de prioridad (gana el primero): `--propiedad=valor` en la línea de comand
 
 ## Uso rápido
 
-1. Abre la app. En el panel izquierdo aparecen los clusters de tu kubeconfig.
-2. **Crear namespace**: registra el namespace que quieres ver en un cluster (se valida con la regla de Kubernetes:
-   minúsculas, números y guiones). Si te equivocaste, clic derecho sobre el namespace → **Renombrar…** (F2) o
-   **Quitar de la lista…** (Supr). Quitarlo solo lo saca de Kabrilla, no borra nada en el cluster; las pestañas
-   abiertas de sus deployments se cierran.
-3. **Agregar credenciales**: elige el cluster y pega el bloque de credenciales temporales de AWS
-   (`aws_access_key_id=...`, `aws_secret_access_key=...`, `aws_session_token=...`).
+1. Abre la app. En el panel izquierdo aparecen los clusters de tu kubeconfig. Arriba está el menú (**Archivo**,
+   **Ver**, **Terminal**, **Ayuda**) y abajo la barra de estado (tu usuario, el contexto actual de kubectl, el botón
+   **>_ Terminal** y la versión).
+2. **Agregar namespace**: botón **+** junto a "CLUSTERS", clic derecho sobre un cluster → **Agregar namespace…** (ya
+   con ese cluster elegido) o menú **Archivo**. Se valida con la regla de Kubernetes (minúsculas, números y guiones).
+   Si te equivocaste, clic derecho sobre el namespace → **Renombrar…** (F2) o **Quitar de la lista…** (Supr).
+   Quitarlo solo lo saca de Kabrilla, no borra nada en el cluster; las pestañas abiertas de sus deployments se cierran.
+3. **Credenciales AWS**: clic derecho sobre el cluster → **Credenciales AWS…** (o menú **Archivo**) y pega el bloque de
+   credenciales temporales de AWS (`aws_access_key_id=...`, `aws_secret_access_key=...`, `aws_session_token=...`).
 4. Expande el namespace y selecciona un deployment: se abre una pestaña con sus pods, logs y recursos.
 5. En **Logs**:
    - Elige el pod. El stream arranca solo con las últimas 200 líneas.
@@ -138,12 +141,17 @@ Orden de prioridad (gana el primero): `--propiedad=valor` en la línea de comand
      cada servidor (protocolo, puerto, hosts, TLS). Si no se puede leer (sin permisos RBAC en ese namespace) o no
      existe, aparece igual con el motivo.
 7. Al cerrar la pestaña del deployment se cierra su stream de logs.
-8. **Terminal** (botón del panel izquierdo, `Ctrl+ñ` o `Ctrl+\``): panel inferior con terminales de PowerShell, común
+8. **Terminal** (menú **Terminal**, **>_ Terminal** en la barra de estado, `Ctrl+ñ` o `Ctrl+\``): panel inferior con
+   terminales de PowerShell, común
    a todas las pestañas. Se comporta como una terminal externa: usa tu `~/.kube/config` (o `kabrilla.kubeconfig` /
    `KUBECONFIG`), tus credenciales de `~/.aws` y tu `PATH`, así que `kubectl`, `aws`, `helm` o `k9s` funcionan igual
    que fuera de Kabrilla. El encabezado muestra el **contexto actual de kubectl** (cluster · namespace) y se actualiza
    si lo cambias (`kubectl config use-context ...`). **+** abre otra terminal, **Ocultar** las deja corriendo, `exit`
    o la ✕ cierran una; al cerrar Kabrilla se cierran todas. El shell se cambia con `kabrilla.terminal.shell`.
+9. Menú **Ver**: mostrar u ocultar el panel de clusters y el de terminal. Menú **Ayuda**: abrir la carpeta de logs
+   (para adjuntar `kabrilla.log` a un reporte), notas de la versión (página del release en GitHub) y "Acerca de"
+   (versión, usuario, carpeta de datos y kubeconfig). **Archivo → Abrir archivo de configuración** abre
+   `~/.kabrilla/application.properties` en el Bloc de notas.
 
 ## Problemas comunes
 
@@ -151,7 +159,7 @@ Orden de prioridad (gana el primero): `--propiedad=valor` en la línea de comand
 |---|---|
 | `NoClassDefFoundError: java/sql/...` u otra clase `java/...` al expandir un namespace | Falta un módulo del JDK en `module-info.java` (`requires java.sql;`). Ver la sección "Trampas conocidas" de [CLAUDE.md](CLAUDE.md). |
 | Logs vacíos o `a container name must be specified` | Elige el container correcto en el combo **Container** de la pestaña Logs. |
-| `(HTTP 401): credenciales AWS vencidas o inválidas` | Vuelve a pegarlas con **Agregar credenciales** (no hace falta reiniciar). Los namespaces del sidebar que fallaron se recargan solos; en una pestaña ya abierta presiona **Refrescar** (Pods) o reanuda el stream (Logs). |
+| `(HTTP 401): credenciales AWS vencidas o inválidas` | Vuelve a pegarlas: clic derecho sobre el cluster → **Credenciales AWS…** (no hace falta reiniciar). Los namespaces del sidebar que fallaron se recargan solos; en una pestaña ya abierta presiona **Refrescar** (Pods) o reanuda el stream (Logs). |
 | `(HTTP 403): sin permisos (RBAC)` | Tu rol no tiene permisos RBAC de lectura sobre ese recurso en el namespace. |
 | Falta un cluster en el panel | Solo se muestran clusters **EKS** (nombre `arn:aws:eks:...:cluster/<nombre>`) con `certificate-authority-data` válido; los demás se omiten y el log (`~/.kabrilla/logs/kabrilla.log`) dice por qué. Regenera con `aws eks update-kubeconfig`. |
 | "No se pudo leer ~/.kube/config" | No existe el kubeconfig: `aws eks update-kubeconfig --name <cluster> --region <region>`, o usa `KUBECONFIG` / `--kabrilla.kubeconfig=<ruta>`. |

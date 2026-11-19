@@ -1,7 +1,9 @@
 package co.com.bancolombia.kabrilla.ui.controller;
 
+import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.LayoutState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.terminal.TerminalPanelViewModel;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,7 +20,11 @@ public class MainController {
     // Alto del panel de terminal la primera vez (fracción del área de trabajo); luego se recuerda el del usuario
     private static final double DEFAULT_WORK_DIVIDER = 0.62;
 
+    // Ancho del panel de clusters en píxeles
+    private static final double SIDEBAR_WIDTH = 250.0;
+
     private final TerminalPanelViewModel terminalViewModel;
+    private final LayoutState layoutState;
     private double workDivider = DEFAULT_WORK_DIVIDER;
 
     @FXML
@@ -27,20 +33,29 @@ public class MainController {
     private SplitPane debugSplitPane;
     @FXML
     private SplitPane workSplitPane;
-    // Raíz de terminal/terminal-panel.fxml (fx:include con fx:id)
+    // Raíces de terminal/terminal-panel.fxml y sidebar/sidebar-view.fxml (fx:include con fx:id)
     @FXML
     private Node terminalPanel;
+    @FXML
+    private Node sidebar;
 
-    public MainController(TerminalPanelViewModel terminalViewModel) {
+    public MainController(TerminalPanelViewModel terminalViewModel, LayoutState layoutState) {
         this.terminalViewModel = terminalViewModel;
+        this.layoutState = layoutState;
     }
 
     @FXML
     public void initialize() {
-        mainSplitPane.setDividerPosition(0, 250.0 / mainSplitPane.getWidth());
-
-        mainSplitPane.widthProperty().addListener((obs, oldW, newW) -> {
-            mainSplitPane.setDividerPosition(0, 250.0 / newW.doubleValue());
+        fixSidebarWidth();
+        mainSplitPane.widthProperty().addListener((obs, oldW, newW) -> fixSidebarWidth());
+        // Menú Ver → Panel de clusters
+        layoutState.sidebarVisibleProperty().addListener((obs, was, visible) -> {
+            if (visible && !mainSplitPane.getItems().contains(sidebar)) {
+                mainSplitPane.getItems().addFirst(sidebar);
+                fixSidebarWidth();
+            } else if (!visible) {
+                mainSplitPane.getItems().remove(sidebar);
+            }
         });
 
         debugSplitPane.setDividerPositions(0.9); // más alto para el contenido
@@ -53,8 +68,15 @@ public class MainController {
         initializeTerminalPanel();
     }
 
+    private void fixSidebarWidth() {
+        if (mainSplitPane.getItems().contains(sidebar) && mainSplitPane.getWidth() > 0) {
+            mainSplitPane.setDividerPosition(0, SIDEBAR_WIDTH / mainSplitPane.getWidth());
+        }
+    }
+
     /**
-     * El panel de terminal empieza oculto. Se muestra/oculta con el botón del sidebar o Ctrl+ñ / Ctrl+` (como VS Code),
+     * El panel de terminal empieza oculto. Se muestra/oculta desde el menú Terminal, la barra de estado o Ctrl+ñ / Ctrl+`
+     * (como VS Code),
      * también con el foco dentro de una terminal.
      */
     private void initializeTerminalPanel() {
@@ -63,8 +85,10 @@ public class MainController {
             if (visible && !workSplitPane.getItems().contains(terminalPanel)) {
                 workSplitPane.getItems().add(terminalPanel);
                 workSplitPane.setDividerPosition(0, workDivider);
+                // Y otra vez tras el primer layout: fijado antes, SplitPane puede descartarlo y dejar el panel sin alto
+                Platform.runLater(() -> workSplitPane.setDividerPosition(0, workDivider));
             } else if (!visible && workSplitPane.getItems().contains(terminalPanel)) {
-                workDivider = workSplitPane.getDividerPositions()[0];
+                workDivider = usableDivider(workSplitPane.getDividerPositions()[0]);
                 workSplitPane.getItems().remove(terminalPanel);
             }
         });
@@ -73,6 +97,14 @@ public class MainController {
                 registerTerminalShortcut(scene);
             }
         });
+    }
+
+    /**
+     * Si el usuario dejó el panel casi cerrado (o casi a pantalla completa) al ocultarlo, al volver se abre con el
+     * alto por defecto en vez de reaparecer invisible.
+     */
+    static double usableDivider(double position) {
+        return position > 0.9 || position < 0.1 ? DEFAULT_WORK_DIVIDER : position;
     }
 
     private void registerTerminalShortcut(Scene scene) {

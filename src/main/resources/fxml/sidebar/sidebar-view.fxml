@@ -6,25 +6,28 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
       fx:controller="co.com.bancolombia.kabrilla.ui.controller.sidebar.SidebarController"
-      spacing="10" styleClass="kb-sidebar" prefWidth="220.0">
+      spacing="10" styleClass="kb-sidebar" prefWidth="220.0" minWidth="0.0">
     <padding>
         <Insets top="16" left="12" right="12" bottom="12"/>
     </padding>
 
     <Label text="Kabrilla" styleClass="kb-brand"/>
 
-    <Button text="Crear namespace" fx:id="createNamespaceButton" styleClass="kb-primary" maxWidth="Infinity"/>
-    <Button text="Agregar credenciales" fx:id="addCredentialsButton" maxWidth="Infinity"/>
-    <Button text="Terminal" fx:id="terminalButton" maxWidth="Infinity">
-        <tooltip>
-            <Tooltip text="Mostrar u ocultar el panel de terminal (Ctrl+ñ o Ctrl+`)"/>
-        </tooltip>
-    </Button>
-
     <Separator/>
-    <Label text="CLUSTERS" styleClass="kb-section-title"/>
+    <!-- Acciones del árbol: [+] para agregar namespace; clic derecho sobre cluster o namespace para el resto -->
+    <HBox alignment="CENTER_LEFT">
+        <Label text="CLUSTERS" styleClass="kb-section-title"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button text="+" fx:id="createNamespaceButton" styleClass="kb-ghost">
+            <tooltip>
+                <Tooltip text="Agregar namespace (también: clic derecho sobre un cluster)"/>
+            </tooltip>
+        </Button>
+    </HBox>
     <TreeView fx:id="treeView" VBox.vgrow="ALWAYS"/>
 </VBox>

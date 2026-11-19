@@ -58,8 +58,25 @@ public class SidebarStateViewModel {
         return openTabRequest;
     }
 
+    // Cluster con el que debe abrirse la pestaña de credenciales (clic derecho sobre un cluster); null = sin elegir
+    private String requestedCredentialsCluster;
+
     public void openAddCredentialsTab() {
+        openAddCredentialsTab(null);
+    }
+
+    public void openAddCredentialsTab(String clusterName) {
+        requestedCredentialsCluster = clusterName;
         openTabRequest.set(TabCommand.ADD_CREDENTIALS);
+    }
+
+    /**
+     * Cluster pedido para la pestaña de credenciales (se consume una sola vez).
+     */
+    public String takeRequestedCredentialsCluster() {
+        String cluster = requestedCredentialsCluster;
+        requestedCredentialsCluster = null;
+        return cluster;
     }
 
     public void clearOpenTabRequest() {
@@ -78,6 +95,13 @@ public class SidebarStateViewModel {
 
     public void clearCloseNamespaceTabsRequest() {
         closeNamespaceTabsRequest.set(null);
+    }
+
+    /**
+     * Un nodo es cluster si cuelga de la raíz y es uno de los clusters cargados (no un mensaje como "Cargando...").
+     */
+    public boolean isClusterItem(TreeItem<String> item) {
+        return item != null && item.getParent() == getRoot() && findClusterState(item.getValue()) != null;
     }
 
     /**
@@ -438,6 +462,13 @@ public class SidebarStateViewModel {
 
 
     public void openNamespaceDialog() {
+        openNamespaceDialog(null);
+    }
+
+    /**
+     * @param preselectedCluster cluster ya elegido en el diálogo (clic derecho sobre un cluster), o {@code null}
+     */
+    public void openNamespaceDialog(String preselectedCluster) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/fxml/usecase/create-namespaces/create-namespace-dialog.fxml"));
@@ -445,6 +476,9 @@ public class SidebarStateViewModel {
                                                                                clusterNamespaceStateViewModel));
             DialogPane dialogPane = loader.load();
             CreateNamespaceController controller = loader.getController();
+            if (preselectedCluster != null) {
+                controller.preselectCluster(preselectedCluster);
+            }
 
             Dialog<ButtonType> dialog = new Dialog<>();
 

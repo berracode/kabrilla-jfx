@@ -12,8 +12,11 @@ import co.com.bancolombia.kabrilla.ui.terminal.KubeContext;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,8 @@ public class TerminalPanelViewModel implements DisposableBean {
 
     private final BooleanProperty visible = new SimpleBooleanProperty(false);
     private final StringProperty context = new SimpleStringProperty("…");
+    // Cada incremento = el usuario pidió una terminal nueva (menú Terminal → Nueva terminal)
+    private final IntegerProperty newTerminalRequests = new SimpleIntegerProperty();
     private final Path kubeconfig;
     private ScheduledExecutorService watcher;
     private FileTime lastModified;
@@ -53,6 +58,17 @@ public class TerminalPanelViewModel implements DisposableBean {
 
     public Path kubeconfig() {
         return kubeconfig;
+    }
+
+    public ReadOnlyIntegerProperty newTerminalRequestsProperty() {
+        return newTerminalRequests;
+    }
+
+    /**
+     * Muestra el panel con una terminal nueva (el panel decide si basta con mostrarse: sin terminales abre una).
+     */
+    public void requestNewTerminal() {
+        newTerminalRequests.set(newTerminalRequests.get() + 1);
     }
 
     public void toggle() {

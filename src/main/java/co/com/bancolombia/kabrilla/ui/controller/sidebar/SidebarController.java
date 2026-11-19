@@ -5,7 +5,6 @@ import java.util.Optional;
 import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
-import co.com.bancolombia.kabrilla.ui.viewmodel.terminal.TerminalPanelViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,23 +24,16 @@ import org.springframework.stereotype.Component;
 public class SidebarController {
     private final SidebarStateViewModel sidebarStateViewModel;
     private final DeploymentStateViewModel deploymentStateViewModel;
-    private final TerminalPanelViewModel terminalViewModel;
     @FXML
     private TreeView<String> treeView;
     @FXML
     private Button createNamespaceButton;
-    @FXML
-    private Button addCredentialsButton;
-    @FXML
-    private Button terminalButton;
 
 
     public SidebarController(SidebarStateViewModel sidebarStateViewModel,
-                             DeploymentStateViewModel deploymentStateViewModel,
-                             TerminalPanelViewModel terminalViewModel) {
+                             DeploymentStateViewModel deploymentStateViewModel) {
         this.sidebarStateViewModel = sidebarStateViewModel;
         this.deploymentStateViewModel = deploymentStateViewModel;
-        this.terminalViewModel = terminalViewModel;
     }
 
     @FXML
@@ -74,11 +66,8 @@ public class SidebarController {
             }
         });
 
-        createNamespaceButton.setOnAction(e -> sidebarStateViewModel.openNamespaceDialog());
-
-        addCredentialsButton.setOnAction(e -> sidebarStateViewModel.openAddCredentialsTab());
-
-        terminalButton.setOnAction(e -> terminalViewModel.toggle());
+        // Con un cluster (o algo dentro de él) seleccionado, el diálogo abre con ese cluster elegido
+        createNamespaceButton.setOnAction(e -> sidebarStateViewModel.openNamespaceDialog(selectedClusterName()));
 
         sidebarStateViewModel.bindTreeViewToState(sidebarStateViewModel.getRoot());
     }
@@ -132,6 +121,17 @@ public class SidebarController {
         }
     }
 
+    /**
+     * Cluster del nodo seleccionado (el propio cluster o el que contiene al namespace/deployment), o {@code null}.
+     */
+    private String selectedClusterName() {
+        TreeItem<String> item = treeView.getSelectionModel().getSelectedItem();
+        while (item != null && !sidebarStateViewModel.isClusterItem(item)) {
+            item = item.getParent();
+        }
+        return item != null ? item.getValue() : null;
+    }
+
     private static void showError(String header, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Namespaces");
@@ -145,8 +145,15 @@ public class SidebarController {
      */
     private final class SidebarCell extends TreeCell<String> {
         private final ContextMenu namespaceMenu = new ContextMenu();
+        private final ContextMenu clusterMenu = new ContextMenu();
 
         SidebarCell() {
+            MenuItem addNamespace = new MenuItem("Agregar namespace…");
+            addNamespace.setOnAction(e -> sidebarStateViewModel.openNamespaceDialog(getTreeItem().getValue()));
+            MenuItem credentials = new MenuItem("Credenciales AWS…");
+            credentials.setOnAction(e -> sidebarStateViewModel.openAddCredentialsTab(getTreeItem().getValue()));
+            clusterMenu.getItems().addAll(addNamespace, credentials);
+
             MenuItem rename = new MenuItem("Renombrar…  (F2)");
             rename.setOnAction(e -> renameNamespace(getTreeItem()));
             MenuItem remove = new MenuItem("Quitar de la lista…  (Supr)");
@@ -165,7 +172,13 @@ public class SidebarController {
             }
             setText(item);
             setGraphic(getTreeItem().getGraphic());
-            setContextMenu(sidebarStateViewModel.isNamespaceItem(getTreeItem()) ? namespaceMenu : null);
+            if (sidebarStateViewModel.isClusterItem(getTreeItem())) {
+                setContextMenu(clusterMenu);
+            } else if (sidebarStateViewModel.isNamespaceItem(getTreeItem())) {
+                setContextMenu(namespaceMenu);
+            } else {
+                setContextMenu(null);
+            }
         }
     }
 }

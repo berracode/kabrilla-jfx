@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<MenuBar xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+         fx:controller="co.com.bancolombia.kabrilla.ui.controller.AppMenuController"
+         styleClass="kb-menu-bar">
+    <Menu text="_Archivo">
+        <MenuItem text="Agregar namespace…" onAction="#onAddNamespace"/>
+        <MenuItem text="Credenciales AWS…" onAction="#onCredentials"/>
+        <SeparatorMenuItem/>
+        <MenuItem text="Abrir archivo de configuración" onAction="#onOpenConfig"/>
+        <SeparatorMenuItem/>
+        <MenuItem text="Salir" onAction="#onExit"/>
+    </Menu>
+    <Menu text="_Ver">
+        <CheckMenuItem fx:id="sidebarItem" text="Panel de clusters"/>
+        <CheckMenuItem fx:id="terminalPanelItem" text="Panel de terminal"/>
+    </Menu>
+    <Menu text="_Terminal">
+        <MenuItem text="Nueva terminal" onAction="#onNewTerminal"/>
+        <MenuItem fx:id="toggleTerminalItem" text="Mostrar u ocultar el panel" onAction="#onToggleTerminal"/>
+    </Menu>
+    <Menu text="A_yuda">
+        <MenuItem text="Abrir carpeta de logs" onAction="#onOpenLogs"/>
+        <MenuItem text="Notas de la versión" onAction="#onReleaseNotes"/>
+        <SeparatorMenuItem/>
+        <MenuItem text="Acerca de Kabrilla" onAction="#onAbout"/>
+    </Menu>
+</MenuBar>

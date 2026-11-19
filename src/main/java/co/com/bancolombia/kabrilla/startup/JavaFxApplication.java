@@ -29,6 +29,8 @@ public class JavaFxApplication extends Application {
         try {
             this.context = new SpringApplicationBuilder()
                     .sources(MainApplication.class)
+                    // Abrir enlaces y carpetas con el programa del sistema (menú Ayuda)
+                    .initializers(ctx -> ctx.getBeanFactory().registerSingleton("hostServices", getHostServices()))
                     .run(getParameters().getRaw().toArray(new String[0]));
         } catch (Exception e) {
             log.error("No se pudo iniciar Kabrilla", e);

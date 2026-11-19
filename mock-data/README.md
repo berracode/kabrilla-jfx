@@ -78,4 +78,4 @@ while true; do ./generar-logs.sh /dev/stdout 1 >> logs/mock-qa/ventas-qa/orders-
 
 Para agregar un namespace: crea la carpeta en `logs/<cluster>/` (y en `resources/<cluster>/` si quieres recursos)
 y regístralo en `clusters.json`
-(o con el botón "crear namespace" de la app, que en modo mock escribe en este `clusters.json`).
+(o con **+** junto a "CLUSTERS" en la app, que en modo mock escribe en este `clusters.json`).

@@ -9,7 +9,8 @@ import io.kubernetes.client.openapi.ApiException;
 final class K8sErrors {
 
     static final String EXPIRED_CREDENTIALS =
-            "credenciales AWS vencidas o inválidas: pega unas nuevas con \"Agregar credenciales\" y reintenta";
+            "credenciales AWS vencidas o inválidas: pega unas nuevas (clic derecho sobre el cluster → Credenciales AWS…) "
+                    + "y reintenta";
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private K8sErrors() {

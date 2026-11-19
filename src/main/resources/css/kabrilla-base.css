@@ -36,6 +36,12 @@
     -fx-text-fill: #000000;
 }
 
+/* Barra de estado: texto pequeño también sin tema */
+.kb-status-item,
+.kb-status-button {
+    -fx-font-size: 11px;
+}
+
 .kb-error {
     -fx-text-fill: #C62828;
 }

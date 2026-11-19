@@ -83,8 +83,19 @@ Bugs de la 1.0.0 se publican como `v1.0.x` aunque la 1.1.0 esté en desarrollo. 
         (`pty4j.preferred.native.folder`) por antivirus corporativos
 - [x] Configuración del usuario fuera del paquete: `~/.kabrilla/application.properties` (plantilla comentada en el
       primer arranque, nunca se sobrescribe; reemplaza los valores empaquetados)
-- [ ] Mostrar en la app quién la abrió: `System.getProperty("user.name")` (no el nombre de la carpeta home); no
-      repetirlo en cada línea de `kabrilla.log`
+- [x] Mostrar en la app quién la abrió: `System.getProperty("user.name")` en la barra de estado (no en el log)
+- [x] Menú superior (Archivo, Ver, Terminal, Ayuda) y barra de estado (usuario, contexto de kubectl, >_ Terminal,
+      versión). Sidebar sin botones de acciones: [+] junto a CLUSTERS y clic derecho sobre el cluster (Agregar
+      namespace…, Credenciales AWS…, con el cluster ya elegido). Test de ventana completa `MainWindowTest`
+      (`target/main-window.png`)
+- [ ] Publicar `v1.1.0` (notas en `docs/releases/v1.1.0.md`)
+
+## 1.2.0 (configuración desde la app)
+- [ ] Pantalla de Configuración (⚙ abajo a la izquierda y menú Archivo, `Ctrl+,`): escribe en
+      `~/.kabrilla/application.properties` conservando comentarios; avisa qué opciones requieren reiniciar
+  - [ ] Tema con vista previa en vivo (ver "Selector de tema en tiempo de ejecución" más abajo)
+  - [ ] Kubeconfig con "Examinar…"; shell de la terminal con opciones detectadas (PowerShell 7, cmd, Git Bash)
+- [ ] Marcar en el árbol los clusters sin credenciales o con credenciales vencidas
 
 ## Beta (equipo completo)
 - [x] Historial por fecha desde la API de Kubernetes: rangos rápidos, personalizado desde/hasta, todo lo

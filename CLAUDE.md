@@ -83,6 +83,11 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
 - Credenciales: `KubeClientFactory` cachea un `ApiClient` por cluster con la huella (SHA-256) de las credenciales;
   credenciales distintas → cliente nuevo, 401 → token regenerado (`aws eks get-token` firma localmente aunque estén
   vencidas). `DeploymentContext` resuelve las credenciales en cada uso (`Supplier`, llamar en el hilo FX).
+- Ventana: `main.fxml` es un `BorderPane` con menú (`AppMenuController`, `fxml/menu/`), contenido y barra de estado
+  (`StatusBarController`, `fxml/status/`). Acciones nuevas van al menú o al clic derecho del árbol, no como botones
+  del sidebar. `LayoutState` (panel de clusters visible) y `TerminalPanelViewModel` son el estado compartido.
+  `HostServices` es bean solo si arrancó `JavaFxApplication` (usar `ObjectProvider`). `MainWindowTest` levanta la
+  ventana completa en mock y deja `target/main-window.png`: revisar la captura tras cambios de layout.
 - Terminal integrada: `TerminalPanelController` (panel inferior, `fxml/terminal/`) + `ui/terminal/` (pty4j + JediTermFX).
   Hereda el entorno del usuario (no inyecta credenciales); el emulador dibuja en Canvas, así que sus colores salen de
   las clases `kb-terminal-colors`/`kb-terminal-selection` leídas en runtime. Test de punta a punta: `TerminalPanelTest`

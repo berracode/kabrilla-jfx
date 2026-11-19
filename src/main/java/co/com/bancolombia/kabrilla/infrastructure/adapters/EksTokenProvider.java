@@ -15,7 +15,8 @@ public class EksTokenProvider {
 
     public static String getEksToken(AwsCredentials creds) throws IOException {
         if (creds == null) {
-            throw new IOException("No hay credenciales AWS para este cluster: agrégalas con \"Agregar credenciales\".");
+            throw new IOException("No hay credenciales AWS para este cluster: agrégalas con clic derecho sobre el "
+                                          + "cluster → Credenciales AWS…");
         }
         ProcessBuilder pb = new ProcessBuilder("aws", "eks", "get-token", "--cluster-name", creds.getClusterName());
         Map<String, String> env = pb.environment();
