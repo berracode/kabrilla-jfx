@@ -9,10 +9,14 @@
            orientation="VERTICAL"
            xmlns="http://javafx.com/javafx/21"
            fx:controller="co.com.bancolombia.kabrilla.ui.controller.MainController">
-    <!-- Split horizontal principal: sidebar | pestañas de deployments -->
+    <!-- Split horizontal principal: sidebar | (pestañas de deployments / panel de terminal) -->
     <SplitPane dividerPositions="0.2" fx:id="mainSplitPane">
         <fx:include source="sidebar/sidebar-view.fxml"/>
-        <fx:include source="tabs/main-tab-view.fxml"/>
+        <!-- El panel de terminal se agrega/quita de este split al mostrarlo/ocultarlo (MainController) -->
+        <SplitPane fx:id="workSplitPane" orientation="VERTICAL">
+            <fx:include source="tabs/main-tab-view.fxml"/>
+            <fx:include fx:id="terminalPanel" source="terminal/terminal-panel.fxml"/>
+        </SplitPane>
     </SplitPane>
     <!-- Panel de depuración de estados -->
     <!--<fx:include source="debug/state-debug-view.fxml"/>-->

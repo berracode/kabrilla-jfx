@@ -69,8 +69,20 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
 
 ## 1.1.0 (siguiente minor: funciones nuevas sin romper nada)
 Bugs de la 1.0.0 se publican como `v1.0.x` aunque la 1.1.0 esté en desarrollo. Pre-releases: `v1.1.0-beta.N` / `-rc.N`.
-- [ ] Terminal integrada (estilo VS Code). Por definir: librería de PTY en Windows, shell (PowerShell/cmd) y si se
-      abre con el contexto del cluster (`KUBECONFIG`, credenciales AWS en el entorno)
+- [ ] Terminal integrada (estilo VS Code): un panel inferior transversal a las pestañas de deployment, con varias
+      terminales; se comporta como una terminal externa (hereda kubeconfig, ~/.aws y PATH del usuario) y cada pestaña
+      muestra el contexto/cluster actual de kubectl. Sin aviso de "solo lectura". Shell configurable, PowerShell por defecto
+  - [x] Spike: JediTermFX 1.1.0 (emulador JavaFX) + pty4j 0.12.25 (ConPTY) funcionan en classpath (tests), module
+        path (`javafx:run`) y portable de jpackage. +6,5 MB (JNA + nativos de pty4j). Test `ShellInTerminalTest`
+  - [x] Panel inferior con pestañas (+ / Ocultar / ✕ / `exit`), botón en el sidebar y `Ctrl+ñ`/`Ctrl+\``; cierre de
+        los shells al cerrar pestaña o app; colores del tema vía etiquetas CSS de muestra (el emulador usa Canvas)
+  - [x] Contexto de kubectl en el encabezado (current-context, se relee cada 2 s si cambia el kubeconfig)
+  - [x] `kabrilla.terminal.shell` en la configuración del usuario
+  - [ ] Probar en el PC del trabajo: kubectl/aws contra EKS desde la terminal, antivirus con la DLL de pty4j
+  - [ ] pty4j extrae su DLL a una carpeta temporal en el primer uso: evaluar cargarla desde la carpeta de la app
+        (`pty4j.preferred.native.folder`) por antivirus corporativos
+- [x] Configuración del usuario fuera del paquete: `~/.kabrilla/application.properties` (plantilla comentada en el
+      primer arranque, nunca se sobrescribe; reemplaza los valores empaquetados)
 - [ ] Mostrar en la app quién la abrió: `System.getProperty("user.name")` (no el nombre de la carpeta home); no
       repetirlo en cada línea de `kabrilla.log`
 

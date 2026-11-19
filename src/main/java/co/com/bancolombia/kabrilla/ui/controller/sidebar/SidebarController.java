@@ -5,6 +5,7 @@ import java.util.Optional;
 import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
 import co.com.bancolombia.kabrilla.ui.viewmodel.cluster.SidebarStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentStateViewModel;
+import co.com.bancolombia.kabrilla.ui.viewmodel.terminal.TerminalPanelViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -24,18 +25,23 @@ import org.springframework.stereotype.Component;
 public class SidebarController {
     private final SidebarStateViewModel sidebarStateViewModel;
     private final DeploymentStateViewModel deploymentStateViewModel;
+    private final TerminalPanelViewModel terminalViewModel;
     @FXML
     private TreeView<String> treeView;
     @FXML
     private Button createNamespaceButton;
     @FXML
     private Button addCredentialsButton;
+    @FXML
+    private Button terminalButton;
 
 
     public SidebarController(SidebarStateViewModel sidebarStateViewModel,
-                             DeploymentStateViewModel deploymentStateViewModel) {
+                             DeploymentStateViewModel deploymentStateViewModel,
+                             TerminalPanelViewModel terminalViewModel) {
         this.sidebarStateViewModel = sidebarStateViewModel;
         this.deploymentStateViewModel = deploymentStateViewModel;
+        this.terminalViewModel = terminalViewModel;
     }
 
     @FXML
@@ -71,6 +77,8 @@ public class SidebarController {
         createNamespaceButton.setOnAction(e -> sidebarStateViewModel.openNamespaceDialog());
 
         addCredentialsButton.setOnAction(e -> sidebarStateViewModel.openAddCredentialsTab());
+
+        terminalButton.setOnAction(e -> terminalViewModel.toggle());
 
         sidebarStateViewModel.bindTreeViewToState(sidebarStateViewModel.getRoot());
     }

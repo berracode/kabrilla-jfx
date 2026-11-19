@@ -77,13 +77,21 @@ El *Working directory* debe ser la raíz del proyecto (ahí busca `mock-data/` y
 
 ## Configuración
 
-Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o editando los archivos:
+Propiedades de Spring Boot. Para la app instalada (portable), el lugar para cambiarlas es
+**`%USERPROFILE%\.kabrillapplication.properties`**: Kabrilla lo crea en el primer arranque como plantilla con las
+propiedades comentadas; descomenta lo que quieras cambiar y reinicia la app. Sus valores reemplazan los del paquete y,
+como vive en la carpeta de datos, sobrevive a las actualizaciones (no se edita nada dentro de la carpeta de la app).
+
+Orden de prioridad (gana el primero): `--propiedad=valor` en la línea de comandos (o en IntelliJ) →
+`<kabrilla.data-dir>/application.properties` → `src/main/resources/application*.properties` (valores por defecto).
+`kabrilla.data-dir` es la excepción: dice dónde está ese archivo, así que solo se cambia por línea de comandos.
 
 | Propiedad | Default | Archivo | Descripción |
 |---|---|---|---|
 | `kabrilla.ui.styles-enabled` | `true` | `src/main/resources/application.properties` | Tema oscuro on/off (off = tema base de JavaFX) |
 | `kabrilla.data-dir` | `${user.home}/.kabrilla` | `src/main/resources/application.properties` | Carpeta de datos local (namespaces y credenciales) |
-| `kabrilla.kubeconfig` | (vacío) | — | Kubeconfig a usar. Si está vacío: variable `KUBECONFIG` (primer archivo) y si no `~/.kube/config` |
+| `kabrilla.kubeconfig` | (vacío) | — | Kubeconfig a usar. Si está vacío: variable `KUBECONFIG` (primer archivo) y si no `~/.kube/config`. Si tiene valor, la terminal integrada también lo usa (`KUBECONFIG`) |
+| `kabrilla.terminal.shell` | `powershell.exe -NoLogo` | `~/.kabrilla/application.properties` | Shell de la terminal integrada. Rutas con espacios entre comillas dobles: `"C:/Program Files/Git/bin/bash.exe" --login -i` |
 | `kabrilla.mock.dir` | `mock-data` | `src/main/resources/application-mock.properties` | Carpeta de datos del modo mock |
 | `kabrilla.mock.line-delay-ms` | `100` | `src/main/resources/application-mock.properties` | Pausa entre líneas al reproducir logs mock. No bajar de ~20 |
 | `kabrilla.mock.history-step-ms` | `2000` | `src/main/resources/application-mock.properties` | Separación en el tiempo entre líneas de un archivo mock para las consultas por **Rango** |
@@ -130,6 +138,12 @@ Propiedades de Spring Boot. Se cambian con `--propiedad=valor` (IntelliJ) o edit
      cada servidor (protocolo, puerto, hosts, TLS). Si no se puede leer (sin permisos RBAC en ese namespace) o no
      existe, aparece igual con el motivo.
 7. Al cerrar la pestaña del deployment se cierra su stream de logs.
+8. **Terminal** (botón del panel izquierdo, `Ctrl+ñ` o `Ctrl+\``): panel inferior con terminales de PowerShell, común
+   a todas las pestañas. Se comporta como una terminal externa: usa tu `~/.kube/config` (o `kabrilla.kubeconfig` /
+   `KUBECONFIG`), tus credenciales de `~/.aws` y tu `PATH`, así que `kubectl`, `aws`, `helm` o `k9s` funcionan igual
+   que fuera de Kabrilla. El encabezado muestra el **contexto actual de kubectl** (cluster · namespace) y se actualiza
+   si lo cambias (`kubectl config use-context ...`). **+** abre otra terminal, **Ocultar** las deja corriendo, `exit`
+   o la ✕ cierran una; al cerrar Kabrilla se cierran todas. El shell se cambia con `kabrilla.terminal.shell`.
 
 ## Problemas comunes
 

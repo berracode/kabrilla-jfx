@@ -18,6 +18,11 @@ module co.com.bancolombia.kabrilla {
     requires spring.core;
     requires spring.beans;
 
+    // Terminal integrada: emulador JavaFX y pseudo-terminal nativa (pty4j no trae module-info: módulo automático)
+    requires com.techsenger.jeditermfx.ui;
+    requires com.techsenger.jeditermfx.core;
+    requires pty4j;
+
     // Módulos del JDK que usan las dependencias pero nadie declara: con module-info solo se cargan los requeridos.
     // Verificar con: jdeps --print-module-deps --ignore-missing-deps --multi-release 21 <jars>
     requires java.sql;         // client-java (JSON usa java.sql.Date) y BouncyCastle
@@ -74,6 +79,9 @@ module co.com.bancolombia.kabrilla {
     opens co.com.bancolombia.kabrilla.ui.controller.usecases to javafx.fxml;
     exports co.com.bancolombia.kabrilla.ui.controller.tabs;
     opens co.com.bancolombia.kabrilla.ui.controller.tabs to javafx.fxml;
+    exports co.com.bancolombia.kabrilla.ui.controller.terminal;
+    opens co.com.bancolombia.kabrilla.ui.controller.terminal to javafx.fxml;
+    exports co.com.bancolombia.kabrilla.ui.viewmodel.terminal;
     exports co.com.bancolombia.kabrilla.domain.model.k8s;
     opens co.com.bancolombia.kabrilla.domain.model.k8s to com.fasterxml.jackson.databind;
 

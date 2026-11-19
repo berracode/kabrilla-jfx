@@ -96,6 +96,24 @@
             <version>24.0.0</version>
         </dependency>
 
+        <!-- Terminal integrada: emulador JavaFX (port de JediTerm de JetBrains) + pty4j (PTY nativa, ConPTY/WinPTY) -->
+        <dependency>
+            <groupId>com.techsenger.jeditermfx</groupId>
+            <artifactId>jeditermfx-ui</artifactId>
+            <version>1.1.0</version>
+            <exclusions>
+                <!-- La publican como dependencia normal por error: no debe entrar a la app -->
+                <exclusion>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-api</artifactId>
+                </exclusion>
+                <!-- Trae JavaFX 19: se usa el 21 de la app (mezclar versiones de JavaFX falla en runtime) -->
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
     </dependencies>
     <dependencyManagement>

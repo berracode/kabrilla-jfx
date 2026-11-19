@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+      fx:controller="co.com.bancolombia.kabrilla.ui.controller.terminal.TerminalPanelController"
+      styleClass="kb-terminal-panel" minHeight="0.0">
+
+    <HBox styleClass="kb-terminal-header" spacing="10" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="4" right="8" bottom="4" left="12"/>
+        </padding>
+        <Label text="TERMINAL" styleClass="kb-section-title"/>
+        <Label fx:id="contextLabel" styleClass="kb-muted"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <!-- Sin espacio en el layout: solo dan los colores del tema al emulador (ver TerminalPanelController) -->
+        <Label fx:id="colorProbe" styleClass="kb-terminal-colors" managed="false" visible="false"/>
+        <Label fx:id="selectionProbe" styleClass="kb-terminal-selection" managed="false" visible="false"/>
+        <Button text="+" onAction="#onNewTerminal" styleClass="kb-ghost">
+            <tooltip>
+                <Tooltip text="Nueva terminal"/>
+            </tooltip>
+        </Button>
+        <Button text="Ocultar" onAction="#onHide" styleClass="kb-ghost">
+            <tooltip>
+                <Tooltip text="Ocultar el panel (las terminales siguen abiertas). Ctrl+ñ o Ctrl+` lo vuelve a mostrar"/>
+            </tooltip>
+        </Button>
+    </HBox>
+
+    <TabPane fx:id="terminalTabs" styleClass="kb-terminal-tabs" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS"/>
+</VBox>

@@ -83,6 +83,12 @@ Los perfiles Maven se combinan porque cada uno llena su propia propiedad (`kabri
 - Credenciales: `KubeClientFactory` cachea un `ApiClient` por cluster con la huella (SHA-256) de las credenciales;
   credenciales distintas → cliente nuevo, 401 → token regenerado (`aws eks get-token` firma localmente aunque estén
   vencidas). `DeploymentContext` resuelve las credenciales en cada uso (`Supplier`, llamar en el hilo FX).
+- Terminal integrada: `TerminalPanelController` (panel inferior, `fxml/terminal/`) + `ui/terminal/` (pty4j + JediTermFX).
+  Hereda el entorno del usuario (no inyecta credenciales); el emulador dibuja en Canvas, así que sus colores salen de
+  las clases `kb-terminal-colors`/`kb-terminal-selection` leídas en runtime. Test de punta a punta: `TerminalPanelTest`
+  (`@Tag("ui")`, deja `target/terminal-panel.png` para revisar el aspecto).
+- Configuración del usuario: `<kabrilla.data-dir>/application.properties` (plantilla en `UserConfigFile`) reemplaza
+  la empaquetada. Propiedad nueva que el usuario pueda querer cambiar → agregarla comentada a la plantilla y al README.
 - Errores: nada de `printStackTrace`; `log.error(contexto, e)` y en la UI `ErrorMessages.describe(e)` (qué + causa
   raíz). `System.err` va al log (`StdErrToLog`). Errores HTTP de Kubernetes con `K8sErrors` (mensaje uniforme).
 - Tests de UI: `FxTestSupport` (src/test) arranca el toolkit JavaFX; usar `onFx(...)` para código en el hilo FX.

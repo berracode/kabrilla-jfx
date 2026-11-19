@@ -25,6 +25,17 @@
     -fx-font-weight: bold;
 }
 
+/* Terminal integrada: el emulador dibuja en un Canvas y toma estos colores del tema (TerminalPanelController) */
+.kb-terminal-colors {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+}
+
+.kb-terminal-selection {
+    -fx-background-color: #B4D5FE;
+    -fx-text-fill: #000000;
+}
+
 .kb-error {
     -fx-text-fill: #C62828;
 }

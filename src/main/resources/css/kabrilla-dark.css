@@ -574,6 +574,22 @@
     -fx-text-fill: -kb-danger;
 }
 
+/* Terminal integrada: panel inferior y colores que toma el emulador (dibuja en un Canvas, no lee CSS) */
+.kb-terminal-panel {
+    -fx-background-color: -kb-surface;
+    -fx-border-color: -kb-border transparent transparent transparent;
+}
+
+.kb-terminal-colors {
+    -fx-background-color: -kb-bg;
+    -fx-text-fill: -kb-text;
+}
+
+.kb-terminal-selection {
+    -fx-background-color: -kb-primary-dark;
+    -fx-text-fill: -kb-text-on-primary;
+}
+
 /* Barra de herramientas y barra de estado (Logs) */
 .kb-toolbar {
     -fx-background-color: -kb-surface;

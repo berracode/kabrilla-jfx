@@ -1,5 +1,7 @@
 package co.com.bancolombia.kabrilla.bootstrap;
 
+import java.nio.file.Path;
+
 import co.com.bancolombia.kabrilla.application.service.ClusterService;
 import co.com.bancolombia.kabrilla.application.service.CredentialService;
 import co.com.bancolombia.kabrilla.application.service.DeploymentService;
@@ -20,6 +22,9 @@ import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.tabs.MainTabViewModel;
 
+import co.com.bancolombia.kabrilla.infrastructure.adapters.fs.UserConfigFile;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -66,6 +71,13 @@ public class BeanConfiguration {
     @Bean
     public KubeResourceService kubeResourceService(KubeResourceRepository repository) {
         return new KubeResourceService(repository);
+    }
+
+    // --- Configuración del usuario (ambos perfiles) ---
+
+    @Bean
+    public UserConfigFile userConfigFile(@Value("${kabrilla.data-dir}") String dataDir) {
+        return new UserConfigFile(Path.of(dataDir));
     }
 
     // --- Estado compartido de UI ---

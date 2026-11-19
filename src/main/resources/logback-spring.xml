@@ -28,6 +28,10 @@
         </encoder>
     </appender>
 
+    <!-- JediTermFX registra como ERROR un aviso interno sin efecto ("Attempt to get line out of bounds: 14 >= 14")
+         al pasar el mouse por la franja parcial inferior de la terminal: confunde al leer el log de un reporte -->
+    <logger name="com.techsenger.jeditermfx.core.model.TerminalTextBuffer" level="OFF"/>
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>

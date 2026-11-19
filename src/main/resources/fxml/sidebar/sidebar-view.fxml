@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
@@ -17,6 +18,11 @@
 
     <Button text="Crear namespace" fx:id="createNamespaceButton" styleClass="kb-primary" maxWidth="Infinity"/>
     <Button text="Agregar credenciales" fx:id="addCredentialsButton" maxWidth="Infinity"/>
+    <Button text="Terminal" fx:id="terminalButton" maxWidth="Infinity">
+        <tooltip>
+            <Tooltip text="Mostrar u ocultar el panel de terminal (Ctrl+ñ o Ctrl+`)"/>
+        </tooltip>
+    </Button>
 
     <Separator/>
     <Label text="CLUSTERS" styleClass="kb-section-title"/>
