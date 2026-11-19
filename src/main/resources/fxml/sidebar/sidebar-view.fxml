@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
       fx:controller="co.com.bancolombia.kabrilla.ui.controller.sidebar.SidebarController"
       spacing="10" styleClass="kb-sidebar" prefWidth="220.0">
     <padding>

@@ -1,5 +1,6 @@
 package co.com.bancolombia.kabrilla.ui.controller.usecases;
 
+import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
 import co.com.bancolombia.kabrilla.ui.viewmodel.credentials.CredentialsStateViewModel;
 
 import javafx.fxml.FXML;
@@ -7,7 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AddCredentialsController {
 
     private final CredentialsStateViewModel credentialsStateViewModel;
@@ -34,7 +37,16 @@ public class AddCredentialsController {
 
     @FXML
     public void handleSave() {
-        boolean success = credentialsStateViewModel.saveCredentials();
+        boolean success;
+        try {
+            success = credentialsStateViewModel.saveCredentials();
+        } catch (RuntimeException e) {
+            log.error("No se pudieron guardar las credenciales del cluster {}",
+                      credentialsStateViewModel.selectedClusterProperty().get(), e);
+            showAlert("No se pudieron guardar las credenciales: " + ErrorMessages.describe(e),
+                      Alert.AlertType.ERROR);
+            return;
+        }
 
         if (!success) {
             showAlert("Debes seleccionar un cluster y pegar las credenciales.");

@@ -1,6 +1,7 @@
 package co.com.bancolombia.kabrilla.application.service;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,16 +27,11 @@ public class ClusterService {
 
     public List<Cluster> getAllClusters() {
         try {
-            log.info("Tratando de obtener los cluster con sus namesapces");
-            Thread.sleep(500);
-            log.info("DESPERTANDO...");
-
             return repository.findAll();
         } catch (IOException e) {
-            e.printStackTrace();
+            // Archivo dañado: la app arranca sin namespaces registrados en vez de no arrancar
+            log.error("No se pudieron leer los namespaces registrados (clusters.json)", e);
             return List.of();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -76,7 +72,7 @@ public class ClusterService {
             repository.saveAll(clusters);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException("No se pudo guardar el namespace " + namespaceName + ": " + e.getMessage(), e);
         }
     }
 }

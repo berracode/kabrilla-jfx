@@ -18,6 +18,7 @@ import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogFetchResult;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogLine;
 import co.com.bancolombia.kabrilla.domain.model.k8s.logs.LogRange;
+import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
 import co.com.bancolombia.kabrilla.ui.services.UiLogFeederService;
 
 import javafx.application.Platform;
@@ -177,9 +178,9 @@ public class LogsViewModel {
                 return;
             }
             Throwable ex = task.getException();
-            log.error("Falló la consulta de logs por rango", ex);
-            error.set("No se pudo consultar el rango: " + (ex.getMessage() != null ? ex.getMessage()
-                    : ex.getClass().getSimpleName()));
+            log.error("Falló la consulta de logs por rango de {}/{} container {} ({})", namespace, podName, container,
+                      range, ex);
+            error.set("No se pudo consultar el rango: " + ErrorMessages.describe(ex));
             loading.set(false);
         });
         Thread thread = new Thread(task, "logs-range");
@@ -318,13 +319,16 @@ public class LogsViewModel {
                         if (currentSession.get() != session) {
                             return; // error de un stream que ya fue reemplazado o detenido
                         }
-                        error.set("Stream de logs falló: " + (t.getMessage() != null ? t.getMessage() : t.getClass()
-                                .getSimpleName()));
+                        log.error("Falló el stream de logs de {}/{}/{} container {}", cluster, namespace, podName,
+                                  container, t);
+                        error.set("Stream de logs falló: " + ErrorMessages.describe(t));
                         following.set(false);
                     })
             );
         } catch (Exception e) {
-            error.set("No se pudo abrir el stream: " + e.getMessage());
+            log.error("No se pudo abrir el stream de logs de {}/{}/{} container {}", cluster, namespace, podName,
+                      container, e);
+            error.set("No se pudo abrir el stream: " + ErrorMessages.describe(e));
             following.set(false);
             return;
         }

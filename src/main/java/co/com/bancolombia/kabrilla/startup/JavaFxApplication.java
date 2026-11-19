@@ -2,6 +2,8 @@ package co.com.bancolombia.kabrilla.startup;
 
 import java.io.IOException;
 
+import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -19,6 +21,8 @@ public class JavaFxApplication extends Application {
 
     @Override
     public void init() {
+        // Sin consola, lo que se imprime en stderr (librerías, JavaFX) se perdería: va al archivo de log
+        StdErrToLog.install();
         // Errores no controlados (incluido el hilo de JavaFX) van al log; sin esto solo salían por consola
         Thread.setDefaultUncaughtExceptionHandler(
                 (thread, error) -> log.error("Error no controlado en el hilo {}", thread.getName(), error));
@@ -54,17 +58,9 @@ public class JavaFxApplication extends Application {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Kabrilla");
         alert.setHeaderText("No se pudo iniciar Kabrilla");
-        alert.setContentText(rootMessage(startupError)
+        alert.setContentText(ErrorMessages.describe(startupError)
                                      + "\n\nDetalle en: %USERPROFILE%\\.kabrilla\\logs\\kabrilla.log");
         alert.showAndWait();
         Platform.exit();
-    }
-
-    private static String rootMessage(Throwable error) {
-        Throwable root = error;
-        while (root.getCause() != null && root.getCause() != root) {
-            root = root.getCause();
-        }
-        return root.getMessage() != null ? root.getMessage() : root.getClass().getSimpleName();
     }
 }

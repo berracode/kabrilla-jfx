@@ -3,6 +3,7 @@ package co.com.bancolombia.kabrilla.infrastructure.adapters.fs;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,8 @@ public class JsonCredentialRepository implements CredentialRepository {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), all);
         } catch (IOException e) {
-            e.printStackTrace();
+            // Sin el detalle del contenido: lleva secretos
+            throw new UncheckedIOException("No se pudieron guardar las credenciales en " + filePath, e);
         }
     }
 
@@ -55,7 +57,7 @@ public class JsonCredentialRepository implements CredentialRepository {
             return objectMapper.readValue(file, new TypeReference<>() {
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("No se pudieron leer las credenciales de {}", file.getAbsolutePath(), e);
             return new ArrayList<>();
         }
     }

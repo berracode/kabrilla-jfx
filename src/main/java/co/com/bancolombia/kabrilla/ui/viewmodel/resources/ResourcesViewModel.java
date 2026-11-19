@@ -79,7 +79,8 @@ public class ResourcesViewModel {
         });
         task.setOnFailed(e -> {
             Throwable ex = task.getException();
-            log.error("No se pudieron cargar {} de {}", kind.k8sKind(), ctx.deploymentName(), ex);
+            log.error("No se pudieron cargar {} de {}/{}/{}", kind.k8sKind(), ctx.clusterName(), ctx.namespace(),
+                      ctx.deploymentName(), ex);
             resources.clear();
             error.set(ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
             finish();

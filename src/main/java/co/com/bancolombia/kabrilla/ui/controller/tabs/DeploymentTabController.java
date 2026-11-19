@@ -135,7 +135,8 @@ public class DeploymentTabController {
 //            AnchorPane.setLeftAnchor(view, 0.0);
 //            AnchorPane.setRightAnchor(view, 0.0);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("No se pudo cargar la vista {} del deployment {}", fxmlPath,
+                      deploymentTabItemViewModel.deploymentName(), e);
         }
     }
 

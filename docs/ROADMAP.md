@@ -30,15 +30,24 @@ Marca `[x]` al completar. Mantener este archivo al día: es la fuente de "qué s
   - [ ] Confirmar en EKS con varios deployments e Istio
 - [ ] Pods por label selector del deployment (hoy `PodAdapter` filtra por prefijo del nombre)
 - [x] Seguridad: no imprimir token ni headers ni credenciales (interceptor solo método/ruta/código, `toString` sin secretos)
-- [ ] Errores visibles en UI en vez de `printStackTrace` (NPE de listeners en `MainTabController`/`DeploymentTabController` ya corregidos)
+- [x] Errores visibles en UI en vez de `printStackTrace` (NPE de listeners en `MainTabController`/`DeploymentTabController` ya corregidos)
+  - [x] Sin `printStackTrace`: todo error va a `kabrilla.log` con contexto y traza; `System.err` redirigido al log
+        (`StdErrToLog`); la UI muestra qué falló y la causa raíz (`ErrorMessages`); guardar credenciales/namespaces
+        ya no falla en silencio; FXML con namespace de JavaFX 21 (sin avisos de versión en cada vista)
 - [x] Kubeconfig tolerante: solo clusters EKS, omite entradas inválidas o locales; soporta `KUBECONFIG`
 - [x] **Estado local en `~/.kabrilla/`** con migración automática de los archivos del directorio de trabajo
 
 ## 1.0.0 (de `v1.0.0-rc.1` a final)
 - [x] Publicar `v1.0.0-rc.1` y verificar el primer run del workflow (Release + ZIP + notas)
 - [ ] Publicar `v1.0.0-rc.2` (sin consola, logs a archivo) y usarla para el piloto
+- [ ] Publicar `v1.0.0-rc.3` (errores con detalle en `kabrilla.log`, notas en `docs/releases/v1.0.0-rc.3.md`)
 - [ ] Piloto de 1–2 semanas con 3–5 personas de distintos squads/clusters, con la app portable en sus equipos
 - [ ] Sin bugs bloqueantes abiertos (si aparecen: arreglar y sacar la siguiente `v1.0.0-rc.N`, repetir)
+  - [x] Errores sin detalle en `kabrilla.log` (se perdían por stderr en el `.exe` sin consola)
+  - [ ] Credenciales renovadas no aplican hasta reiniciar (`KubeClientFactory` cachea el token por cluster 14 min
+        sin mirar con qué credenciales se generó; `aws eks get-token` firma localmente aunque estén vencidas)
+  - [ ] Renombrar/eliminar namespaces registrados
+  - [ ] Pestañas Gateway y VirtualService (Istio `networking.istio.io`), asociadas vía VirtualService → Service
 - [ ] Validado en equipos "limpios": AWS CLI, kubeconfig, antivirus/SmartScreen, proxy corporativo
 - [ ] Mismo código que la última RC → tag `v1.0.0` y anuncio al equipo completo
 - [ ] Después de 1.0: cifrar credenciales con la cuenta de Windows (DPAPI) o usar perfiles SSO de AWS

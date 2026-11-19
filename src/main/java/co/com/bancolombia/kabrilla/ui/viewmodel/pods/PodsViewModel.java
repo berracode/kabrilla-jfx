@@ -7,6 +7,7 @@ import co.com.bancolombia.kabrilla.application.service.PodService;
 import co.com.bancolombia.kabrilla.domain.model.AwsCredentials;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Pod;
 import co.com.bancolombia.kabrilla.ui.context.DeploymentContext;
+import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -17,7 +18,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PodsViewModel {
     private final ObservableList<Pod> pods = FXCollections.observableArrayList();
     private final PodService podService;
@@ -67,11 +70,16 @@ public class PodsViewModel {
         });
 
         task.setOnFailed(e -> {
-            error.set("No se pudieron cargar pods: " + e.getSource().getMessage());
-            task.getException().printStackTrace();
+            Throwable ex = task.getException();
+            log.error("No se pudieron cargar los pods de {}/{}/{}", ctx.clusterName(),
+                      ctx.namespace(), ctx.deploymentName(), ex);
+            loading.set(false);
+            error.set("No se pudieron cargar pods: " + ErrorMessages.describe(ex));
         });
 
-        new Thread(task).start();
+        Thread thread = new Thread(task, "load-pods");
+        thread.setDaemon(true);
+        thread.start();
     }
 }
 

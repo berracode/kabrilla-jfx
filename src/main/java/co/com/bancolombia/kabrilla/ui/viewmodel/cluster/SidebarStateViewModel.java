@@ -14,6 +14,7 @@ import co.com.bancolombia.kabrilla.domain.model.KubeConfig;
 import co.com.bancolombia.kabrilla.domain.model.k8s.Deployment;
 import co.com.bancolombia.kabrilla.ui.controller.usecases.CreateNamespaceController;
 import co.com.bancolombia.kabrilla.ui.enums.TabCommand;
+import co.com.bancolombia.kabrilla.ui.services.ErrorMessages;
 import co.com.bancolombia.kabrilla.ui.viewmodel.deployment.DeploymentItemViewModel;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.base.AppState;
 import co.com.bancolombia.kabrilla.ui.viewmodel.state.namespace.ClusterNamespaceStateViewModel;
@@ -194,7 +195,8 @@ public class SidebarStateViewModel {
             try {
                 caCert = Base64.getDecoder().decode(c.getCluster().getCertificateAuthorityData());
             } catch (RuntimeException e) {
-                log.warn("Se omite el cluster '{}': certificate-authority-data ausente o inválido", arn);
+                log.warn("Se omite el cluster '{}': certificate-authority-data ausente o inválido ({})", arn,
+                         e.getMessage());
                 continue;
             }
             addKubeConfig(new KubeClusterItemViewModel(c.getCluster().getServer(), arn, caCert));
@@ -298,12 +300,14 @@ public class SidebarStateViewModel {
         });
 
         task.setOnFailed(e -> {
-            nsItem.getChildren().setAll(new TreeItem<>("Error al cargar deployments"));
-            task.getException().printStackTrace();
+            Throwable ex = task.getException();
+            log.error("No se pudieron cargar los deployments de {}/{}", clusterName, namespaceName, ex);
+            nsItem.getChildren().setAll(new TreeItem<>("Error al cargar deployments: " + ErrorMessages.describe(ex)));
         });
 
-        // Ejecutar la tarea en un hilo separado
-        new Thread(task).start();
+        Thread thread = new Thread(task, "load-deployments");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     //private void loadPodsByNamespace
@@ -388,7 +392,17 @@ public class SidebarStateViewModel {
                         return null;
                     }
 
-                    controller.saveCluster();
+                    try {
+                        controller.saveCluster();
+                    } catch (RuntimeException e) {
+                        log.error("No se pudo registrar el namespace {} en {}", namespace, clusterName, e);
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Namespaces");
+                        alert.setHeaderText("No se pudo guardar el namespace");
+                        alert.setContentText(ErrorMessages.describe(e));
+                        alert.showAndWait();
+                        return null;
+                    }
                     return ButtonType.OK;
                 }
                 return null;
@@ -398,7 +412,7 @@ public class SidebarStateViewModel {
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("No se pudo abrir el diálogo de namespaces", e);
         }
     }
 }

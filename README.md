@@ -146,7 +146,7 @@ usuario puede leerla y sobrevive a las actualizaciones de la app.
 |---|---|
 | `clusters.json` | namespaces registrados por cluster |
 | `credentials.json` | credenciales AWS temporales por cluster (**secretos**, en texto plano como `~/.aws/credentials`) |
-| `logs/kabrilla.log` | logs de la app (rotan: 10 MB por archivo, 7 días, máx. 100 MB). Adjúntalo al reportar un problema |
+| `logs/kabrilla.log` | logs de la app (rotan: 10 MB por archivo, 7 días, máx. 100 MB). Cada error queda con su contexto (cluster/namespace/pod) y traza completa; lo que una librería imprima en stderr aparece con el logger `stderr`. Adjúntalo al reportar un problema |
 
 Versiones anteriores guardaban `clusters.json` y `credentials.2.json` en la carpeta desde donde se ejecutaba la app:
 en el primer arranque se **copian** a `~/.kabrilla/` (sin sobrescribir nada) y el log lo indica. Después puedes
